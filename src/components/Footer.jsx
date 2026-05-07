@@ -1,5 +1,3 @@
-import { Heart } from 'lucide-react';
-
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
@@ -18,55 +16,49 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="py-12 border-t border-[var(--border-soft)]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer className="border-t border-white/10 py-12 px-6">
+      <div className="max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-          {/* Logo & Copyright */}
+          {/* Logo + Copyright */}
           <div className="text-center md:text-left">
-            <div className="font-bold text-xl text-[var(--text-primary)] mb-1">
-              Rahul Rachhoya
-            </div>
-            <div className="text-sm text-[var(--text-tertiary)]">
-              © {currentYear} All rights reserved
-            </div>
+            <a 
+              href="#home" 
+              className="text-xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent"
+            >
+              Rahul.
+            </a>
+            <p className="text-sm text-white/40 mt-1">
+              © {currentYear} Rahul Rachhoya. All rights reserved.
+            </p>
           </div>
 
           {/* Navigation */}
           <nav className="flex flex-wrap justify-center gap-6">
-            {navLinks.map((link, index) => (
+            {navLinks.map((link) => (
               <a
-                key={index}
+                key={link.label}
                 href={link.href}
-                className="text-sm text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors"
+                className="text-sm text-white/50 hover:text-white transition-colors"
               >
                 {link.label}
               </a>
             ))}
           </nav>
 
-          {/* Social */}
-          <div className="flex flex-wrap justify-center gap-4">
-            {socialLinks.map((link, index) => (
+          {/* Social Links */}
+          <div className="flex gap-4">
+            {socialLinks.map((link) => (
               <a
-                key={index}
+                key={link.label}
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-[var(--text-tertiary)] hover:text-[var(--secondary)] transition-colors"
+                className="text-sm text-white/50 hover:text-indigo-400 transition-colors"
               >
                 {link.label}
               </a>
             ))}
           </div>
-        </div>
-
-        {/* Bottom text */}
-        <div className="mt-8 pt-8 border-t border-[var(--border-soft)] text-center">
-          <p className="text-sm text-[var(--text-muted)] flex items-center justify-center gap-2">
-            Built with
-            <Heart className="w-4 h-4 text-[var(--danger)] fill-current" />
-            using React, Vite, TypeUI.sh design skills
-          </p>
         </div>
       </div>
     </footer>

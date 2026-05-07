@@ -1,109 +1,125 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const Hero = () => {
-  const cursorRef = useRef(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const heroRef = useRef(null);
 
   useEffect(() => {
-    const cursor = cursorRef.current;
-    if (!cursor) return;
-
-    const moveCursor = (e) => {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top = e.clientY + 'px';
+    const handleMouseMove = (e) => {
+      if (heroRef.current) {
+        const rect = heroRef.current.getBoundingClientRect();
+        setMousePosition({
+          x: ((e.clientX - rect.left) / rect.width) * 100,
+          y: ((e.clientY - rect.top) / rect.height) * 100
+        });
+      }
     };
 
-    window.addEventListener('mousemove', moveCursor);
-    return () => window.removeEventListener('mousemove', moveCursor);
+    const hero = heroRef.current;
+    if (hero) {
+      hero.addEventListener('mousemove', handleMouseMove, { passive: true });
+    }
+    return () => {
+      if (hero) {
+        hero.removeEventListener('mousemove', handleMouseMove);
+      }
+    };
   }, []);
 
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-pulse delay-1000" />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/10 rounded-full blur-3xl" />
-      </div>
+    <section
+      ref={heroRef}
+      id="home"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      style={{
+        background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(124, 58, 237, 0.15) 0%, transparent 50%)`
+      }}
+    >
+      {/* Animated Background Lines */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:14px_24px]" />
+      
+      {/* Floating Elements */}
+      <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
 
-      {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div className="animate-fade-in">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8">
-            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-            <span className="text-sm text-gray-300">Open to Opportunities</span>
-          </div>
+      <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
+        {/* Status Badge */}
+        <div className="inline-flex items-center gap-2 px-4 py-2 mb-8 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm">
+          <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
+          <span className="text-sm text-white/70">Open to Opportunities</span>
+        </div>
 
-          {/* Main Heading */}
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6">
-            <span className="block text-white">Hi, I'm</span>
-            <span className="block gradient-text mt-2">Rahul Rachhoya</span>
-          </h1>
+        {/* Main Title with Gradient */}
+        <h1 className="text-5xl sm:text-6xl md:text-8xl font-bold mb-6 tracking-tight">
+          <span className="bg-gradient-to-r from-white via-white to-white/60 bg-clip-text text-transparent">
+            Hi, I'm{' '}
+          </span>
+          <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+            Rahul Rachhoya
+          </span>
+        </h1>
 
-          {/* Subtitle with typing effect */}
-          <div className="text-xl md:text-2xl lg:text-3xl text-gray-400 mb-8 font-light">
-            <span className="text-primary">Full-Stack Developer</span>
-            <span className="mx-3 text-gray-600">|</span>
-            <span className="text-secondary">AI Agent Engineer</span>
-            <span className="mx-3 text-gray-600">|</span>
-            <span className="text-accent">Security Researcher</span>
-          </div>
+        {/* Subtitle */}
+        <p className="text-xl sm:text-2xl text-white/60 mb-4 max-w-2xl mx-auto font-light">
+          Full-Stack Developer × AI Engineer × Security Researcher
+        </p>
+        <p className="text-lg text-white/40 mb-12 max-w-xl mx-auto">
+          Building production-grade AI systems, trading platforms, and security tools with zero-cost infrastructure
+        </p>
 
-          {/* Description */}
-          <p className="max-w-2xl mx-auto text-gray-400 text-lg mb-12 leading-relaxed">
-            Building production-grade systems with zero-cost infrastructure. 
-            From AI agent orchestration to real-time trading platforms, 
-            I engineer solutions that matter.
-          </p>
+        {/* CTA Buttons */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+          <button
+            onClick={() => scrollToSection('projects')}
+            className="group inline-flex items-center gap-2 px-8 py-4 bg-white text-black rounded-xl font-semibold hover:bg-white/90 transition-all duration-300 hover:scale-105"
+          >
+            View Projects
+            <span className="group-hover:translate-x-1 transition-transform">→</span>
+          </button>
+          <button
+            onClick={() => scrollToSection('contact')}
+            className="group inline-flex items-center gap-2 px-8 py-4 border border-white/20 rounded-xl font-semibold hover:bg-white/5 transition-all duration-300 backdrop-blur-sm"
+          >
+            Get in Touch
+            <span className="group-hover:translate-x-1 transition-transform">→</span>
+          </button>
+        </div>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a
-              href="#projects"
-              className="btn-primary px-8 py-4 rounded-full text-white font-semibold text-lg"
+        {/* Stats Grid - Bento Style */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
+          {[
+            { value: '4+', label: 'Production Projects' },
+            { value: '188', label: 'Test Cases' },
+            { value: '4k+', label: 'Lines of Code' },
+            { value: '₹0', label: 'Infra Cost' },
+          ].map((stat, index) => (
+            <div
+              key={index}
+              className="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-all duration-300 group"
             >
-              View Projects
-            </a>
-            <a
-              href="#contact"
-              className="btn-outline px-8 py-4 rounded-full text-white font-semibold text-lg"
-            >
-              Get in Touch
-            </a>
-          </div>
-
-          {/* Stats */}
-          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[
-              { value: '4+', label: 'Production Projects' },
-              { value: '188', label: 'Test Cases' },
-              { value: '4k+', label: 'Lines of Code' },
-              { value: '₹0', label: 'Infra Cost' },
-            ].map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="text-3xl md:text-4xl font-bold gradient-text mb-2">
-                  {stat.value}
-                </div>
-                <div className="text-sm text-gray-500">{stat.label}</div>
+              <div className="text-3xl font-bold text-white mb-1 group-hover:text-indigo-400 transition-colors">
+                {stat.value}
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Scroll indicator */}
-        <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <svg className="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-          </svg>
+              <div className="text-sm text-white/50">{stat.label}</div>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* Custom Cursor Glow */}
-      <div
-        ref={cursorRef}
-        className="pointer-events-none fixed w-64 h-64 bg-primary/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 z-0 hidden md:block"
-        style={{ left: '50%', top: '50%' }}
-      />
+      {/* Scroll Indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+        <span className="text-sm text-white/40">Scroll to explore</span>
+        <div className="w-6 h-10 rounded-full border-2 border-white/20 flex items-start justify-center p-2">
+          <div className="w-1.5 h-3 bg-white/40 rounded-full animate-bounce" />
+        </div>
+      </div>
     </section>
   );
 };

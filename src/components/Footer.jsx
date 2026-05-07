@@ -1,64 +1,88 @@
+import { ExternalLink } from 'lucide-react';
+
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
-  const navLinks = [
-    { label: 'About', href: '#about' },
-    { label: 'Projects', href: '#projects' },
-    { label: 'Skills', href: '#skills' },
-    { label: 'Experience', href: '#experience' },
-    { label: 'Contact', href: '#contact' },
+  const socialLinks = [
+    { name: 'GitHub', url: 'https://github.com/RahulRachhoya' },
+    { name: 'LinkedIn', url: 'https://linkedin.com/in/rahulrachhoya' },
+    { name: 'Twitter', url: 'https://twitter.com/rahulrachhoya' },
   ];
 
-  const socialLinks = [
-    { label: 'GitHub', href: 'https://github.com/RahulRachhoya' },
-    { label: 'LinkedIn', href: 'https://linkedin.com/in/rahulrachhoya' },
-    { label: 'Twitter', href: 'https://twitter.com/rahulrachhoya' },
+  const footerLinks = [
+    { name: 'Projects', id: 'projects' },
+    { name: 'About', id: 'about' },
+    { name: 'Skills', id: 'skills' },
+    { name: 'Experience', id: 'experience' },
+    { name: 'Contact', id: 'contact' },
   ];
+
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
-    <footer className="border-t border-white/10 py-12 px-6">
+    <footer className="py-12 px-6 border-t border-[var(--border-light)]">
       <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-          {/* Logo + Copyright */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
+          {/* Brand */}
           <div className="text-center md:text-left">
-            <a 
-              href="#home" 
-              className="text-xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent"
+            <button
+              onClick={() => scrollToSection('home')}
+              className="text-2xl font-bold group inline-flex items-center"
             >
-              Rahul.
-            </a>
-            <p className="text-sm text-white/40 mt-1">
-              © {currentYear} Rahul Rachhoya. All rights reserved.
+              <span className="text-white group-hover:text-[var(--accent-primary)] transition-colors">
+                Rahul
+              </span>
+              <span className="text-[var(--accent-accent)]">.</span>
+            </button>
+            <p className="text-sm text-[var(--text-muted)] mt-1">
+              Building the future, one commit at a time.
             </p>
           </div>
 
           {/* Navigation */}
-          <nav className="flex flex-wrap justify-center gap-6">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="text-sm text-white/50 hover:text-white transition-colors"
+          <div className="flex flex-wrap justify-center gap-6">
+            {footerLinks.map((link) => (
+              <button
+                key={link.name}
+                onClick={() => scrollToSection(link.id)}
+                className="text-sm text-[var(--text-tertiary)] hover:text-white transition-colors"
               >
-                {link.label}
-              </a>
+                {link.name}
+              </button>
             ))}
-          </nav>
+          </div>
 
           {/* Social Links */}
-          <div className="flex gap-4">
+          <div className="flex items-center gap-4">
             {socialLinks.map((link) => (
               <a
-                key={link.label}
-                href={link.href}
+                key={link.name}
+                href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-white/50 hover:text-indigo-400 transition-colors"
+                className="text-[var(--text-tertiary)] hover:text-white transition-colors"
+                aria-label={link.name}
               >
-                {link.label}
+                <span className="sr-only">{link.name}</span>
+                <ExternalLink size={18} />
               </a>
             ))}
           </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="pt-8 border-t border-[var(--border-light)] flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-[var(--text-muted)]">
+          <p>
+            © {currentYear} Rahul Rachhoya. All rights reserved.
+          </p>
+          <p>
+            Built with React + Tailwind + <span className="text-[var(--accent-accent)]">♥</span>
+          </p>
         </div>
       </div>
     </footer>

@@ -1,28 +1,101 @@
 import { useEffect, useRef, useState } from 'react';
+import { ChevronDown, Code, Globe, Shield } from 'lucide-react';
 
 const Hero = () => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isLoaded, setIsLoaded] = useState(false);
+  const canvasRef = useRef(null);
   const heroRef = useRef(null);
 
+  // Particle/constellation effect for background
   useEffect(() => {
-    const handleMouseMove = (e) => {
-      if (heroRef.current) {
-        const rect = heroRef.current.getBoundingClientRect();
-        setMousePosition({
-          x: ((e.clientX - rect.left) / rect.width) * 100,
-          y: ((e.clientY - rect.top) / rect.height) * 100
-        });
+    setIsLoaded(true);
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    let animationId;
+    let particles = [];
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+
+    resize();
+    window.addEventListener('resize', resize);
+
+    // Configure particles
+    const particleCount = Math.min(80, Math.floor(window.innerWidth / 15));
+    
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.vx = (Math.random() - 0.5) * 0.5;
+        this.vy = (Math.random() - 0.5) * 0.5;
+        this.radius = Math.random() * 1.5 + 0.5;
+      }
+
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+
+        if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(99, 102, 241, ${0.3 + Math.random() * 0.3})`;
+        ctx.fill();
+      }
+    }
+
+    // Initialize particles
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(new Particle());
+    }
+
+    // Connect nearby particles with lines
+    const connectParticles = () => {
+      const maxDistance = 120;
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < maxDistance) {
+            const opacity = (1 - distance / maxDistance) * 0.15;
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(99, 102, 241, ${opacity})`;
+            ctx.lineWidth = 0.5;
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
       }
     };
 
-    const hero = heroRef.current;
-    if (hero) {
-      hero.addEventListener('mousemove', handleMouseMove, { passive: true });
-    }
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      particles.forEach(particle => {
+        particle.update();
+        particle.draw();
+      });
+      
+      connectParticles();
+      animationId = requestAnimationFrame(animate);
+    };
+
+    animate();
+
     return () => {
-      if (hero) {
-        hero.removeEventListener('mousemove', handleMouseMove);
-      }
+      cancelAnimationFrame(animationId);
+      window.removeEventListener('resize', resize);
     };
   }, []);
 
@@ -33,92 +106,155 @@ const Hero = () => {
     }
   };
 
+  const socialLinks = [
+    { 
+      icon: Code, 
+      href: 'https://github.com/RahulRachhoya', 
+      label: 'GitHub' 
+    },
+    { 
+      icon: Globe, 
+      href: 'https://linkedin.com/in/rahulrachhoya', 
+      label: 'LinkedIn' 
+    },
+    { 
+      icon: Shield, 
+      href: 'https://twitter.com/rahulrachhoya', 
+      label: 'Twitter' 
+    },
+  ];
+
   return (
     <section
       ref={heroRef}
       id="home"
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
-      style={{
-        background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(124, 58, 237, 0.15) 0%, transparent 50%)`
-      }}
+      style={{ background: 'var(--bg-primary)' }}
     >
-      {/* Animated Background Lines */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:14px_24px]" />
-      
-      {/* Floating Elements */}
-      <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl animate-pulse" />
-      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+      {/* Animated Background Canvas */}
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 opacity-60"
+        style={{ background: 'var(--bg-primary)' }}
+      />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
-        {/* Status Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 mb-8 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm">
-          <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-          <span className="text-sm text-white/70">Open to Opportunities</span>
+      {/* Gradient Orbs */}
+      <div 
+        className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-[120px] glow-pulse"
+        style={{ background: 'rgba(99, 102, 241, 0.3)' }}
+      />
+      <div 
+        className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full blur-[120px]"
+        style={{ 
+          background: 'rgba(236, 72, 153, 0.2)',
+          animationDelay: '2s'
+        }}
+      />
+      <div 
+        className="absolute top-1/2 right-1/3 w-64 h-64 rounded-full blur-[100px]"
+        style={{ background: 'rgba(34, 211, 238, 0.15)' }}
+      />
+
+      {/* Grid Pattern Overlay */}
+      <div className="absolute inset-0 grid-pattern opacity-50" />
+
+      {/* Content */}
+      <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
+        {/* Availability Badge */}
+        <div 
+          className={`inline-flex items-center gap-2 px-4 py-2 glass rounded-full mb-8 transition-all duration-700 ${
+            isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+          }`}
+        >
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
+          </span>
+          <span className="text-sm text-[var(--text-secondary)]">Available for opportunities</span>
         </div>
 
-        {/* Main Title with Gradient */}
-        <h1 className="text-5xl sm:text-6xl md:text-8xl font-bold mb-6 tracking-tight">
-          <span className="bg-gradient-to-r from-white via-white to-white/60 bg-clip-text text-transparent">
-            Hi, I'm{' '}
-          </span>
-          <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-            Rahul Rachhoya
-          </span>
+        {/* Main Heading */}
+        <h1 
+          className={`mb-6 transition-all duration-700 delay-100 ${
+            isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+          }`}
+        >
+          <span className="gradient-text">Hi, I'm</span>
+          <br />
+          <span className="gradient-text-accent">Rahul Rachhoya</span>
         </h1>
 
-        {/* Subtitle */}
-        <p className="text-xl sm:text-2xl text-white/60 mb-4 max-w-2xl mx-auto font-light">
+        {/* Role Description */}
+        <p 
+          className={`text-lg md:text-xl text-[var(--text-tertiary)] mb-4 max-w-2xl mx-auto transition-all duration-700 delay-200 ${
+            isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+          }`}
+        >
           Full-Stack Developer × AI Engineer × Security Researcher
         </p>
-        <p className="text-lg text-white/40 mb-12 max-w-xl mx-auto">
-          Building production-grade AI systems, trading platforms, and security tools with zero-cost infrastructure
+
+        {/* Bio */}
+        <p 
+          className={`text-base text-[var(--text-muted)] mb-10 max-w-xl mx-auto leading-relaxed transition-all duration-700 delay-300 ${
+            isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+          }`}
+        >
+          Building production-grade AI systems, trading platforms, and security tools 
+          with zero-cost infrastructure
         </p>
 
         {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+        <div 
+          className={`flex flex-col sm:flex-row gap-4 justify-center mb-12 transition-all duration-700 delay-400 ${
+            isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+          }`}
+        >
           <button
             onClick={() => scrollToSection('projects')}
-            className="group inline-flex items-center gap-2 px-8 py-4 bg-white text-black rounded-xl font-semibold hover:bg-white/90 transition-all duration-300 hover:scale-105"
+            className="btn-primary"
           >
             View Projects
-            <span className="group-hover:translate-x-1 transition-transform">→</span>
           </button>
           <button
             onClick={() => scrollToSection('contact')}
-            className="group inline-flex items-center gap-2 px-8 py-4 border border-white/20 rounded-xl font-semibold hover:bg-white/5 transition-all duration-300 backdrop-blur-sm"
+            className="btn-secondary"
           >
             Get in Touch
-            <span className="group-hover:translate-x-1 transition-transform">→</span>
           </button>
         </div>
 
-        {/* Stats Grid - Bento Style */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
-          {[
-            { value: '4+', label: 'Production Projects' },
-            { value: '188', label: 'Test Cases' },
-            { value: '4k+', label: 'Lines of Code' },
-            { value: '₹0', label: 'Infra Cost' },
-          ].map((stat, index) => (
-            <div
-              key={index}
-              className="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-all duration-300 group"
-            >
-              <div className="text-3xl font-bold text-white mb-1 group-hover:text-indigo-400 transition-colors">
-                {stat.value}
-              </div>
-              <div className="text-sm text-white/50">{stat.label}</div>
-            </div>
-          ))}
+        {/* Social Links */}
+        <div 
+          className={`flex justify-center gap-3 transition-all duration-700 delay-500 ${
+            isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+          }`}
+        >
+          {socialLinks.map((link) => {
+            const Icon = link.icon;
+            return (
+              <a
+                key={link.label}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-11 h-11 glass rounded-lg flex items-center justify-center text-[var(--text-tertiary)] hover:text-white hover:border-[var(--border-accent)] hover:bg-[var(--bg-elevated)] transition-all duration-300"
+                aria-label={link.label}
+              >
+                <Icon size={18} />
+              </a>
+            );
+          })}
         </div>
       </div>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
-        <span className="text-sm text-white/40">Scroll to explore</span>
-        <div className="w-6 h-10 rounded-full border-2 border-white/20 flex items-start justify-center p-2">
-          <div className="w-1.5 h-3 bg-white/40 rounded-full animate-bounce" />
-        </div>
+      <div 
+        className={`absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 transition-all duration-700 delay-700 ${
+          isLoaded ? 'opacity-100' : 'opacity-0'
+        }`}
+      >
+        <span className="text-xs text-[var(--text-muted)]">Scroll</span>
+        <ChevronDown size={20} className="text-[var(--text-muted)] animate-bounce" />
       </div>
     </section>
   );

@@ -1,110 +1,121 @@
-import { experience } from '../data/projects';
+import { Briefcase, Calendar, MapPin } from 'lucide-react';
 
 const Experience = () => {
+  const experiences = [
+    {
+      role: 'AI Agent Engineer',
+      company: 'AI Agent OS',
+      location: 'Remote',
+      period: '2024 - Present',
+      type: 'Full-time',
+      description: 'Building multi-agent automation platform targeting Indian market. Using LangGraph, CrewAI, AWS Bedrock for autonomous task execution.',
+      skills: ['LangGraph', 'CrewAI', 'AWS Bedrock', 'Multi-Agent', 'TypeUI.sh'],
+    },
+    {
+      role: 'Lead Developer',
+      company: 'TradeKit',
+      location: 'Remote',
+      period: '2024 - Present',
+      type: 'Full-time',
+      description: 'Built real-time trading platform with 500:1 leverage. Cloudflare Workers, Deno, Supabase, real-time WebSocket gateway.',
+      skills: ['Cloudflare', 'WebSocket', 'Deno', 'Redis', 'Trading'],
+    },
+    {
+      role: 'Security Researcher',
+      company: 'OSploit Framework',
+      location: 'Remote',
+      period: '2023 - 2024',
+      type: 'Open Source',
+      description: 'Contributing to open source security framework. Vulnerability research, tool development, community contributions.',
+      skills: ['Python', 'Security', 'OSINT', 'Pentesting'],
+    },
+    {
+      role: 'Full-Stack Developer',
+      company: 'Freelance',
+      location: 'India',
+      period: '2020 - 2023',
+      type: 'Contract',
+      description: 'Full-stack development for various clients. React, Django, Node.js, cloud infrastructure.',
+      skills: ['React', 'Django', 'Node.js', 'AWS', 'PostgreSQL'],
+    },
+  ];
+
   return (
     <section id="experience" className="py-20 lg:py-32">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-bold mb-4">
-            My <span className="gradient-text">Journey</span>
+          <span className="tag mb-4 inline-block">Experience</span>
+          <h2 className="text-[var(--text-primary)] mb-4">
+            Work <span className="gradient-text">history</span>
           </h2>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            Building production systems and pursuing expertise in AI, security, and engineering.
+          <p className="text-lg text-[var(--text-tertiary)] max-w-2xl mx-auto">
+            My professional journey building production systems and contributing to open source.
           </p>
         </div>
 
-        {/* Timeline */}
-        <div className="relative">
-          {/* Timeline Line */}
-          <div className="absolute left-4 md:left-1/2 md:-translate-x-1/2 top-0 bottom-0 w-0.5 timeline-line" />
+        {/* Experience Timeline */}
+        <div className="max-w-4xl mx-auto">
+          {experiences.map((exp, index) => (
+            <div key={index} className="relative pl-8 md:pl-0">
+              {/* Timeline line */}
+              {index !== experiences.length - 1 && (
+                <div className="absolute left-0 md:left-[200px] top-12 bottom-0 w-px bg-[var(--border-medium)]" />
+              )}
+              
+              <div className="flex flex-col md:flex-row gap-4 md:gap-8 pb-12">
+                {/* Date */}
+                <div className="md:w-[180px] md:text-right flex-shrink-0">
+                  <div className="flex md:justify-end items-center gap-2 text-[var(--text-tertiary)]">
+                    <Calendar className="w-4 h-4 md:hidden" />
+                    <span className="text-sm font-medium mono-text">{exp.period}</span>
+                  </div>
+                  <span className="inline-block mt-1 px-2 py-0.5 text-xs rounded-md bg-[var(--primary-subtle)] text-[var(--text-secondary)]">
+                    {exp.type}
+                  </span>
+                </div>
 
-          {/* Experience Items */}
-          <div className="space-y-12">
-            {experience.map((exp, index) => (
-              <div
-                key={exp.id}
-                className={`relative grid md:grid-cols-2 gap-8 items-center ${
-                  index % 2 === 0 ? '' : 'md:flex-row-reverse'
-                }`}
-              >
-                {/* Timeline Dot */}
-                <div className="absolute left-4 md:left-1/2 md:-translate-x-1/2 w-4 h-4 bg-primary rounded-full border-4 border-darker z-10 glow" />
+                {/* Timeline dot */}
+                <div className="relative">
+                  <div className="absolute -left-8 md:left-0 top-2 w-4 h-4 rounded-full border-2 border-[var(--primary)] bg-white z-10" />
+                </div>
 
-                {/* Content */}
-                <div
-                  className={`glass rounded-2xl p-6 md:ml-0 ${
-                    index % 2 === 0 ? 'md:mr-12' : 'md:ml-12 md:col-start-2'
-                  }`}
-                >
-                  {/* Duration Badge */}
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    {exp.duration}
+                {/* Card */}
+                <div className="flex-1 glass-card p-6 group hover:bg-white/80 transition-all duration-300">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-3">
+                    <div>
+                      <h4 className="text-[var(--text-primary)] flex items-center gap-2">
+                        <Briefcase className="w-5 h-5 text-[var(--secondary)]" />
+                        {exp.role}
+                      </h4>
+                      <div className="flex items-center gap-2 mt-1 text-[var(--text-secondary)] font-medium">
+                        {exp.company}
+                      </div>
+                    </div>
+                    <span className="tag mt-2 sm:mt-0 text-xs self-start">
+                      <MapPin className="w-3 h-3" />
+                      {exp.location}
+                    </span>
                   </div>
 
-                  {/* Title */}
-                  <h3 className="text-xl font-bold text-white mb-1">{exp.role}</h3>
-                  <p className="text-primary font-medium mb-4">{exp.company}</p>
-
-                  {/* Description */}
-                  <p className="text-gray-400 text-sm leading-relaxed mb-4">
+                  <p className="text-sm text-[var(--text-tertiary)] mb-4 leading-relaxed">
                     {exp.description}
                   </p>
 
-                  {/* Skills */}
                   <div className="flex flex-wrap gap-2">
-                    {exp.skills.map((skill) => (
+                    {exp.skills.map((skill, i) => (
                       <span
-                        key={skill}
-                        className="px-2 py-1 text-xs rounded bg-white/5 text-gray-400 border border-white/10"
+                        key={i}
+                        className="text-xs py-1 px-2 rounded-md bg-[var(--secondary-subtle)] text-[var(--text-secondary)]"
                       >
                         {skill}
                       </span>
                     ))}
                   </div>
                 </div>
-
-                {/* Spacer for alternating layout */}
-                {index % 2 !== 0 && <div className="hidden md:block md:col-start-1" />}
-
-                {/* Date marker (visible on mobile) */}
-                <div className="md:hidden pl-8 text-gray-500 text-sm">
-                  {exp.duration}
-                </div>
               </div>
-            ))}
-          </div>
-
-          {/* Start marker */}
-          <div className="absolute left-4 md:left-1/2 md:-translate-x-1/2 -bottom-2 w-4 h-4 bg-secondary rounded-full border-4 border-darker" />
-        </div>
-
-        {/* Current Status */}
-        <div className="mt-16 text-center">
-          <div className="inline-flex items-center gap-3 glass px-6 py-4 rounded-full">
-            <div className="flex -space-x-2">
-              {['AI', 'Security', 'Full-Stack'].map((tag, i) => (
-                <div
-                  key={tag}
-                  className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-xs font-bold text-white border-2 border-darker"
-                >
-                  {tag[0]}
-                </div>
-              ))}
             </div>
-            <span className="text-gray-300">Currently building in public</span>
-            <a
-              href="https://github.com/RahulRachhoya"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary hover:text-white transition-colors font-medium"
-            >
-              Follow along →
-            </a>
-          </div>
+          ))}
         </div>
       </div>
     </section>

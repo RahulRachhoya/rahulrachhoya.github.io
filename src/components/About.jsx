@@ -1,95 +1,113 @@
+import { Code2, Shield, Zap, Users, Terminal, Cpu } from 'lucide-react';
+
 const About = () => {
+  const highlights = [
+    {
+      icon: Code2,
+      title: 'Full-Stack Engineer',
+      description: '5+ years building production systems with React, Node.js, Django, and modern cloud stacks.',
+    },
+    {
+      icon: Cpu,
+      title: 'AI Agent Specialist',
+      description: 'Designing autonomous multi-agent systems using LangGraph, CrewAI, and AWS Bedrock.',
+    },
+    {
+      icon: Shield,
+      title: 'Security Researcher',
+      description: 'Contributing to OSploit framework, conducting vulnerability research and ethical hacking.',
+    },
+    {
+      icon: Zap,
+      title: 'Real-Time Systems',
+      description: 'Built TradeKit - a real-time trading platform with WebSocket gateway and execution engine.',
+    },
+    {
+      icon: Users,
+      title: 'Open Source',
+      description: 'Active contributor to Refine framework and other open source projects.',
+    },
+    {
+      icon: Terminal,
+      title: 'Zero-Cost Infra',
+      description: 'Expert in building production systems on free tiers - ₹0 monthly infrastructure cost.',
+    },
+  ];
+
   return (
     <section id="about" className="py-20 lg:py-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          {/* Image Section */}
-          <div className="relative">
-            <div className="relative aspect-square max-w-md mx-auto lg:mx-0">
-              {/* Background Glow */}
-              <div className="absolute inset-0 bg-gradient-to-br from-primary to-secondary rounded-3xl opacity-20 blur-2xl" />
-              
-              {/* Image Container */}
-              <div className="relative glass rounded-3xl p-2">
-                <div className="bg-gradient-to-br from-dark to-darker rounded-2xl aspect-square flex items-center justify-center">
-                  {/* Avatar placeholder - using initials */}
-                  <div className="w-40 h-40 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-6xl font-bold text-white">
-                    RR
-                  </div>
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <span className="tag mb-4 inline-block">About Me</span>
+          <h2 className="text-[var(--text-primary)] mb-4">
+            Passionate about building{' '}
+            <span className="gradient-text">impactful software</span>
+          </h2>
+          <p className="text-lg text-[var(--text-tertiary)] max-w-2xl mx-auto">
+            I create systems that solve real problems - from AI automation to financial trading 
+            platforms, always with a focus on clean architecture and developer experience.
+          </p>
+        </div>
+
+        {/* Bento Grid Highlights */}
+        <div className="bento-grid">
+          {/* Main About Text - Large Card */}
+          <div className="bento-item span-6">
+            <div className="glass-card p-8 h-full flex flex-col justify-between">
+              <div>
+                <h3 className="text-[var(--text-primary)] mb-4">My Journey</h3>
+                <div className="space-y-4 text-[var(--text-secondary)]">
+                  <p>
+                    Started as a backend engineer, I've evolved into a full-stack developer with deep 
+                    expertise in distributed systems and AI applications. My work spans from building 
+                    real-time trading platforms to designing autonomous agent systems.
+                  </p>
+                  <p>
+                    I'm fascinated by the intersection of AI and traditional software engineering, 
+                    which led me to create AI Agent OS - a platform that automates freelance work using 
+                    multiple AI agents working together.
+                  </p>
+                  <p>
+                    Currently focused on CrewAI and LangGraph for multi-agent orchestration, with deployed 
+                    systems running on AWS Bedrock in Mumbai region.
+                  </p>
                 </div>
               </div>
-
-              {/* Floating Badges */}
-              <div className="absolute -top-4 -right-4 glass px-4 py-2 rounded-full animate-bounce" style={{ animationDuration: '3s' }}>
-                <span className="text-sm font-semibold text-primary">AI Enthusiast</span>
-              </div>
-              
-              <div className="absolute -bottom-4 -left-4 glass px-4 py-2 rounded-full" style={{ animationDuration: '4s' }}>
-                <span className="text-sm font-semibold text-secondary">Security First</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Content Section */}
-          <div className="text-center lg:text-left">
-            <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-              About <span className="gradient-text">Me</span>
-            </h2>
-            
-            <p className="text-gray-400 text-lg leading-relaxed mb-6">
-              I'm a passionate developer building the future of autonomous AI systems. 
-              With expertise spanning full-stack development, AI agent orchestration, 
-              and security research, I create production-grade solutions that push boundaries.
-            </p>
-
-            <p className="text-gray-400 text-lg leading-relaxed mb-8">
-              My approach combines aggressive cost optimization (zero-cost infrastructure) 
-              with rigorous engineering practices — every project features comprehensive tests, 
-              CI/CD pipelines, and security hardening.
-            </p>
-
-            {/* Quick Stats */}
-            <div className="grid grid-cols-2 gap-4 mb-8">
-              <div className="glass rounded-xl p-4 skill-card">
-                <div className="text-2xl font-bold text-primary">5+</div>
-                <div className="text-sm text-gray-500">Years Coding</div>
-              </div>
-              <div className="glass rounded-xl p-4 skill-card">
-                <div className="text-2xl font-bold text-secondary">10+</div>
-                <div className="text-sm text-gray-500">Tech Stack</div>
-              </div>
-              <div className="glass rounded-xl p-4 skill-card">
-                <div className="text-2xl font-bold text-accent">1</div>
-                <div className="text-sm text-gray-500">OSS Contribution</div>
-              </div>
-              <div className="glass rounded-xl p-4 skill-card">
-                <div className="text-2xl font-bold text-emerald-400">∞</div>
-                <div className="text-sm text-gray-500">Learning</div>
-              </div>
-            </div>
-
-            {/* Interests */}
-            <div className="space-y-2">
-              <h3 className="text-lg font-semibold text-white mb-3">Current Focus</h3>
-              <div className="flex flex-wrap gap-2">
-                {[
-                  'Multi-Agent Systems',
-                  'AI Agent Orchestration',
-                  'Real-time Trading Systems',
-                  'Security Research',
-                  'Zero-Cost Architecture',
-                  'HITL Workflows',
-                ].map((interest) => (
-                  <span
-                    key={interest}
-                    className="px-3 py-1 rounded-full text-sm bg-white/5 border border-white/10 text-gray-400"
-                  >
-                    {interest}
-                  </span>
-                ))}
+              <div className="flex gap-4 mt-8 pt-6 border-t border-[var(--border-soft)]">
+                <div className="text-center">
+                  <div className="stat-number text-2xl">5+</div>
+                  <div className="stat-label">Years</div>
+                </div>
+                <div className="text-center">
+                  <div className="stat-number text-2xl">188</div>
+                  <div className="stat-label">Tests</div>
+                </div>
+                <div className="text-center">
+                  <div className="stat-number text-2xl">4</div>
+                  <div className="stat-label">Major Projects</div>
+                </div>
               </div>
             </div>
           </div>
+
+          {/* Highlight Cards Grid */}
+          {highlights.map((item, index) => (
+            <div
+              key={index}
+              className={`bento-item ${index < 2 ? 'span-3' : 'span-4'}`}
+            >
+              <div className="glass-card p-6 h-full group hover:bg-white/80 transition-all duration-300">
+                <div className="w-12 h-12 rounded-2xl bg-[var(--primary-subtle)] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <item.icon className="w-6 h-6 text-[var(--secondary)]" />
+                </div>
+                <h4 className="text-[var(--text-primary)] mb-2">{item.title}</h4>
+                <p className="text-sm text-[var(--text-tertiary)] leading-relaxed">
+                  {item.description}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

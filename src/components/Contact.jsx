@@ -50,21 +50,19 @@ const Contact = () => {
   ];
 
   return (
-    <section id="contact" className="py-24 px-6 relative overflow-hidden">
+    <section id="contact" className="section relative overflow-hidden">
       {/* Background accent */}
       <div 
         className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-1/2 blur-[150px] opacity-20 pointer-events-none"
         style={{ background: 'radial-gradient(circle, rgba(99, 102, 241, 0.3) 0%, transparent 50%)' }}
       />
 
-      <div className="max-w-4xl mx-auto relative">
+      <div className="container-custom max-w-4xl relative">
         {/* Header */}
-        <div className="text-center mb-16">
-          <span className="text-sm font-medium text-[var(--accent-cyan)] mb-4 block tracking-wider">
-            GET IN TOUCH
-          </span>
-          <h2 className="mb-4">Let's work together</h2>
-          <p className="text-[var(--text-tertiary)] text-lg max-w-2xl mx-auto">
+        <div className="section-header">
+          <span className="section-label">Get in Touch</span>
+          <h2 className="section-title">Let's work together</h2>
+          <p className="section-description">
             Have a project in mind? I'm always open to discussing new opportunities and collaborations.
           </p>
         </div>
@@ -75,24 +73,24 @@ const Contact = () => {
             {/* Email Card */}
             <a 
               href="mailto:dev@rahulrachhoya.in"
-              className="group card p-6 block hover:border-[var(--accent-primary)]"
+              className="group card block hover:border-accent-primary"
             >
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-lg flex items-center justify-center text-[var(--accent-primary)] bg-[var(--accent-primary)]/10">
+                <div className="w-12 h-12 rounded-lg flex items-center justify-center text-accent-primary bg-accent-primary/10">
                   <Mail size={24} />
                 </div>
                 <div>
-                  <h3 className="text-white font-semibold mb-1 group-hover:text-[var(--accent-primary)] transition-colors">
+                  <h3 className="text-foreground font-semibold mb-1 group-hover:text-accent-primary transition-colors">
                     Email
                   </h3>
-                  <p className="text-[var(--text-tertiary)] text-sm">dev@rahulrachhoya.in</p>
+                  <p className="text-foreground-subtle text-sm">dev@rahulrachhoya.in</p>
                 </div>
               </div>
             </a>
 
             {/* Social Links */}
-            <div className="card p-6">
-              <h3 className="text-white font-semibold mb-4">Connect</h3>
+            <div className="card">
+              <h3 className="text-foreground font-semibold mb-4">Connect</h3>
               <div className="space-y-3">
                 {socialLinks.map((link) => {
                   const Icon = link.icon;
@@ -102,16 +100,16 @@ const Contact = () => {
                       href={link.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex items-center justify-between p-3 rounded-lg hover:bg-[var(--bg-elevated)] transition-all duration-200"
+                      className="group flex items-center justify-between p-3 rounded-lg hover:bg-background-elevated transition-all duration-200"
                     >
                       <div className="flex items-center gap-3">
-                        <Icon size={20} className="text-[var(--text-tertiary)] group-hover:text-[var(--accent-primary)] transition-colors" />
+                        <Icon size={20} className="text-foreground-dimmed group-hover:text-accent-primary transition-colors" />
                         <div>
-                          <div className="text-white text-sm font-medium">{link.name}</div>
-                          <div className="text-[var(--text-muted)] text-xs">{link.desc}</div>
+                          <div className="text-foreground text-sm font-medium">{link.name}</div>
+                          <div className="text-foreground-dimmed text-xs">{link.desc}</div>
                         </div>
                       </div>
-                      <ArrowUpRight size={16} className="text-[var(--text-muted)] group-hover:text-[var(--accent-primary)] transition-colors" />
+                      <ArrowUpRight size={16} className="text-foreground-dimmed group-hover:text-accent-primary transition-colors" />
                     </a>
                   );
                 })}
@@ -124,7 +122,7 @@ const Contact = () => {
             <form onSubmit={handleSubmit} className="card p-8">
               <div className="space-y-5">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
+                  <label htmlFor="name" className="block text-sm font-medium text-foreground-muted mb-2">
                     Your Name
                   </label>
                   <input
@@ -134,12 +132,12 @@ const Contact = () => {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 rounded-lg bg-[var(--bg-primary)] border border-[var(--border-light)] text-white placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-primary)] focus:ring-1 focus:ring-[var(--accent-primary)] transition-all duration-200"
+                    className="input"
                     placeholder="John Doe"
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
+                  <label htmlFor="email" className="block text-sm font-medium text-foreground-muted mb-2">
                     Email Address
                   </label>
                   <input
@@ -149,12 +147,12 @@ const Contact = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 rounded-lg bg-[var(--bg-primary)] border border-[var(--border-light)] text-white placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-primary)] focus:ring-1 focus:ring-[var(--accent-primary)] transition-all duration-200"
+                    className="input"
                     placeholder="john@example.com"
                   />
                 </div>
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
+                  <label htmlFor="message" className="block text-sm font-medium text-foreground-muted mb-2">
                     Message
                   </label>
                   <textarea
@@ -164,19 +162,14 @@ const Contact = () => {
                     onChange={handleChange}
                     required
                     rows={4}
-                    className="w-full px-4 py-3 rounded-lg bg-[var(--bg-primary)] border border-[var(--border-light)] text-white placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-primary)] focus:ring-1 focus:ring-[var(--accent-primary)] transition-all duration-200 resize-none"
+                    className="input resize-none"
                     placeholder="Tell me about your project..."
                   />
                 </div>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full py-4 rounded-lg font-semibold text-white transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                  style={{
-                    background: isSubmitting 
-                      ? 'var(--bg-elevated)' 
-                      : 'linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))'
-                  }}
+                  className={`w-full btn btn-primary py-4 ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                   {isSubmitting ? (
                     <span>Sending...</span>
@@ -188,7 +181,7 @@ const Contact = () => {
                   )}
                 </button>
                 {status && (
-                  <p className="text-center text-[var(--accent-emerald)] text-sm animate-fade-in">
+                  <p className="text-center text-accent-emerald text-sm animate-fade-in-up">
                     {status}
                   </p>
                 )}

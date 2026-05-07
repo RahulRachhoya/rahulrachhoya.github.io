@@ -35,15 +35,13 @@ const Skills = () => {
   ];
 
   return (
-    <section id="skills" className="py-24 px-6 relative">
-      <div className="max-w-6xl mx-auto">
+    <section id="skills" className="section relative">
+      <div className="container-custom">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <span className="text-sm font-medium text-[var(--accent-cyan)] mb-4 block tracking-wider">
-            TECH STACK
-          </span>
-          <h2 className="mb-4">Skills & Technologies</h2>
-          <p className="text-[var(--text-tertiary)] text-lg max-w-2xl mx-auto">
+        <div className="section-header">
+          <span className="section-label">Tech Stack</span>
+          <h2 className="section-title">Skills & Technologies</h2>
+          <p className="section-description">
             Full-stack development with specialization in AI engineering and security
           </p>
         </div>
@@ -55,15 +53,15 @@ const Skills = () => {
             return (
               <div
                 key={i}
-                className="group card p-6 hover:scale-[1.02] transition-all duration-300"
+                className="group card hover:scale-[1.02] transition-all duration-300"
               >
                 {/* Icon */}
-                <div className="w-12 h-12 rounded-xl mb-6 flex items-center justify-center text-[var(--accent-primary)] bg-[var(--accent-primary)]/10 group-hover:bg-[var(--accent-primary)]/20 transition-colors duration-300">
+                <div className="w-12 h-12 rounded-xl mb-6 flex items-center justify-center text-accent-primary bg-accent-primary/10 group-hover:bg-accent-primary/20 transition-colors duration-300">
                   <Icon size={24} />
                 </div>
 
                 {/* Title */}
-                <h3 className="text-lg font-semibold text-white mb-4 group-hover:text-[var(--accent-primary)] transition-colors">
+                <h3 className="text-lg font-semibold text-foreground mb-4 group-hover:text-accent-primary transition-colors">
                   {category.title}
                 </h3>
 
@@ -82,12 +80,12 @@ const Skills = () => {
 
         {/* Tools Section */}
         <div className="card p-8">
-          <h3 className="text-2xl font-bold text-white mb-6">Tools & Platforms</h3>
+          <h3 className="text-2xl font-bold text-foreground mb-6">Tools & Platforms</h3>
           <div className="flex flex-wrap gap-3">
             {tools.map((tool) => (
               <span
                 key={tool}
-                className="px-4 py-2 rounded-lg text-sm font-medium bg-[var(--bg-elevated)] border border-[var(--border-light)] text-[var(--text-secondary)] hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] transition-all duration-200 cursor-default"
+                className="px-4 py-2 rounded-lg text-sm font-medium bg-background-elevated border border-white/10 text-foreground-muted hover:border-accent-primary hover:text-accent-primary transition-all duration-200 cursor-default"
               >
                 {tool}
               </span>

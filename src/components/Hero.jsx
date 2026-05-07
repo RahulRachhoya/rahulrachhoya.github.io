@@ -129,37 +129,45 @@ const Hero = () => {
       ref={heroRef}
       id="home"
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
-      style={{ background: 'var(--bg-primary)' }}
+      style={{ background: 'var(--background)' }}
     >
       {/* Animated Background Canvas */}
       <canvas
         ref={canvasRef}
         className="absolute inset-0 opacity-60"
-        style={{ background: 'var(--bg-primary)' }}
+        style={{ background: 'var(--background)' }}
       />
 
       {/* Gradient Orbs */}
       <div 
-        className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-[120px] glow-pulse"
-        style={{ background: 'rgba(99, 102, 241, 0.3)' }}
+        className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-[120px] animate-pulse"
+        style={{ 
+          background: 'rgba(99, 102, 241, 0.3)',
+          animation: 'pulse-glow 4s ease-in-out infinite'
+        }}
       />
       <div 
         className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full blur-[120px]"
         style={{ 
           background: 'rgba(236, 72, 153, 0.2)',
+          animation: 'pulse-glow 4s ease-in-out infinite',
           animationDelay: '2s'
         }}
       />
       <div 
         className="absolute top-1/2 right-1/3 w-64 h-64 rounded-full blur-[100px]"
-        style={{ background: 'rgba(34, 211, 238, 0.15)' }}
+        style={{ 
+          background: 'rgba(34, 211, 238, 0.15)',
+          animation: 'pulse-glow 4s ease-in-out infinite',
+          animationDelay: '1s'
+        }}
       />
 
       {/* Grid Pattern Overlay */}
       <div className="absolute inset-0 grid-pattern opacity-50" />
 
       {/* Content */}
-      <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
+      <div className="relative z-10 container-custom px-6 text-center">
         {/* Availability Badge */}
         <div 
           className={`inline-flex items-center gap-2 px-4 py-2 glass rounded-full mb-8 transition-all duration-700 ${
@@ -170,7 +178,7 @@ const Hero = () => {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
             <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
           </span>
-          <span className="text-sm text-[var(--text-secondary)]">Available for opportunities</span>
+          <span className="text-sm text-foreground-muted">Available for opportunities</span>
         </div>
 
         {/* Main Heading */}
@@ -179,14 +187,14 @@ const Hero = () => {
             isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
-          <span className="gradient-text">Hi, I'm</span>
+          <span className="text-gradient">Hi, I'm</span>
           <br />
-          <span className="gradient-text-accent">Rahul Rachhoya</span>
+          <span className="text-gradient-cyan">Rahul Rachhoya</span>
         </h1>
 
         {/* Role Description */}
         <p 
-          className={`text-lg md:text-xl text-[var(--text-tertiary)] mb-4 max-w-2xl mx-auto transition-all duration-700 delay-200 ${
+          className={`text-lg md:text-xl text-foreground-subtle mb-4 max-w-2xl mx-auto transition-all duration-700 delay-200 ${
             isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
@@ -195,7 +203,7 @@ const Hero = () => {
 
         {/* Bio */}
         <p 
-          className={`text-base text-[var(--text-muted)] mb-10 max-w-xl mx-auto leading-relaxed transition-all duration-700 delay-300 ${
+          className={`text-base text-foreground-dimmed mb-10 max-w-xl mx-auto leading-relaxed transition-all duration-700 delay-300 ${
             isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
@@ -211,13 +219,13 @@ const Hero = () => {
         >
           <button
             onClick={() => scrollToSection('projects')}
-            className="btn-primary"
+            className="btn btn-primary"
           >
             View Projects
           </button>
           <button
             onClick={() => scrollToSection('contact')}
-            className="btn-secondary"
+            className="btn btn-secondary"
           >
             Get in Touch
           </button>
@@ -237,7 +245,7 @@ const Hero = () => {
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-11 h-11 glass rounded-lg flex items-center justify-center text-[var(--text-tertiary)] hover:text-white hover:border-[var(--border-accent)] hover:bg-[var(--bg-elevated)] transition-all duration-300"
+                className="w-11 h-11 glass rounded-lg flex items-center justify-center text-foreground-subtle hover:text-foreground hover:border-accent-primary hover:bg-background-elevated transition-all duration-300"
                 aria-label={link.label}
               >
                 <Icon size={18} />
@@ -253,8 +261,8 @@ const Hero = () => {
           isLoaded ? 'opacity-100' : 'opacity-0'
         }`}
       >
-        <span className="text-xs text-[var(--text-muted)]">Scroll</span>
-        <ChevronDown size={20} className="text-[var(--text-muted)] animate-bounce" />
+        <span className="text-xs text-foreground-dimmed">Scroll</span>
+        <ChevronDown size={20} className="text-foreground-dimmed animate-bounce" />
       </div>
     </section>
   );

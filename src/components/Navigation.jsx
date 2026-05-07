@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react';
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
@@ -15,6 +16,7 @@ const Navigation = () => {
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
+      setIsMobileMenuOpen(false);
     }
   };
 
@@ -31,12 +33,12 @@ const Navigation = () => {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-black/80 backdrop-blur-xl border-b border-white/10'
+          ? 'bg-surface-elevated/95 backdrop-blur-md shadow-md border-b border-border'
           : 'bg-transparent'
       }`}
     >
-      <div className="max-w-6xl mx-auto px-6 py-4">
-        <div className="flex justify-between items-center">
+      <div className="container">
+        <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <a
             href="#home"
@@ -44,7 +46,7 @@ const Navigation = () => {
               e.preventDefault();
               scrollToSection('home');
             }}
-            className="text-xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent"
+            className="text-xl font-bold gradient-text hover:opacity-80 transition-opacity"
           >
             Rahul.
           </a>
@@ -59,7 +61,7 @@ const Navigation = () => {
                   e.preventDefault();
                   scrollToSection(link.id);
                 }}
-                className="text-sm text-white/60 hover:text-white transition-colors"
+                className="text-sm font-medium text-text-secondary hover:text-primary transition-colors"
               >
                 {link.label}
               </a>
@@ -68,7 +70,7 @@ const Navigation = () => {
               href="https://github.com/RahulRachhoya"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-white/60 hover:text-white transition-colors"
+              className="btn btn-primary !py-2 !px-4 !text-sm"
             >
               GitHub
             </a>
@@ -76,39 +78,54 @@ const Navigation = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-white/60 hover:text-white"
-            onClick={() => {
-              const menu = document.getElementById('mobile-menu');
-              menu?.classList.toggle('hidden');
-            }}
+            className="md:hidden p-2 text-text-secondary hover:text-primary"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle menu"
           >
-            ☰
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              {isMobileMenuOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
           </button>
         </div>
       </div>
 
       {/* Mobile Menu */}
-      <div
-        id="mobile-menu"
-        className="hidden md:hidden bg-black/95 backdrop-blur-xl border-b border-white/10"
-      >
-        <div className="px-6 py-4 space-y-4">
-          {navLinks.map((link) => (
+      {isMobileMenuOpen && (
+        <div className="md:hidden bg-surface-elevated border-t border-border shadow-lg">
+          <div className="container py-4 space-y-2">
+            {navLinks.map((link) => (
+              <a
+                key={link.id}
+                href={`#${link.id}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToSection(link.id);
+                }}
+                className="block py-2 text-text-secondary hover:text-primary transition-colors"
+              >
+                {link.label}
+              </a>
+            ))}
             <a
-              key={link.id}
-              href={`#${link.id}`}
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToSection(link.id);
-                document.getElementById('mobile-menu')?.classList.add('hidden');
-              }}
-              className="block text-white/60 hover:text-white transition-colors"
+              href="https://github.com/RahulRachhoya"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block py-2 text-primary font-medium"
             >
-              {link.label}
+              GitHub →
             </a>
-          ))}
+          </div>
         </div>
-      </div>
+      )}
     </nav>
   );
 };

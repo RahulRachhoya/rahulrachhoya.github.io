@@ -16,18 +16,15 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="border-t border-white/10 py-12 px-6">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+    <footer className="border-t border-border py-12 bg-surface-elevated">
+      <div className="container">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-8">
           {/* Logo + Copyright */}
           <div className="text-center md:text-left">
-            <a 
-              href="#home" 
-              className="text-xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent"
-            >
+            <a href="#home" className="text-xl font-bold gradient-text inline-block mb-2">
               Rahul.
             </a>
-            <p className="text-sm text-white/40 mt-1">
+            <p className="text-sm text-text-tertiary">
               © {currentYear} Rahul Rachhoya. All rights reserved.
             </p>
           </div>
@@ -38,7 +35,7 @@ const Footer = () => {
               <a
                 key={link.label}
                 href={link.href}
-                className="text-sm text-white/50 hover:text-white transition-colors"
+                className="text-sm text-text-secondary hover:text-primary transition-colors"
               >
                 {link.label}
               </a>
@@ -53,12 +50,18 @@ const Footer = () => {
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-white/50 hover:text-indigo-400 transition-colors"
+                className="text-sm text-text-tertiary hover:text-primary transition-colors font-medium"
               >
                 {link.label}
               </a>
             ))}
           </div>
+        </div>
+
+        <div className="mt-8 pt-8 border-t border-border text-center">
+          <p className="text-xs text-text-tertiary">
+            Built with React, Vite, and Tailwind CSS • Designed with TypeUI principles
+          </p>
         </div>
       </div>
     </footer>

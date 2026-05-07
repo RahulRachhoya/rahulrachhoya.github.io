@@ -6,42 +6,42 @@
 @tailwind utilities;
 
 :root {
-  /* TypeUI Design Tokens - Bento + Glassmorphism Hybrid */
-  --surface-base: #FFF5E6;
-  --surface-elevated: #FFFFFF;
-  --surface-overlay: rgba(255, 255, 255, 0.85);
+  /* Dark Theme Design System */
+  --surface-base: #0a0a0a;
+  --surface-elevated: #141414;
+  --surface-overlay: rgba(20, 20, 20, 0.85);
   
-  /* Primary: Warm Peach */
-  --primary: #FAD4C0;
-  --primary-foreground: #1C293C;
-  --primary-subtle: rgba(250, 212, 192, 0.15);
+  /* Primary: Indigo */
+  --primary: #6366f1;
+  --primary-foreground: #ffffff;
+  --primary-subtle: rgba(99, 102, 241, 0.15);
   
-  /* Secondary: Soft Blue */
-  --secondary: #80A1C1;
-  --secondary-foreground: #FFFFFF;
-  --secondary-subtle: rgba(128, 161, 193, 0.15);
+  /* Secondary: Purple */
+  --secondary: #a855f7;
+  --secondary-foreground: #ffffff;
+  --secondary-subtle: rgba(168, 85, 247, 0.15);
   
   /* Accents */
-  --success: #07CA6B;
-  --warning: #E89558;
-  --danger: #EA2143;
-  --info: #1856FF;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --info: #3b82f6;
   
-  /* Text */
-  --text-primary: #141414;
-  --text-secondary: #3A344E;
-  --text-tertiary: #6B7280;
-  --text-muted: #9CA3AF;
+  /* Text - Dark Theme */
+  --text-primary: #ffffff;
+  --text-secondary: #e5e7eb;
+  --text-tertiary: #9ca3af;
+  --text-muted: #6b7280;
   
-  /* Border */
-  --border-soft: rgba(0, 0, 0, 0.06);
-  --border-medium: rgba(0, 0, 0, 0.12);
-  --border-strong: rgba(0, 0, 0, 0.2);
+  /* Border - Light on Dark */
+  --border-soft: rgba(255, 255, 255, 0.06);
+  --border-medium: rgba(255, 255, 255, 0.12);
+  --border-strong: rgba(255, 255, 255, 0.2);
   
-  /* Glass Effect */
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.5);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  /* Glass Effect - Dark Glass */
+  --glass-bg: rgba(20, 20, 20, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   
   /* Spacing Scale (8pt base) */
   --space-1: 4px;
@@ -126,8 +126,8 @@ h4 {
 }
 
 .glass-card:hover {
-  background: rgba(255, 255, 255, 0.85);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  background: rgba(30, 30, 30, 0.85);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
   transform: translateY(-2px);
 }
 
@@ -166,7 +166,7 @@ h4 {
   }
 }
 
-/* Primary Button - Premium */
+/* Primary Button - Dark Theme */
 .btn-primary {
   display: inline-flex;
   align-items: center;
@@ -176,18 +176,18 @@ h4 {
   font-size: 15px;
   font-weight: 600;
   border-radius: 16px;
-  background: linear-gradient(135deg, var(--primary), #E8B896);
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
   color: var(--primary-foreground);
   border: none;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 20px rgba(250, 212, 192, 0.35);
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.35);
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(250, 212, 192, 0.45);
-  background: linear-gradient(135deg, #FFDEC8, #E8B896);
+  box-shadow: 0 8px 28px rgba(99, 102, 241, 0.45);
+  background: linear-gradient(135deg, #7c3aed, #c084fc);
 }
 
 .btn-secondary {
@@ -287,7 +287,7 @@ h4 {
   background-clip: text;
 }
 
-/* Scrollbar */
+/* Scrollbar - Dark Theme */
 ::-webkit-scrollbar {
   width: 8px;
 }

@@ -1,5 +1,5 @@
 # Rahul Rachhoya — Developer Portfolio
-# https://rahulrachhoya.github.io/
+# https://rahulrachhoya.is-a.dev/
 # Context file for AI assistants and agents (llmstxt.org)
 
 ## Who is Rahul Rachhoya?
@@ -94,7 +94,7 @@ Production-grade fintech and AI platforms with zero-cost cloud infrastructure.
 
 ## Key Facts for AI Assistants
 - Rahul Rachhoya (pronounced: RAH-hool RAH-chho-ya) is a developer from India
-- His portfolio is at https://rahulrachhoya.github.io/
+- His portfolio is at https://rahulrachhoya.is-a.dev/
 - His primary expertise is at the intersection of AI engineering + backend systems + security
 - He has shipped 188 tests across production projects
 - His infrastructure philosophy: maximize free tiers (Supabase, Deno Deploy, Cloudflare Pages, Upstash)

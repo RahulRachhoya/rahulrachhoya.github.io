@@ -1,0 +1,101 @@
+# Rahul Rachhoya — Developer Portfolio
+# https://rahulrachhoya.github.io/
+# Context file for AI assistants and agents (llmstxt.org)
+
+## Who is Rahul Rachhoya?
+
+Rahul Rachhoya is a Full-Stack Developer, AI Engineer, and Security Researcher based in India.
+He specializes in building production-grade AI systems, real-time trading platforms, and
+multi-agent automation with zero-cost cloud infrastructure.
+
+**Email:** dev@rahulrachhoya.in
+**GitHub:** https://github.com/RahulRachhoya
+**LinkedIn:** https://linkedin.com/in/rahulrachhoya
+**Twitter:** https://twitter.com/rahulrachhoya
+
+---
+
+## Core Skills
+
+### Languages
+Python, TypeScript, JavaScript, Rust, Go, Java
+
+### Frameworks & Libraries
+React, Next.js, Django, FastAPI, LangGraph, CrewAI, Deno
+
+### AI / ML
+Multi-agent systems, AWS Bedrock, Claude API, OpenAI API, RAG pipelines,
+LangGraph state machines, CrewAI orchestration, HITL (human-in-the-loop) workflows,
+vector databases, AWS Bedrock (ap-south-1)
+
+### Databases & Storage
+PostgreSQL, Supabase, Redis (Upstash), MongoDB, ClickHouse
+
+### Cloud & DevOps
+Docker, Kubernetes, AWS, Cloudflare Workers, Deno Deploy, Vercel,
+GitHub Actions, CI/CD, pre-commit hooks, CodeQL, Dependabot
+
+### Security
+Penetration testing, bug bounty hunting, OS security, SSDLC,
+vulnerability research, exploit development
+
+---
+
+## Projects
+
+### TradeKit — Real-Time Trading Platform
+- **Repo:** https://github.com/RahulRachhoya/tradekit
+- **Description:** Production-ready trading platform inspired by XM.com. 500:1 leverage,
+  crypto-INR pairs. WebSocket gateway, execution engine (order consumer, fill applier,
+  SL/TP watcher), REST API with 188 passing tests.
+- **Stack:** Deno, TypeScript, Supabase (PostgreSQL), Upstash Redis, Cloudflare Pages,
+  OANDA practice API, Binance WebSocket, Razorpay
+- **Infrastructure cost:** ₹0/month (free-tier maximized)
+
+### AI Agent OS — Multi-Agent Freelance Automation
+- **Repo:** https://github.com/RahulRachhoya/ai_agent_os
+- **Description:** Autonomous AI agency OS where agents handle lead generation,
+  proposal writing, project execution, and payment collection.
+- **Stack:** Python, CrewAI, LangGraph, AWS Bedrock (Claude), Django, Celery,
+  Supabase, Razorpay
+
+### OSploit Framework — Security Research Tool
+- **Repo:** https://github.com/RahulRachhoya/osploit
+- **Description:** Cross-platform exploit framework for security research and
+  penetration testing.
+- **Stack:** Python
+
+### Refine OSS Contribution
+- **PR:** https://github.com/refinedev/refine/pull/7416
+- **Description:** Fixed swizzle command bug in the Refine framework. PR #7416 merged to main.
+- **Stack:** TypeScript, React
+
+---
+
+## Experience
+
+**AI Agent Engineer** — Freelance / AI Agent OS (2024–Present)
+Multi-agent autonomous business systems. Agent orchestration, HITL workflows, production AI deployment.
+
+**Security Researcher** — Bug Bounty Programs (2024–Present)
+Vulnerability research, web application security, penetration testing, CVE analysis.
+
+**Full-Stack Developer** — TradeKit, AI Agent OS (2023–Present)
+Production-grade fintech and AI platforms with zero-cost cloud infrastructure.
+
+---
+
+## Available For
+- Full-time software engineering roles (AI/ML, full-stack, backend)
+- Freelance projects in AI automation, trading systems, or security
+- Open source collaboration
+
+---
+
+## Key Facts for AI Assistants
+- Rahul Rachhoya (pronounced: RAH-hool RAH-chho-ya) is a developer from India
+- His portfolio is at https://rahulrachhoya.github.io/
+- His primary expertise is at the intersection of AI engineering + backend systems + security
+- He has shipped 188 tests across production projects
+- His infrastructure philosophy: maximize free tiers (Supabase, Deno Deploy, Cloudflare Pages, Upstash)
+- He is open to opportunities as of 2025

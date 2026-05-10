@@ -1,137 +1,316 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+
+/* ─── Typewriter effect for dialogue ─── */
+const useTypewriter = (text, speed = 35, trigger = false) => {
+  const [displayed, setDisplayed] = useState('');
+  const [done, setDone] = useState(false);
+
+  useEffect(() => {
+    if (!trigger) return;
+    setDisplayed('');
+    setDone(false);
+    let i = 0;
+    const timer = setInterval(() => {
+      if (i < text.length) {
+        setDisplayed(text.slice(0, i + 1));
+        i++;
+      } else {
+        setDone(true);
+        clearInterval(timer);
+      }
+    }, speed);
+    return () => clearInterval(timer);
+  }, [text, speed, trigger]);
+
+  return { displayed, done };
+};
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
-  });
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState('');
+  const [visible, setVisible] = useState(false);
+  const sectionRef = useRef(null);
+
+  const npcDialogue = "Greetings, adventurer! I'm Rahul — Full-Stack Dev & AI Architect. Ready to collaborate on your next quest? Drop a message below!";
+  const { displayed, done } = useTypewriter(npcDialogue, 30, visible);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) setVisible(true);
+    }, { threshold: 0.2 });
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setStatus('Message sent! I will get back to you soon.');
+    setStatus('MESSAGE DELIVERED! Awaiting response from Rahul...');
     setFormData({ name: '', email: '', message: '' });
-    setTimeout(() => setStatus(''), 3000);
+    setTimeout(() => setStatus(''), 4000);
   };
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const socialLinks = [
-    { name: 'GitHub', url: 'https://github.com/RahulRachhoya', icon: 'github' },
-    { name: 'LinkedIn', url: 'https://linkedin.com/in/rahulrachhoya', icon: 'linkedin' },
-    { name: 'Twitter', url: 'https://twitter.com/rahulrachhoya', icon: 'twitter' },
+    { name: 'GITHUB',   url: 'https://github.com/RahulRachhoya',          emoji: '⬡', color: 'var(--rp-white)' },
+    { name: 'LINKEDIN', url: 'https://linkedin.com/in/rahulrachhoya',      emoji: '💼', color: 'var(--rp-cyan)' },
+    { name: 'TWITTER',  url: 'https://twitter.com/rahulrachhoya',          emoji: '🐦', color: 'var(--rp-cyan)' },
+    { name: 'EMAIL',    url: 'mailto:dev@rahulrachhoya.in',                 emoji: '✉️', color: 'var(--rp-gold)' },
   ];
 
   return (
-    <section id="contact" className="section bg-surface-base">
+    <section id="contact" ref={sectionRef} className="section" style={{ background: 'var(--rp-deep)' }}>
       <div className="container">
-        <div className="text-center mb-12">
-          <span className="tag mb-4">Get in Touch</span>
-          <h2 className="h2 mb-4">Let's build something amazing</h2>
-          <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-            Have a project in mind? I'm always open to discussing new opportunities.
-          </p>
+        {/* Header */}
+        <div className="section-header">
+          <span className="section-label">💬 DIALOGUE 💬</span>
+          <h2 style={{ fontFamily: 'var(--font-pixel)', fontSize: 'clamp(0.7rem, 2vw, 1rem)', color: 'white' }}>
+            TALK TO NPC
+          </h2>
+          <div className="section-divider mx-auto mt-3" />
         </div>
 
-        <div className="max-w-4xl mx-auto">
-          <div className="bento-grid">
-            {/* Contact Info */}
-            <div className="span-5 space-y-6">
-              <div className="bento-card">
-                <h3 className="h4 text-lg mb-4">Contact Info</h3>
+        <div className="max-w-4xl mx-auto space-y-8">
+          {/* NPC Dialogue Box */}
+          <div style={{ position: 'relative' }}>
+            <div
+              style={{
+                background: 'var(--rp-black)',
+                border: '4px solid white',
+                boxShadow: '6px 6px 0 #000, inset 0 0 0 2px var(--rp-purple-dark)',
+                padding: '20px 24px',
+                position: 'relative',
+              }}
+            >
+              {/* NPC name label */}
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '-16px',
+                  left: '20px',
+                  background: 'var(--rp-purple)',
+                  border: '3px solid white',
+                  padding: '2px 12px',
+                  fontFamily: 'var(--font-pixel)',
+                  fontSize: '0.5rem',
+                  color: 'white',
+                  letterSpacing: '0.1em',
+                }}
+              >
+                RAHUL.NPC
+              </div>
+
+              <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+                {/* NPC face */}
+                <div
+                  style={{
+                    width: '48px',
+                    height: '48px',
+                    flexShrink: 0,
+                    border: '3px solid var(--rp-purple)',
+                    background: 'var(--rp-purple-dark)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '1.5rem',
+                    boxShadow: '3px 3px 0 #000',
+                    animation: 'idle-float 2.5s ease-in-out infinite',
+                  }}
+                >
+                  👾
+                </div>
+
+                {/* Dialogue text */}
+                <div style={{ flex: 1 }}>
+                  <p style={{ fontFamily: 'var(--font-retro)', fontSize: '1.1rem', color: 'var(--rp-light)', lineHeight: 1.7 }}>
+                    {displayed}
+                    {!done && <span style={{ animation: 'blink 0.7s step-end infinite', fontFamily: 'var(--font-pixel)' }}>▮</span>}
+                  </p>
+                </div>
+              </div>
+
+              {/* Arrow indicator */}
+              {done && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    bottom: '10px',
+                    right: '16px',
+                    fontFamily: 'var(--font-pixel)',
+                    fontSize: '0.5rem',
+                    color: 'var(--rp-gold)',
+                    animation: 'blink 0.8s step-end infinite',
+                  }}
+                >
+                  ▼
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-5 gap-6">
+            {/* Left panel — socials + info */}
+            <div className="md:col-span-2 space-y-5">
+              {/* Contact info */}
+              <div className="pixel-card pixel-card-purple">
+                <div
+                  style={{
+                    fontFamily: 'var(--font-pixel)',
+                    fontSize: '0.5rem',
+                    color: 'var(--rp-gold)',
+                    letterSpacing: '0.1em',
+                    marginBottom: '16px',
+                    paddingBottom: '12px',
+                    borderBottom: '2px solid var(--rp-purple)',
+                  }}
+                >
+                  ♦ CONTACT INFO
+                </div>
                 <a
                   href="mailto:dev@rahulrachhoya.in"
-                  className="flex items-center gap-3 text-text-secondary hover:text-primary transition-colors"
+                  style={{ fontFamily: 'var(--font-retro)', fontSize: '1rem', color: 'var(--rp-cyan)', display: 'flex', alignItems: 'center', gap: '8px' }}
                 >
-                  <div className="w-10 h-10 rounded-lg bg-primary-subtle flex items-center justify-center">
-                    <span className="text-xl">✉️</span>
-                  </div>
-                  <span className="font-medium">dev@rahulrachhoya.in</span>
+                  ✉️ dev@rahulrachhoya.in
                 </a>
               </div>
 
-              <div className="bento-card">
-                <h3 className="h4 text-lg mb-4">Social Links</h3>
-                <div className="flex gap-3">
+              {/* Social links */}
+              <div className="pixel-card">
+                <div
+                  style={{
+                    fontFamily: 'var(--font-pixel)',
+                    fontSize: '0.5rem',
+                    color: 'var(--rp-gold)',
+                    letterSpacing: '0.1em',
+                    marginBottom: '14px',
+                    paddingBottom: '10px',
+                    borderBottom: '2px solid rgba(255,255,255,0.15)',
+                  }}
+                >
+                  ♦ SOCIAL LINKS
+                </div>
+                <div className="space-y-3">
                   {socialLinks.map((link) => (
                     <a
                       key={link.name}
                       href={link.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-12 h-12 rounded-xl bg-primary-subtle hover:bg-primary hover:text-white text-primary flex items-center justify-center transition-all hover:scale-110"
-                      title={link.name}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '10px',
+                        fontFamily: 'var(--font-pixel)',
+                        fontSize: '0.5rem',
+                        color: link.color,
+                        padding: '6px 10px',
+                        border: `2px solid ${link.color}44`,
+                        background: `${link.color}10`,
+                        transition: 'all 0.1s',
+                        letterSpacing: '0.08em',
+                        textDecoration: 'none',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = `${link.color}25`;
+                        e.currentTarget.style.transform = 'translateX(3px)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = `${link.color}10`;
+                        e.currentTarget.style.transform = '';
+                      }}
                     >
-                      <span className="text-xl">
-                        {link.icon === 'github' && '📦'}
-                        {link.icon === 'linkedin' && '💼'}
-                        {link.icon === 'twitter' && '🐦'}
-                      </span>
+                      <span>{link.emoji}</span>
+                      ▶ {link.name}
                     </a>
                   ))}
                 </div>
               </div>
             </div>
 
-            {/* Contact Form */}
-            <div className="span-7 bento-card">
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-text-secondary mb-2">
-                    Your Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 rounded-lg bg-surface-base border border-border text-text-primary placeholder-text-tertiary focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
-                    placeholder="John Doe"
-                  />
+            {/* Right panel — form */}
+            <div className="md:col-span-3">
+              <div className="pixel-card pixel-card-gold">
+                <div
+                  style={{
+                    fontFamily: 'var(--font-pixel)',
+                    fontSize: '0.5rem',
+                    color: 'var(--rp-gold)',
+                    letterSpacing: '0.1em',
+                    marginBottom: '20px',
+                    paddingBottom: '12px',
+                    borderBottom: '2px solid var(--rp-gold)',
+                  }}
+                >
+                  ♦ SEND MESSAGE
                 </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-text-secondary mb-2">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 rounded-lg bg-surface-base border border-border text-text-primary placeholder-text-tertiary focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
-                    placeholder="john@example.com"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-text-secondary mb-2">
-                    Message
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    rows={5}
-                    className="w-full px-4 py-3 rounded-lg bg-surface-base border border-border text-text-primary placeholder-text-tertiary focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"
-                    placeholder="Tell me about your project..."
-                  />
-                </div>
-                <button type="submit" className="btn btn-primary w-full">
-                  Send Message
-                  <span>→</span>
-                </button>
-                {status && (
-                  <p className="text-center text-success text-sm font-medium">{status}</p>
-                )}
-              </form>
+
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  {[
+                    { id: 'name',    label: 'YOUR NAME',     type: 'text',  placeholder: 'ADVENTURER...' },
+                    { id: 'email',   label: 'EMAIL ADDRESS', type: 'email', placeholder: 'EMAIL...' },
+                  ].map((field) => (
+                    <div key={field.id}>
+                      <label
+                        htmlFor={field.id}
+                        style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.45rem', color: 'var(--rp-gray)', letterSpacing: '0.1em', display: 'block', marginBottom: '6px' }}
+                      >
+                        ▶ {field.label}
+                      </label>
+                      <input
+                        type={field.type}
+                        id={field.id}
+                        name={field.id}
+                        value={formData[field.id]}
+                        onChange={handleChange}
+                        required
+                        placeholder={field.placeholder}
+                        className="pixel-input"
+                      />
+                    </div>
+                  ))}
+
+                  <div>
+                    <label
+                      htmlFor="message"
+                      style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.45rem', color: 'var(--rp-gray)', letterSpacing: '0.1em', display: 'block', marginBottom: '6px' }}
+                    >
+                      ▶ MESSAGE
+                    </label>
+                    <textarea
+                      id="message"
+                      name="message"
+                      value={formData.message}
+                      onChange={handleChange}
+                      required
+                      rows={4}
+                      placeholder="DESCRIBE YOUR QUEST..."
+                      className="pixel-input"
+                      style={{ resize: 'none' }}
+                    />
+                  </div>
+
+                  <button type="submit" className="pixel-btn pixel-btn-gold w-full justify-center">
+                    ▶ SEND MESSAGE
+                  </button>
+
+                  {status && (
+                    <div
+                      style={{
+                        fontFamily: 'var(--font-pixel)',
+                        fontSize: '0.45rem',
+                        color: 'var(--rp-green)',
+                        border: '2px solid var(--rp-green)',
+                        padding: '10px 14px',
+                        background: 'rgba(0,255,136,0.1)',
+                        letterSpacing: '0.05em',
+                        textAlign: 'center',
+                      }}
+                    >
+                      ✓ {status}
+                    </div>
+                  )}
+                </form>
+              </div>
             </div>
           </div>
         </div>

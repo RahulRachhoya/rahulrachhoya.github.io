@@ -3,125 +3,111 @@ import { useState, useEffect } from 'react';
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const scrollToSection = (id) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-      setIsMobileMenuOpen(false);
-    }
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    setActiveSection(id);
+    setIsMobileMenuOpen(false);
   };
 
   const navLinks = [
-    { label: 'Home', id: 'home' },
-    { label: 'About', id: 'about' },
-    { label: 'Projects', id: 'projects' },
-    { label: 'Skills', id: 'skills' },
-    { label: 'Experience', id: 'experience' },
-    { label: 'Contact', id: 'contact' },
+    { label: 'HOME',       id: 'home',       icon: '🏠' },
+    { label: 'ABOUT',      id: 'about',       icon: '👾' },
+    { label: 'PROJECTS',   id: 'projects',    icon: '🗡️' },
+    { label: 'SKILLS',     id: 'skills',      icon: '⚔️' },
+    { label: 'QUESTS',     id: 'experience',  icon: '📜' },
+    { label: 'CONTACT',    id: 'contact',     icon: '💬' },
   ];
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
         isScrolled
-          ? 'bg-surface-elevated/95 backdrop-blur-md shadow-md border-b border-border'
+          ? 'bg-[#0D0B1E] border-b-[3px] border-white'
           : 'bg-transparent'
       }`}
+      style={{ fontFamily: 'var(--font-pixel)' }}
     >
       <div className="container">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-14">
           {/* Logo */}
           <a
             href="#home"
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToSection('home');
-            }}
-            className="text-xl font-bold gradient-text hover:opacity-80 transition-opacity"
+            onClick={(e) => { e.preventDefault(); scrollToSection('home'); }}
+            className="text-[0.6rem] tracking-widest uppercase"
+            style={{ color: 'var(--rp-gold)', textShadow: '2px 2px 0 var(--rp-gold-dim)', fontFamily: 'var(--font-pixel)' }}
           >
-            Rahul.
+            ▶ RR.EXE
           </a>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
-              <a
+              <button
                 key={link.id}
-                href={`#${link.id}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToSection(link.id);
-                }}
-                className="text-sm font-medium text-text-secondary hover:text-primary transition-colors"
+                onClick={() => scrollToSection(link.id)}
+                className={`px-3 py-1 text-[0.45rem] tracking-widest transition-all duration-100 border-b-2 ${
+                  activeSection === link.id
+                    ? 'text-white border-yellow-400 bg-[var(--rp-purple-dark)]'
+                    : 'text-gray-400 border-transparent hover:text-white hover:border-purple-400'
+                }`}
+                style={{ fontFamily: 'var(--font-pixel)' }}
               >
                 {link.label}
-              </a>
+              </button>
             ))}
             <a
               href="https://github.com/RahulRachhoya"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn btn-primary !py-2 !px-4 !text-sm"
+              className="pixel-btn pixel-btn-gold ml-4 !py-2 !px-4 !text-[0.45rem]"
             >
-              GitHub
+              ⬡ GITHUB
             </a>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile toggle */}
           <button
-            className="md:hidden p-2 text-text-secondary hover:text-primary"
+            className="md:hidden text-white"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle menu"
+            style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.55rem' }}
           >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              {isMobileMenuOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              )}
-            </svg>
+            {isMobileMenuOpen ? '✕ CLOSE' : '☰ MENU'}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-surface-elevated border-t border-border shadow-lg">
-          <div className="container py-4 space-y-2">
+        <div
+          className="md:hidden border-t-[3px] border-white bg-[#0D0B1E]"
+        >
+          <div className="container py-4 space-y-1">
             {navLinks.map((link) => (
-              <a
+              <button
                 key={link.id}
-                href={`#${link.id}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToSection(link.id);
-                }}
-                className="block py-2 text-text-secondary hover:text-primary transition-colors"
+                onClick={() => scrollToSection(link.id)}
+                className="block w-full text-left px-4 py-3 text-[0.5rem] tracking-widest text-gray-300 hover:text-white hover:bg-[var(--rp-purple-dark)] transition-colors"
+                style={{ fontFamily: 'var(--font-pixel)' }}
               >
-                {link.label}
-              </a>
+                {link.icon} {link.label}
+              </button>
             ))}
             <a
               href="https://github.com/RahulRachhoya"
               target="_blank"
               rel="noopener noreferrer"
-              className="block py-2 text-primary font-medium"
+              className="block px-4 py-3 text-[0.5rem] tracking-widest text-yellow-400"
+              style={{ fontFamily: 'var(--font-pixel)' }}
             >
-              GitHub →
+              ⬡ GITHUB →
             </a>
           </div>
         </div>

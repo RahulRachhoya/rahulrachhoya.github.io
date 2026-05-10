@@ -1,85 +1,169 @@
 const About = () => {
   const highlights = [
-    { title: 'Full-Stack Engineer', desc: 'Production-grade web applications', icon: '💻' },
-    { title: 'AI Specialist', desc: 'Multi-agent systems & orchestration', icon: '🤖' },
-    { title: 'Security Researcher', desc: 'Bug bounty & pentesting', icon: '🔒' },
+    {
+      title: 'FULL-STACK ENGINEER',
+      desc: 'Production-grade web applications with zero-cost infrastructure. Every line tested, every deployment hardened.',
+      icon: '💻',
+      color: 'var(--rp-cyan)',
+    },
+    {
+      title: 'AI SPECIALIST',
+      desc: 'Multi-agent systems, LLM orchestration, HITL workflows on AWS Bedrock. CrewAI + LangGraph in production.',
+      icon: '🔮',
+      color: 'var(--rp-pink)',
+    },
+    {
+      title: 'SHADOW HUNTER',
+      desc: 'Bug bounty programs, CVE research, OSploit framework. OS-level & web security penetration testing.',
+      icon: '🗡️',
+      color: 'var(--rp-red)',
+    },
   ];
 
   const stats = [
-    { value: '5+', label: 'Years Coding' },
-    { value: '10+', label: 'Tech Stack' },
-    { value: '1', label: 'OSS Contribution' },
-    { value: '∞', label: 'Learning' },
+    { value: '5+',  label: 'YRS CODING',    color: 'var(--rp-green)' },
+    { value: '10+', label: 'TECH STACKS',   color: 'var(--rp-cyan)' },
+    { value: '1',   label: 'OSS MERGED',    color: 'var(--rp-gold)' },
+    { value: '∞',   label: 'LEARNING',      color: 'var(--rp-pink)' },
   ];
 
   const currentFocus = [
-    'Multi-Agent Systems',
-    'AI Orchestration',
-    'Real-time Trading',
-    'Security Research',
+    { label: 'Multi-Agent Systems', icon: '🔮' },
+    { label: 'AI Orchestration',    icon: '🤖' },
+    { label: 'Real-time Trading',   icon: '📈' },
+    { label: 'Security Research',   icon: '🛡️' },
   ];
 
   return (
-    <section id="about" className="section bg-surface-base">
+    <section id="about" className="section" style={{ background: 'var(--rp-deep)' }}>
       <div className="container">
-        <div className="text-center mb-12">
-          <span className="tag mb-4">About Me</span>
-          <h2 className="h2 mb-4">
-            Building the <span className="gradient-text">future</span> of autonomous systems
+        {/* Section header */}
+        <div className="section-header">
+          <span className="section-label">👾 PLAYER PROFILE 👾</span>
+          <h2 style={{ fontFamily: 'var(--font-pixel)', fontSize: 'clamp(0.7rem, 2vw, 1rem)', color: 'white' }}>
+            ABOUT ME
           </h2>
-          <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-            Passionate developer creating production-grade AI solutions that push boundaries
-          </p>
+          <div className="section-divider mx-auto mt-3" />
         </div>
 
-        <div className="bento-grid">
-          {/* Main Content */}
-          <div className="span-6 bento-card">
-            <div className="space-y-6">
-              <p className="text-text-secondary leading-relaxed">
+        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          {/* Left — bio + mini stats */}
+          <div className="pixel-card" style={{ background: 'var(--rp-black)' }}>
+            <div
+              style={{
+                fontFamily: 'var(--font-pixel)',
+                fontSize: '0.5rem',
+                color: 'var(--rp-gold)',
+                letterSpacing: '0.1em',
+                marginBottom: '16px',
+                paddingBottom: '12px',
+                borderBottom: '2px solid var(--rp-purple)',
+              }}
+            >
+              ♦ PLAYER BIO
+            </div>
+
+            <div className="space-y-4">
+              <p style={{ fontFamily: 'var(--font-retro)', fontSize: '1.05rem', color: 'var(--rp-light)', lineHeight: 1.75 }}>
                 I'm a passionate developer building the future of autonomous AI systems. With expertise spanning
                 full-stack development, AI agent orchestration, and security research, I create production-grade
                 solutions that push boundaries.
               </p>
-              <p className="text-text-tertiary leading-relaxed">
-                My approach combines aggressive cost optimization (zero-cost infrastructure) with rigorous engineering
-                practices — every project features comprehensive tests, CI/CD pipelines, and security hardening.
+              <p style={{ fontFamily: 'var(--font-retro)', fontSize: '1rem', color: 'var(--rp-gray)', lineHeight: 1.75 }}>
+                My approach combines aggressive cost optimization — zero-cost infrastructure — with rigorous
+                engineering: every project ships with full tests, CI/CD pipelines, and security hardening.
               </p>
+            </div>
 
-              {/* Stats Grid */}
-              <div className="grid grid-cols-4 gap-4 pt-6 border-t border-border">
-                {stats.map((stat, i) => (
-                  <div key={i} className="text-center">
-                    <div className="stat-value text-2xl">{stat.value}</div>
-                    <div className="stat-label text-xs">{stat.label}</div>
+            {/* Mini stats */}
+            <div
+              className="grid grid-cols-4 gap-3 mt-6 pt-5"
+              style={{ borderTop: '2px dashed rgba(255,255,255,0.15)' }}
+            >
+              {stats.map((s, i) => (
+                <div key={i} className="text-center">
+                  <div
+                    style={{
+                      fontFamily: 'var(--font-pixel)',
+                      fontSize: '1rem',
+                      color: s.color,
+                      textShadow: `2px 2px 0 ${s.color}44`,
+                      marginBottom: '4px',
+                    }}
+                  >
+                    {s.value}
                   </div>
-                ))}
-              </div>
+                  <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.35rem', color: 'var(--rp-gray-dim)', letterSpacing: '0.05em' }}>
+                    {s.label}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Highlights Grid */}
-          <div className="span-6 space-y-4">
-            {highlights.map((item, i) => (
-              <div key={i} className="bento-card bg-primary-subtle border-primary/20">
+          {/* Right — role cards + current focus */}
+          <div className="space-y-4">
+            {highlights.map((h, i) => (
+              <div
+                key={i}
+                className="pixel-card"
+                style={{
+                  borderColor: h.color,
+                  boxShadow: `4px 4px 0 ${h.color}55`,
+                  background: 'var(--rp-black)',
+                  padding: '16px 20px',
+                }}
+              >
                 <div className="flex items-start gap-4">
-                  <span className="text-3xl">{item.icon}</span>
+                  <span style={{ fontSize: '1.5rem', flexShrink: 0, filter: 'drop-shadow(0 0 6px currentColor)' }}>
+                    {h.icon}
+                  </span>
                   <div>
-                    <h4 className="h4 text-base mb-1">{item.title}</h4>
-                    <p className="text-sm text-text-tertiary">{item.desc}</p>
+                    <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.5rem', color: h.color, marginBottom: '6px', letterSpacing: '0.08em' }}>
+                      {h.title}
+                    </div>
+                    <p style={{ fontFamily: 'var(--font-retro)', fontSize: '0.95rem', color: 'var(--rp-gray)', lineHeight: 1.6 }}>
+                      {h.desc}
+                    </p>
                   </div>
                 </div>
               </div>
             ))}
 
-            {/* Current Focus */}
-            <div className="bento-card bg-gradient-to-br from-primary-subtle to-secondary-subtle border-primary/20">
-              <h4 className="h4 text-base mb-3">Current Focus</h4>
-              <div className="flex flex-wrap gap-2">
-                {currentFocus.map((tag) => (
-                  <span key={tag} className="tag tag-secondary text-xs">
-                    {tag}
-                  </span>
+            {/* Current focus */}
+            <div
+              className="pixel-card pixel-card-purple"
+              style={{ background: 'linear-gradient(135deg, var(--rp-black), var(--rp-purple-dark))' }}
+            >
+              <div
+                style={{
+                  fontFamily: 'var(--font-pixel)',
+                  fontSize: '0.5rem',
+                  color: 'var(--rp-gold)',
+                  letterSpacing: '0.1em',
+                  marginBottom: '12px',
+                }}
+              >
+                ♦ CURRENT FOCUS
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                {currentFocus.map((f, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      padding: '8px 10px',
+                      background: 'rgba(107,70,193,0.15)',
+                      border: '2px solid var(--rp-purple)',
+                    }}
+                  >
+                    <span style={{ fontSize: '1rem' }}>{f.icon}</span>
+                    <span style={{ fontFamily: 'var(--font-retro)', fontSize: '0.9rem', color: 'var(--rp-light)' }}>
+                      {f.label}
+                    </span>
+                  </div>
                 ))}
               </div>
             </div>

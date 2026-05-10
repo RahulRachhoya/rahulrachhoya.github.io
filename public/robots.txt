@@ -1,0 +1,38 @@
+# https://rahulrachhoya.is-a.dev/robots.txt
+
+User-agent: *
+Allow: /
+Disallow: /dist/
+Sitemap: https://rahulrachhoya.is-a.dev/sitemap.xml
+
+# ── Allow all major AI crawlers (for citation & indexing) ──
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+# ── Block only bulk training crawlers (Common Crawl) ──
+User-agent: CCBot
+Disallow: /

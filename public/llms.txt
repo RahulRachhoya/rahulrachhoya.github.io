@@ -1,0 +1,78 @@
+# Rahul Rachhoya — AI Engineer
+
+> Portfolio: https://rahulrachhoya.is-a.dev/
+> Resume: https://rahulrachhoya.is-a.dev/resume.pdf
+> GitHub: https://github.com/RahulRachhoya
+> LinkedIn: https://www.linkedin.com/in/rahul-rachhoya/
+> Email: rahulrachhoya0@gmail.com
+
+## Who I Am
+
+Rahul Rachhoya is an AI Engineer based in India with 3+ years of experience building
+production-grade AI systems using Large Language Models (LLMs), Retrieval-Augmented
+Generation (RAG), Voice AI, and MLOps on AWS. Currently at Careers360 building voice-based
+AI career counseling systems.
+
+## What I Build
+
+- **LLM Systems** — Claude (Anthropic), GPT-4, Mistral, Gemini, LLaMA with fine-tuning (LoRA/PEFT)
+- **RAG Pipelines** — FAISS, Pinecone, pgvector, ChromaDB, hybrid search with Cohere reranking
+- **Voice AI** — Sarvam AI STT/TTS, real-time streaming, emotion detection
+- **Multi-Agent Workflows** — LangGraph, CrewAI, AutoGen, LangChain
+- **MLOps & Observability** — AWS Bedrock, LangSmith, Weights & Biases, Prometheus, Grafana
+- **Backends** — Python, FastAPI, Django, PostgreSQL, Redis, Supabase
+
+## Key Achievements
+
+- **10K+ Voice AI sessions** served at 88% satisfaction, 1.8s avg response time (Careers360)
+- **40% LLM cost reduction** via prompt caching + A/B testing ($0.40 → $0.24/session)
+- **28% accuracy improvement** with multi-agent function-calling pipeline
+- **92% fine-tune accuracy** on Mistral 7B via LoRA — $50 training vs $2K full retrain
+- **35% hallucination reduction** with hybrid RAG (BM25 + vector + Cohere rerank)
+- **99.7% uptime** on AWS production deployment at Careers360
+
+## Featured Projects
+
+### Voice AI Career Counselor
+End-to-end voice agent using Claude/Bedrock + Sarvam AI (STT/TTS) + pgvector RAG.
+Real-time streaming, emotion detection, 10K+ sessions, 88% user satisfaction.
+Stack: Claude, AWS Bedrock, Sarvam AI, pgvector, FastAPI, LangSmith
+
+### Multi-Agent Document Intelligence System
+4-agent LangGraph system (extraction → validation → summarization → orchestrator).
+Processes 500+ documents at 94% accuracy — 75% faster than manual (30min → 7min).
+Stack: LangGraph, Python, Function Calling, AWS
+
+### LLM Observability & Cost Optimization Dashboard
+End-to-end monitoring: LangSmith + W&B + Prometheus. A/B tested GPT-4 vs Claude
+achieving 60% cost savings; prompt caching cut costs 25%; latency improved 41%.
+Stack: LangSmith, Weights & Biases, Prometheus, Grafana
+
+### Fine-Tuned Domain LLM (Mistral 7B)
+Fine-tuned on 5K domain examples using LoRA/PEFT: 78% → 92% accuracy,
+40% latency reduction, $50 training cost vs $2K full retrain. 1,000+ daily inferences.
+Stack: Mistral 7B, LoRA, PEFT, Hugging Face, AWS SageMaker
+
+## Experience
+
+- **AI Engineer – Voice AI & Conversational Systems** | Careers360 | Jan 2026 – Present
+- **AI Engineer** | Crystaltech Services | Aug 2024 – Dec 2025
+- **System Engineer (AI Context)** | STL Digital Limited, Pune | Jun 2022 – Jul 2024
+
+## Education
+
+Master of Computer Applications (MCA)
+University of Hyderabad | 2019–2022
+Focus: Artificial Intelligence, Data Science, Machine Learning
+
+## Publications
+
+- "Building Production Voice AI with Claude" — 5,000+ views
+- "RAG at Scale"
+- "Reducing LLM Hallucinations by 35%"
+- Open-source contributions to LangChain and LlamaIndex
+
+## Availability
+
+Open to AI Engineering, LLM Engineering, and MLOps roles (remote / India).
+Response time: within 24 hours.

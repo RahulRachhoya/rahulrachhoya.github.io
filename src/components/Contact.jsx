@@ -35,7 +35,7 @@ const Contact = () => {
 
   const socialLinks = [
     { name: 'GITHUB',   url: 'https://github.com/RahulRachhoya',     emoji: '⬡', color: 'var(--rp-white)' },
-    { name: 'LINKEDIN', url: 'https://linkedin.com/in/rahulrachhoya', emoji: '💼', color: 'var(--rp-cyan)'  },
+    { name: 'LINKEDIN', url: 'https://www.linkedin.com/in/rahul-rachhoya/', emoji: '💼', color: 'var(--rp-cyan)'  },
     { name: 'EMAIL',    url: 'mailto:rahulrachhoya0@gmail.com',       emoji: '✉️', color: 'var(--rp-gold)'  },
   ];
 

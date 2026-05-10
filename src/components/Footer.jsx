@@ -71,7 +71,7 @@ const Footer = () => {
           <div className="flex gap-4">
             {[
               { label: 'GITHUB',   url: 'https://github.com/RahulRachhoya' },
-              { label: 'LINKEDIN', url: 'https://linkedin.com/in/rahulrachhoya' },
+              { label: 'LINKEDIN', url: 'https://www.linkedin.com/in/rahul-rachhoya/' },
               { label: 'TWITTER',  url: 'https://twitter.com/rahulrachhoya' },
             ].map((s) => (
               <a

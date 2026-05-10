@@ -1,169 +1,121 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 
-/* ─── Animated stat bar ─── */
-const StatBar = ({ label, value, barClass, icon, detail }) => {
-  const [width, setWidth] = useState(0);
-  const barRef = useRef(null);
+const SKILLS = [
+  { name: 'React / Next.js',  pct: 95, cls: 'bar-hp',  icon: '⚛',  color: 'var(--rp-cyan)' },
+  { name: 'Python / Django', pct: 90, cls: 'bar-mp',  icon: '🐍',  color: 'var(--mp-color)' },
+  { name: 'AI / ML / LLMs',  pct: 85, cls: 'bar-mag', icon: '🤖',  color: 'var(--rp-pink)' },
+  { name: 'Node.js / Deno',  pct: 80, cls: 'bar-spd', icon: '⚡',  color: 'var(--rp-cyan)' },
+  { name: 'PostgreSQL',      pct: 78, cls: 'bar-def', icon: '🗄',  color: 'var(--rp-orange)' },
+  { name: 'AWS / Cloud',     pct: 75, cls: 'bar-atk', icon: '☁',  color: 'var(--rp-red)' },
+  { name: 'TypeScript',      pct: 88, cls: 'bar-xp',  icon: '📘',  color: 'var(--rp-gold)' },
+  { name: 'Docker / CI',     pct: 72, cls: 'bar-hp',  icon: '🐳',  color: 'var(--hp-full)' },
+];
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => setWidth(value), 200);
-        }
-      },
-      { threshold: 0.3 }
-    );
-    if (barRef.current) observer.observe(barRef.current);
-    return () => observer.disconnect();
-  }, [value]);
+const TOOLS = [
+  'Supabase', 'Redis', 'LangGraph', 'CrewAI',
+  'Cloudflare', 'Vite', 'Tailwind', 'Framer Motion',
+  'GitHub Actions', 'Razorpay', 'OANDA', 'Binance WS',
+];
 
+function SkillBar({ name, pct, cls, color, icon, animate, delay }) {
   return (
-    <div ref={barRef} className="space-y-1">
-      <div className="flex justify-between items-center mb-1">
-        <span style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.5rem', color: 'var(--rp-light)', letterSpacing: '0.08em' }}>
-          {icon} {label}
-        </span>
-        <span style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.5rem', color: 'var(--rp-gold)' }}>
-          {value}/100
-        </span>
+    <motion.div
+      initial={{ opacity: 0, x: -16 }}
+      animate={animate ? { opacity: 1, x: 0 } : {}}
+      transition={{ delay, duration: 0.35 }}
+      style={{
+        background: 'var(--rp-black)',
+        border: '2px solid var(--rp-purple)',
+        boxShadow: '3px 3px 0 #000',
+        padding: '14px 16px',
+      }}
+    >
+      <div style={{
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+        marginBottom: '8px',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span style={{ fontSize: '1rem' }}>{icon}</span>
+          <span style={{
+            fontFamily: 'var(--font-pixel)', fontSize: '0.44rem',
+            color: 'var(--rp-white)', letterSpacing: '0.05em',
+          }}>{name}</span>
+        </div>
+        <span style={{
+          fontFamily: 'var(--font-pixel)', fontSize: '0.44rem',
+          color, textShadow: `1px 1px 0 #000`,
+        }}>{pct}</span>
       </div>
       <div className="stat-bar-container">
         <div
-          className={`stat-bar-fill ${barClass}`}
-          style={{ width: `${width}%`, transition: 'width 1.4s cubic-bezier(0.4, 0, 0.2, 1)' }}
+          className={`stat-bar-fill ${cls}`}
+          style={{ width: animate ? `${pct}%` : '0%' }}
         />
       </div>
-      {detail && (
-        <p style={{ fontFamily: 'var(--font-retro)', fontSize: '0.85rem', color: 'var(--rp-gray-dim)' }}>
-          {detail}
-        </p>
-      )}
-    </div>
+    </motion.div>
   );
-};
+}
 
-const Skills = () => {
-  const stats = [
-    { label: 'FRONTEND',    value: 88, barClass: 'bar-hp',  icon: '⚔️', detail: 'React · Next.js · Vue · Tailwind' },
-    { label: 'BACKEND',     value: 90, barClass: 'bar-mp',  icon: '🛡️', detail: 'Node · Deno · Django · FastAPI' },
-    { label: 'AI / ML',     value: 82, barClass: 'bar-mag', icon: '🔮', detail: 'LangGraph · CrewAI · Bedrock · RAG' },
-    { label: 'DATABASES',   value: 85, barClass: 'bar-xp',  icon: '🗃️', detail: 'Postgres · Redis · Supabase · Mongo' },
-    { label: 'DEVOPS',      value: 78, barClass: 'bar-def', icon: '☁️', detail: 'Docker · K8s · AWS · Cloudflare' },
-    { label: 'SECURITY',    value: 75, barClass: 'bar-atk', icon: '🔐', detail: 'Pentesting · Bug Bounty · CVE Research' },
-    { label: 'TYPESCRIPT',  value: 92, barClass: 'bar-spd', icon: '⚡', detail: 'Advanced types · Monorepos · DX' },
-    { label: 'PYTHON',      value: 90, barClass: 'bar-hp',  icon: '🐍', detail: 'Async · ML · Automation · Scripting' },
-  ];
-
-  const techTags = [
-    { name: 'React',       color: 'pixel-tag' },
-    { name: 'TypeScript',  color: 'pixel-tag' },
-    { name: 'Python',      color: 'pixel-tag' },
-    { name: 'Deno',        color: 'pixel-tag' },
-    { name: 'LangGraph',   color: 'pixel-tag-gold' },
-    { name: 'CrewAI',      color: 'pixel-tag-gold' },
-    { name: 'AWS Bedrock', color: 'pixel-tag-gold' },
-    { name: 'PostgreSQL',  color: 'pixel-tag-green' },
-    { name: 'Redis',       color: 'pixel-tag-green' },
-    { name: 'Supabase',    color: 'pixel-tag-green' },
-    { name: 'Docker',      color: 'pixel-tag' },
-    { name: 'Cloudflare',  color: 'pixel-tag' },
-    { name: 'Rust',        color: 'pixel-tag-gold' },
-    { name: 'Go',          color: 'pixel-tag' },
-    { name: 'Pentesting',  color: 'pixel-tag red' },
-    { name: 'WebSocket',   color: 'pixel-tag-green' },
-    { name: 'OpenAI',      color: 'pixel-tag-gold' },
-    { name: 'ClickHouse',  color: 'pixel-tag' },
-  ];
+export default function Skills() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
 
   return (
-    <section id="skills" className="section">
+    <section id="skills" className="section" ref={ref}>
       <div className="container">
-        {/* Header */}
-        <div className="section-header">
-          <span className="section-label">⚔️ CHARACTER STATS ⚔️</span>
-          <h2 style={{ fontFamily: 'var(--font-pixel)', fontSize: 'clamp(0.7rem, 2vw, 1rem)', color: 'white' }}>
-            SKILL TREE
-          </h2>
-          <div className="section-divider mx-auto mt-3" />
+        <motion.div
+          className="section-header"
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.4 }}
+        >
+          <span className="section-label">STAT SHEET</span>
+          <h2 style={{ color: 'var(--rp-white)' }}>▸ SKILL TREE</h2>
+          <div className="section-divider" />
+        </motion.div>
+
+        {/* Main skill bars grid */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: '12px',
+          marginBottom: '48px',
+        }}>
+          {SKILLS.map((s, i) => (
+            <SkillBar key={s.name} {...s} animate={inView} delay={0.05 * i} />
+          ))}
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-          {/* Stat bars panel */}
-          <div
-            className="pixel-card pixel-card-purple"
-            style={{ background: 'var(--rp-deep)' }}
-          >
-            {/* Panel header */}
-            <div
-              className="flex items-center gap-2 mb-6 pb-4"
-              style={{ borderBottom: '2px solid var(--rp-purple)' }}
-            >
-              <span style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.55rem', color: 'var(--rp-gold)', letterSpacing: '0.1em' }}>
-                ♦ BASE STATS
-              </span>
-            </div>
-
-            <div className="space-y-5">
-              {stats.map((s, i) => (
-                <StatBar key={i} {...s} />
-              ))}
-            </div>
+        {/* Tools / stack tags */}
+        <motion.div
+          className="pixel-card pixel-card-purple"
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.5, duration: 0.4 }}
+        >
+          <div style={{
+            fontFamily: 'var(--font-pixel)', fontSize: '0.5rem',
+            color: 'var(--rp-gold)', marginBottom: '18px', letterSpacing: '0.1em',
+          }}>
+            ▸ EQUIPMENT / TOOLS
           </div>
-
-          {/* Tech tags panel */}
-          <div className="space-y-6">
-            <div className="pixel-card pixel-card-gold">
-              <div
-                className="flex items-center gap-2 mb-5 pb-3"
-                style={{ borderBottom: '2px solid var(--rp-gold)' }}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+            {TOOLS.map((t, i) => (
+              <motion.span
+                key={t}
+                className="pixel-tag pixel-tag-gold"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={inView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ delay: 0.55 + i * 0.04, duration: 0.25 }}
+                whileHover={{ y: -2, x: -1 }}
               >
-                <span style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.55rem', color: 'var(--rp-gold)', letterSpacing: '0.1em' }}>
-                  ♦ EQUIPPED ITEMS
-                </span>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {techTags.map((tag, i) => (
-                  <span key={i} className={`pixel-tag ${tag.color === 'pixel-tag-gold' ? 'pixel-tag-gold' : tag.color === 'pixel-tag-green' ? 'pixel-tag-green' : ''}`}>
-                    {tag.name}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Character class card */}
-            <div className="pixel-card" style={{ background: 'linear-gradient(135deg, var(--rp-deep), var(--rp-purple-dark))' }}>
-              <div
-                className="mb-4 pb-3"
-                style={{ borderBottom: '2px dashed rgba(255,255,255,0.2)', fontFamily: 'var(--font-pixel)', fontSize: '0.55rem', color: 'var(--rp-cyan)', letterSpacing: '0.1em' }}
-              >
-                ♦ CHARACTER CLASS
-              </div>
-              <div className="space-y-3">
-                {[
-                  { class: 'ARCANE ENGINEER',  desc: 'Multi-agent AI systems, LLM orchestration, production ML',   icon: '🔮' },
-                  { class: 'BERSERKER CODER',  desc: 'Zero-cost infra, 188 tests, 500:1 leverage trading engine',  icon: '⚔️' },
-                  { class: 'SHADOW HUNTER',    desc: 'Bug bounty, CVE research, OSploit framework, OS security',   icon: '🗡️' },
-                ].map((c, i) => (
-                  <div key={i} className="flex gap-3 items-start">
-                    <span style={{ fontSize: '1.2rem' }}>{c.icon}</span>
-                    <div>
-                      <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.5rem', color: 'var(--rp-gold)', marginBottom: '4px' }}>
-                        {c.class}
-                      </div>
-                      <p style={{ fontFamily: 'var(--font-retro)', fontSize: '0.95rem', color: 'var(--rp-gray)' }}>
-                        {c.desc}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+                {t}
+              </motion.span>
+            ))}
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
-};
-
-export default Skills;
+}

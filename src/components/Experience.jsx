@@ -1,184 +1,228 @@
-const Experience = () => {
-  const quests = [
-    {
-      id: 'Q-001',
-      status: 'ACTIVE',
-      title: 'AI AGENT ARCHITECT',
-      company: 'AI Agent OS — Freelance',
-      period: '2024 — PRESENT',
-      desc: 'Architecting a multi-agent autonomous freelance business. Building CrewAI + LangGraph orchestration pipelines, HITL checkpoints, Razorpay billing, and Celery task queues on AWS Bedrock. Production-grade, fully automated.',
-      tags: ['CrewAI', 'LangGraph', 'AWS Bedrock', 'Celery', 'Supabase'],
-      reward: '+50 AI XP',
-      rewardColor: 'var(--rp-pink)',
-      icon: '🔮',
-      difficulty: '★★★★★',
-    },
-    {
-      id: 'Q-002',
-      status: 'ACTIVE',
-      title: 'SHADOW HUNTER',
-      company: 'Bug Bounty Programs',
-      period: '2024 — PRESENT',
-      desc: 'Hunting CVEs, logic flaws, and OS-level vulnerabilities across public bug bounty programs. Building OSploit — a cross-platform exploit automation framework with custom payload generation.',
-      tags: ['Pentesting', 'Web Security', 'CVE Analysis', 'OS Security'],
-      reward: '+40 SEC XP',
-      rewardColor: 'var(--rp-red)',
-      icon: '🗡️',
-      difficulty: '★★★★☆',
-    },
-    {
-      id: 'Q-003',
-      status: 'COMPLETED',
-      title: 'FULL-STACK PALADIN',
-      company: 'TradeKit — Personal Project',
-      period: '2023 — PRESENT',
-      desc: 'Built TradeKit from scratch: a production-ready trading platform with 500:1 leverage, WebSocket gateway, order execution engine with SL/TP, market data streaming, and ₹0 infrastructure cost via Cloudflare + Deno + Upstash.',
-      tags: ['TypeScript', 'Deno', 'WebSocket', 'Redis', 'Supabase'],
-      reward: '+60 ENG XP',
-      rewardColor: 'var(--rp-green)',
-      icon: '⚔️',
-      difficulty: '★★★★★',
-    },
-    {
-      id: 'Q-004',
-      status: 'COMPLETED',
-      title: 'OPEN SOURCE GUARDIAN',
-      company: 'Refine Framework — OSS',
-      period: '2023',
-      desc: 'Identified and fixed a critical swizzle command bug in the Refine OSS framework — incorrect AutoSaveIndicator import paths were corrupting folder structures. PR #7416 merged to main.',
-      tags: ['TypeScript', 'React', 'Open Source'],
-      reward: '+20 REP XP',
-      rewardColor: 'var(--rp-gold)',
-      icon: '🛡️',
-      difficulty: '★★★☆☆',
-    },
-  ];
+import { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 
-  const statusColor = {
-    ACTIVE: 'var(--rp-green)',
-    COMPLETED: 'var(--rp-gold)',
-  };
+const QUESTS = [
+  {
+    status: 'ACTIVE',
+    statusColor: 'var(--rp-gold)',
+    statusBg: 'rgba(255,215,0,0.15)',
+    icon: '★',
+    title: 'Software Engineer',
+    org: 'Careers360',
+    period: '2022 – Present',
+    location: 'Noida, India',
+    desc: 'Building AI-powered education platform serving 40M+ students across India. Led major frontend migrations, built recommendation engines, and deployed microservices at scale.',
+    tags: ['React', 'Python', 'AWS', 'PostgreSQL', 'Redis'],
+    xp: '+2400 XP',
+    stars: 5,
+  },
+  {
+    status: 'COMPLETE',
+    statusColor: 'var(--rp-green)',
+    statusBg: 'rgba(0,255,136,0.08)',
+    icon: '✓',
+    title: 'Full-Stack Developer',
+    org: 'Freelance',
+    period: '2021 – 2022',
+    location: 'Remote',
+    desc: 'Delivered 15+ client projects — e-commerce stores, SaaS dashboards, and REST APIs. Specialized in React + Node.js stacks with rapid delivery timelines.',
+    tags: ['React', 'Node.js', 'MongoDB', 'Stripe'],
+    xp: '+1200 XP',
+    stars: 4,
+  },
+  {
+    status: 'COMPLETE',
+    statusColor: 'var(--rp-cyan)',
+    statusBg: 'rgba(0,255,255,0.08)',
+    icon: '🎓',
+    title: 'B.Tech Computer Science',
+    org: 'University',
+    period: '2018 – 2022',
+    location: 'India',
+    desc: 'Graduated with CGPA 8.2. Deep-dived into data structures, algorithms, ML fundamentals, and systems design. Built graduation project — an AI-based exam proctoring system.',
+    tags: ['DSA', 'ML', 'Java', 'C++', 'DBMS'],
+    xp: '+3000 XP',
+    stars: 5,
+  },
+];
+
+export default function Experience() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
 
   return (
-    <section id="experience" className="section">
+    <section id="experience" className="section" ref={ref}>
       <div className="container">
-        {/* Header */}
-        <div className="section-header">
-          <span className="section-label">📜 ADVENTURE LOG 📜</span>
-          <h2 style={{ fontFamily: 'var(--font-pixel)', fontSize: 'clamp(0.7rem, 2vw, 1rem)', color: 'white' }}>
-            QUEST LOG
-          </h2>
-          <div className="section-divider mx-auto mt-3" />
-          <p style={{ fontFamily: 'var(--font-retro)', fontSize: '1rem', color: 'var(--rp-gray)', marginTop: '12px' }}>
-            Completed and in-progress missions. Each quest awards XP and unlocks new abilities.
-          </p>
-        </div>
+        <motion.div
+          className="section-header"
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.4 }}
+        >
+          <span className="section-label">CAREER HISTORY</span>
+          <h2 style={{ color: 'var(--rp-white)' }}>▸ QUEST LOG</h2>
+          <div className="section-divider" />
+        </motion.div>
 
-        <div className="max-w-4xl mx-auto space-y-5">
-          {quests.map((q, i) => (
-            <div
-              key={i}
-              className="pixel-card"
-              style={{
-                borderColor: statusColor[q.status],
-                boxShadow: `4px 4px 0 ${statusColor[q.status]}55`,
-                background: 'var(--rp-deep)',
-              }}
+        {/* Header box */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.1, duration: 0.35 }}
+          style={{
+            background: 'var(--rp-deep)',
+            border: '4px solid var(--rp-white)',
+            boxShadow: '8px 8px 0 #000',
+            padding: '20px 24px',
+            marginBottom: '48px',
+            position: 'relative',
+            overflow: 'hidden',
+          }}
+        >
+          <motion.div
+            animate={{ opacity: [1, 0.4, 1] }}
+            transition={{ duration: 1.4, repeat: Infinity, ease: 'steps(1)' }}
+            style={{
+              position: 'absolute', top: 0, left: 0, right: 0,
+              height: '3px', background: 'var(--rp-gold)',
+            }}
+          />
+          <h1 style={{
+            fontFamily: 'var(--font-pixel)',
+            fontSize: 'clamp(0.75rem, 2vw, 1.1rem)',
+            color: 'var(--rp-gold)',
+            display: 'flex', alignItems: 'center', gap: '12px',
+          }}>
+            <span>▸</span> QUEST LOG
+          </h1>
+          <p style={{
+            fontFamily: 'var(--font-pixel)', fontSize: '0.42rem',
+            color: 'var(--rp-cyan)', marginTop: '6px',
+          }}>
+            LOCATION: WORLD_MAP_SERVER_01
+          </p>
+        </motion.div>
+
+        {/* Timeline */}
+        <div style={{ position: 'relative' }}>
+          {/* vertical line */}
+          <div style={{
+            position: 'absolute',
+            left: '24px',
+            top: 0, bottom: 0,
+            width: '3px',
+            background: 'var(--rp-white)',
+          }} />
+
+          {QUESTS.map((q, i) => (
+            <motion.div
+              key={q.title}
+              initial={{ opacity: 0, x: -24 }}
+              animate={inView ? { opacity: 1, x: 0 } : {}}
+              transition={{ delay: 0.15 + i * 0.15, duration: 0.4 }}
+              style={{ position: 'relative', marginBottom: '40px', paddingLeft: '64px' }}
             >
-              {/* Quest header bar */}
-              <div
-                className="flex flex-wrap items-center justify-between gap-3 mb-4 pb-3"
-                style={{ borderBottom: `2px solid ${statusColor[q.status]}44` }}
-              >
-                <div className="flex items-center gap-3">
-                  <span
+              {/* timeline dot */}
+              <div style={{ position: 'absolute', left: '12px', top: '20px' }}>
+                {q.status === 'ACTIVE' && (
+                  <motion.div
+                    animate={{ scale: [1, 1.6, 1], opacity: [0.6, 0, 0.6] }}
+                    transition={{ duration: 1.4, repeat: Infinity }}
                     style={{
-                      fontFamily: 'var(--font-pixel)',
-                      fontSize: '0.45rem',
-                      color: 'var(--rp-gray-dim)',
-                      letterSpacing: '0.1em',
+                      position: 'absolute',
+                      width: '22px', height: '22px',
+                      background: 'var(--rp-gold)',
+                      border: '2px solid var(--rp-white)',
+                      top: '-3px', left: '-3px',
                     }}
-                  >
-                    [{q.id}]
+                  />
+                )}
+                <div style={{
+                  width: '16px', height: '16px',
+                  background: q.status === 'ACTIVE' ? 'var(--rp-gold)' : 'var(--rp-white)',
+                  border: '2px solid var(--rp-white)',
+                  position: 'relative', zIndex: 2,
+                }} />
+              </div>
+
+              {/* card */}
+              <div
+                className="pixel-card"
+                style={{ borderColor: q.statusColor, boxShadow: `4px 4px 0 #000` }}
+              >
+                {/* header row */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px', flexWrap: 'wrap', gap: '8px' }}>
+                  <span style={{
+                    fontFamily: 'var(--font-pixel)', fontSize: '0.42rem',
+                    background: q.statusBg, color: q.statusColor,
+                    border: `2px solid ${q.statusColor}`,
+                    padding: '3px 8px',
+                  }}>
+                    {q.icon} {q.status}
                   </span>
-                  <span style={{ fontSize: '1.3rem' }}>{q.icon}</span>
-                  <div>
-                    <h3 style={{ fontFamily: 'var(--font-pixel)', fontSize: 'clamp(0.5rem, 1.2vw, 0.65rem)', color: 'white' }}>
-                      {q.title}
-                    </h3>
-                    <p style={{ fontFamily: 'var(--font-retro)', fontSize: '0.9rem', color: 'var(--rp-gray)', marginTop: '2px' }}>
-                      {q.company}
-                    </p>
+                  {/* stars */}
+                  <div style={{ display: 'flex', gap: '3px' }}>
+                    {Array.from({ length: 5 }).map((_, si) => (
+                      <span key={si} style={{
+                        fontSize: '0.8rem',
+                        color: si < q.stars ? 'var(--rp-gold)' : 'var(--rp-gray-dim)',
+                      }}>★</span>
+                    ))}
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3 flex-wrap">
-                  {/* Status badge */}
-                  <span
-                    style={{
-                      fontFamily: 'var(--font-pixel)',
-                      fontSize: '0.45rem',
-                      color: statusColor[q.status],
-                      border: `2px solid ${statusColor[q.status]}`,
-                      padding: '3px 8px',
-                      background: `${statusColor[q.status]}15`,
-                      letterSpacing: '0.08em',
-                    }}
-                  >
-                    {q.status === 'ACTIVE' ? '▶ IN PROGRESS' : '✓ COMPLETED'}
-                  </span>
+                <h3 style={{
+                  fontFamily: 'var(--font-pixel)',
+                  fontSize: 'clamp(0.5rem, 1.2vw, 0.7rem)',
+                  color: 'var(--rp-white)', marginBottom: '4px',
+                }}>
+                  {q.title}
+                </h3>
 
-                  {/* Period */}
-                  <span
-                    style={{
-                      fontFamily: 'var(--font-pixel)',
-                      fontSize: '0.4rem',
-                      color: 'var(--rp-gray-dim)',
-                    }}
-                  >
-                    {q.period}
-                  </span>
+                <div style={{
+                  fontFamily: 'var(--font-pixel)', fontSize: '0.42rem',
+                  color: q.statusColor, marginBottom: '4px',
+                }}>
+                  {q.org}
                 </div>
-              </div>
 
-              {/* Difficulty stars */}
-              <div className="mb-3">
-                <span style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.45rem', color: 'var(--rp-gold)', letterSpacing: '0.2em' }}>
-                  DIFFICULTY: {q.difficulty}
-                </span>
-              </div>
+                <div style={{
+                  fontFamily: 'var(--font-pixel)', fontSize: '0.38rem',
+                  color: 'var(--rp-gray)', marginBottom: '12px',
+                }}>
+                  {q.period} · {q.location}
+                </div>
 
-              {/* Description */}
-              <p style={{ fontFamily: 'var(--font-retro)', fontSize: '1.05rem', color: 'var(--rp-light)', lineHeight: 1.7, marginBottom: '16px' }}>
-                {q.desc}
-              </p>
+                <p style={{
+                  fontFamily: 'var(--font-body)', fontSize: '0.82rem',
+                  color: 'var(--rp-gray)', lineHeight: 1.6, marginBottom: '14px',
+                }}>
+                  {q.desc}
+                </p>
 
-              {/* Tags + reward */}
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div className="flex flex-wrap gap-2">
-                  {q.tags.map((tag) => (
-                    <span key={tag} className="pixel-tag">{tag}</span>
+                {/* tag row */}
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '14px' }}>
+                  {q.tags.map(t => (
+                    <span key={t} className="pixel-tag">{t}</span>
                   ))}
                 </div>
-                <span
-                  style={{
-                    fontFamily: 'var(--font-pixel)',
-                    fontSize: '0.45rem',
-                    color: q.rewardColor,
-                    background: `${q.rewardColor}15`,
-                    border: `2px solid ${q.rewardColor}`,
-                    padding: '3px 10px',
-                  }}
-                >
-                  🏆 REWARD: {q.reward}
-                </span>
+
+                {/* XP badge */}
+                <div style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '6px',
+                  background: 'rgba(255,215,0,0.12)',
+                  border: '2px solid var(--rp-gold)',
+                  padding: '4px 10px',
+                  fontFamily: 'var(--font-pixel)', fontSize: '0.42rem',
+                  color: 'var(--rp-gold)',
+                }}>
+                  ⭐ {q.xp}
+                </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
     </section>
   );
-};
-
-export default Experience;
+}

@@ -1,177 +1,250 @@
-const About = () => {
-  const highlights = [
-    {
-      title: 'FULL-STACK ENGINEER',
-      desc: 'Production-grade web applications with zero-cost infrastructure. Every line tested, every deployment hardened.',
-      icon: '💻',
-      color: 'var(--rp-cyan)',
-    },
-    {
-      title: 'AI SPECIALIST',
-      desc: 'Multi-agent systems, LLM orchestration, HITL workflows on AWS Bedrock. CrewAI + LangGraph in production.',
-      icon: '🔮',
-      color: 'var(--rp-pink)',
-    },
-    {
-      title: 'SHADOW HUNTER',
-      desc: 'Bug bounty programs, CVE research, OSploit framework. OS-level & web security penetration testing.',
-      icon: '🗡️',
-      color: 'var(--rp-red)',
-    },
-  ];
+import { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 
-  const stats = [
-    { value: '5+',  label: 'YRS CODING',    color: 'var(--rp-green)' },
-    { value: '10+', label: 'TECH STACKS',   color: 'var(--rp-cyan)' },
-    { value: '1',   label: 'OSS MERGED',    color: 'var(--rp-gold)' },
-    { value: '∞',   label: 'LEARNING',      color: 'var(--rp-pink)' },
-  ];
+const STATS = [
+  { label: 'ATK', value: 92, cls: 'bar-atk' },
+  { label: 'DEF', value: 78, cls: 'bar-def' },
+  { label: 'SPD', value: 85, cls: 'bar-spd' },
+  { label: 'MAG', value: 95, cls: 'bar-mag' },
+];
 
-  const currentFocus = [
-    { label: 'Multi-Agent Systems', icon: '🔮' },
-    { label: 'AI Orchestration',    icon: '🤖' },
-    { label: 'Real-time Trading',   icon: '📈' },
-    { label: 'Security Research',   icon: '🛡️' },
-  ];
+const ACHIEVEMENTS = [
+  { icon: '⚔', value: '47+',    label: 'PROJECTS' },
+  { icon: '⏱', value: '3+',     label: 'YEARS EXP' },
+  { icon: '★',  value: 'SR',    label: 'RANK' },
+  { icon: '🏆', value: '∞',     label: 'COFFEE' },
+];
+
+function StatBar({ label, value, cls, animate }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+      <span style={{
+        fontFamily: 'var(--font-pixel)', fontSize: '0.5rem',
+        color: 'var(--rp-gray)', width: '32px', flexShrink: 0,
+      }}>
+        {label}
+      </span>
+      <div className="stat-bar-container" style={{ flex: 1 }}>
+        <div
+          className={`stat-bar-fill ${cls}`}
+          style={{ width: animate ? `${value}%` : '0%' }}
+        />
+      </div>
+      <span style={{
+        fontFamily: 'var(--font-pixel)', fontSize: '0.42rem',
+        color: 'var(--rp-white)', width: '28px', textAlign: 'right', flexShrink: 0,
+      }}>
+        {value}
+      </span>
+    </div>
+  );
+}
+
+export default function About() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
-    <section id="about" className="section" style={{ background: 'var(--rp-deep)' }}>
+    <section id="about" className="section" ref={ref}>
       <div className="container">
-        {/* Section header */}
-        <div className="section-header">
-          <span className="section-label">👾 PLAYER PROFILE 👾</span>
-          <h2 style={{ fontFamily: 'var(--font-pixel)', fontSize: 'clamp(0.7rem, 2vw, 1rem)', color: 'white' }}>
-            ABOUT ME
-          </h2>
-          <div className="section-divider mx-auto mt-3" />
-        </div>
+        <motion.div
+          className="section-header"
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.4 }}
+        >
+          <span className="section-label">PLAYER PROFILE</span>
+          <h2 style={{ color: 'var(--rp-white)' }}>▸ ABOUT ME</h2>
+          <div className="section-divider" />
+        </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-          {/* Left — bio + mini stats */}
-          <div className="pixel-card" style={{ background: 'var(--rp-black)' }}>
-            <div
-              style={{
-                fontFamily: 'var(--font-pixel)',
-                fontSize: '0.5rem',
-                color: 'var(--rp-gold)',
-                letterSpacing: '0.1em',
-                marginBottom: '16px',
-                paddingBottom: '12px',
-                borderBottom: '2px solid var(--rp-purple)',
-              }}
-            >
-              ♦ PLAYER BIO
-            </div>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gap: '24px',
+        }}>
+          {/* Class card */}
+          <motion.div
+            className="pixel-card pixel-card-gold"
+            initial={{ opacity: 0, x: -24 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ delay: 0.1, duration: 0.4 }}
+          >
+            <div style={{
+              display: 'flex', flexDirection: 'column', alignItems: 'center',
+              gap: '16px', textAlign: 'center',
+            }}>
+              {/* pixel avatar */}
+              <div style={{
+                width: '80px', height: '80px',
+                background: 'var(--rp-purple-dark)',
+                border: '3px solid var(--rp-gold)',
+                boxShadow: '3px 3px 0 #000',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: '2rem',
+              }}>🧙</div>
 
-            <div className="space-y-4">
-              <p style={{ fontFamily: 'var(--font-retro)', fontSize: '1.05rem', color: 'var(--rp-light)', lineHeight: 1.75 }}>
-                I'm a passionate developer building the future of autonomous AI systems. With expertise spanning
-                full-stack development, AI agent orchestration, and security research, I create production-grade
-                solutions that push boundaries.
-              </p>
-              <p style={{ fontFamily: 'var(--font-retro)', fontSize: '1rem', color: 'var(--rp-gray)', lineHeight: 1.75 }}>
-                My approach combines aggressive cost optimization — zero-cost infrastructure — with rigorous
-                engineering: every project ships with full tests, CI/CD pipelines, and security hardening.
-              </p>
-            </div>
-
-            {/* Mini stats */}
-            <div
-              className="grid grid-cols-4 gap-3 mt-6 pt-5"
-              style={{ borderTop: '2px dashed rgba(255,255,255,0.15)' }}
-            >
-              {stats.map((s, i) => (
-                <div key={i} className="text-center">
-                  <div
-                    style={{
-                      fontFamily: 'var(--font-pixel)',
-                      fontSize: '1rem',
-                      color: s.color,
-                      textShadow: `2px 2px 0 ${s.color}44`,
-                      marginBottom: '4px',
-                    }}
-                  >
-                    {s.value}
-                  </div>
-                  <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.35rem', color: 'var(--rp-gray-dim)', letterSpacing: '0.05em' }}>
-                    {s.label}
-                  </div>
+              <div>
+                <div style={{
+                  fontFamily: 'var(--font-pixel)', fontSize: '0.42rem',
+                  color: 'var(--rp-gold)', letterSpacing: '0.15em', marginBottom: '6px',
+                }}>
+                  CLASS
                 </div>
+                <div style={{
+                  fontFamily: 'var(--font-pixel)', fontSize: '0.6rem',
+                  color: 'var(--rp-white)',
+                }}>
+                  FULL-STACK DEV
+                </div>
+              </div>
+
+              <div style={{
+                display: 'flex', gap: '16px',
+                fontFamily: 'var(--font-pixel)', fontSize: '0.42rem',
+                color: 'var(--rp-gray)',
+              }}>
+                <span>LVL <span style={{ color: 'var(--rp-gold)' }}>23</span></span>
+                <span>CLASS <span style={{ color: 'var(--rp-cyan)' }}>A</span></span>
+              </div>
+
+              {/* XP bar */}
+              <div style={{ width: '100%' }}>
+                <div style={{
+                  display: 'flex', justifyContent: 'space-between',
+                  fontFamily: 'var(--font-pixel)', fontSize: '0.38rem',
+                  color: 'var(--rp-gray)', marginBottom: '6px',
+                }}>
+                  <span>XP</span><span>8420 / 10000</span>
+                </div>
+                <div className="stat-bar-container">
+                  <div
+                    className="stat-bar-fill bar-xp"
+                    style={{ width: inView ? '84%' : '0%' }}
+                  />
+                </div>
+              </div>
+
+              <p style={{
+                fontFamily: 'var(--font-body)', fontSize: '0.8rem',
+                color: 'var(--rp-gray)', lineHeight: 1.6, textAlign: 'left',
+              }}>
+                Full-stack developer & AI engineer from India. Building production systems at Careers360 (40M+ users) and crafting open-source AI tools at night.
+              </p>
+            </div>
+          </motion.div>
+
+          {/* Stats card */}
+          <motion.div
+            className="pixel-card pixel-card-purple"
+            initial={{ opacity: 0, y: 24 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.2, duration: 0.4 }}
+          >
+            <div style={{
+              fontFamily: 'var(--font-pixel)', fontSize: '0.5rem',
+              color: 'var(--rp-gold)', marginBottom: '20px', letterSpacing: '0.1em',
+            }}>
+              ▸ BATTLE STATS
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              {STATS.map(s => (
+                <StatBar key={s.label} {...s} animate={inView} />
               ))}
             </div>
-          </div>
 
-          {/* Right — role cards + current focus */}
-          <div className="space-y-4">
-            {highlights.map((h, i) => (
-              <div
-                key={i}
-                className="pixel-card"
-                style={{
-                  borderColor: h.color,
-                  boxShadow: `4px 4px 0 ${h.color}55`,
-                  background: 'var(--rp-black)',
-                  padding: '16px 20px',
-                }}
-              >
-                <div className="flex items-start gap-4">
-                  <span style={{ fontSize: '1.5rem', flexShrink: 0, filter: 'drop-shadow(0 0 6px currentColor)' }}>
-                    {h.icon}
-                  </span>
-                  <div>
-                    <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.5rem', color: h.color, marginBottom: '6px', letterSpacing: '0.08em' }}>
-                      {h.title}
-                    </div>
-                    <p style={{ fontFamily: 'var(--font-retro)', fontSize: '0.95rem', color: 'var(--rp-gray)', lineHeight: 1.6 }}>
-                      {h.desc}
-                    </p>
+            <div style={{
+              marginTop: '24px',
+              borderTop: '2px solid var(--rp-purple)',
+              paddingTop: '16px',
+            }}>
+              <div style={{
+                fontFamily: 'var(--font-pixel)', fontSize: '0.42rem',
+                color: 'var(--rp-gold)', marginBottom: '12px',
+              }}>
+                HP / MP
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <span style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.42rem', color: 'var(--rp-green)', width: '24px' }}>HP</span>
+                  <div className="stat-bar-container" style={{ flex: 1 }}>
+                    <div className="stat-bar-fill bar-hp" style={{ width: inView ? '100%' : '0%' }} />
                   </div>
+                  <span style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.38rem', color: 'var(--rp-white)', width: '50px', textAlign: 'right' }}>999/999</span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <span style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.42rem', color: 'var(--mp-color)', width: '24px' }}>MP</span>
+                  <div className="stat-bar-container" style={{ flex: 1 }}>
+                    <div className="stat-bar-fill bar-mp" style={{ width: inView ? '75%' : '0%' }} />
+                  </div>
+                  <span style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.38rem', color: 'var(--rp-white)', width: '50px', textAlign: 'right' }}>750/999</span>
                 </div>
               </div>
-            ))}
-
-            {/* Current focus */}
-            <div
-              className="pixel-card pixel-card-purple"
-              style={{ background: 'linear-gradient(135deg, var(--rp-black), var(--rp-purple-dark))' }}
-            >
-              <div
-                style={{
-                  fontFamily: 'var(--font-pixel)',
-                  fontSize: '0.5rem',
-                  color: 'var(--rp-gold)',
-                  letterSpacing: '0.1em',
-                  marginBottom: '12px',
-                }}
-              >
-                ♦ CURRENT FOCUS
-              </div>
-              <div className="grid grid-cols-2 gap-2">
-                {currentFocus.map((f, i) => (
-                  <div
-                    key={i}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      padding: '8px 10px',
-                      background: 'rgba(107,70,193,0.15)',
-                      border: '2px solid var(--rp-purple)',
-                    }}
-                  >
-                    <span style={{ fontSize: '1rem' }}>{f.icon}</span>
-                    <span style={{ fontFamily: 'var(--font-retro)', fontSize: '0.9rem', color: 'var(--rp-light)' }}>
-                      {f.label}
-                    </span>
-                  </div>
-                ))}
-              </div>
             </div>
-          </div>
+          </motion.div>
+
+          {/* Achievements card */}
+          <motion.div
+            className="pixel-card"
+            initial={{ opacity: 0, x: 24 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ delay: 0.3, duration: 0.4 }}
+          >
+            <div style={{
+              fontFamily: 'var(--font-pixel)', fontSize: '0.5rem',
+              color: 'var(--rp-gold)', marginBottom: '20px', letterSpacing: '0.1em',
+            }}>
+              ▸ ACHIEVEMENTS
+            </div>
+
+            <div style={{
+              display: 'grid', gridTemplateColumns: '1fr 1fr',
+              gap: '12px', marginBottom: '24px',
+            }}>
+              {ACHIEVEMENTS.map((a, i) => (
+                <motion.div
+                  key={a.label}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={inView ? { opacity: 1, scale: 1 } : {}}
+                  transition={{ delay: 0.4 + i * 0.08, duration: 0.3 }}
+                  style={{
+                    background: 'var(--rp-black)',
+                    border: '2px solid var(--rp-purple)',
+                    boxShadow: '2px 2px 0 #000',
+                    padding: '12px 8px',
+                    textAlign: 'center',
+                  }}
+                >
+                  <div style={{ fontSize: '1.4rem', marginBottom: '4px' }}>{a.icon}</div>
+                  <div style={{
+                    fontFamily: 'var(--font-pixel)', fontSize: '0.65rem',
+                    color: 'var(--rp-gold)', marginBottom: '4px',
+                  }}>{a.value}</div>
+                  <div style={{
+                    fontFamily: 'var(--font-pixel)', fontSize: '0.35rem',
+                    color: 'var(--rp-gray)', letterSpacing: '0.1em',
+                  }}>{a.label}</div>
+                </motion.div>
+              ))}
+            </div>
+
+            <div style={{
+              borderTop: '2px solid var(--rp-purple)',
+              paddingTop: '16px',
+              fontFamily: 'var(--font-pixel)',
+              fontSize: '0.38rem',
+              color: 'var(--rp-gray)',
+              lineHeight: 2,
+            }}>
+              <div>📍 <span style={{ color: 'var(--rp-white)' }}>Noida, India</span></div>
+              <div>🎓 <span style={{ color: 'var(--rp-white)' }}>B.Tech CSE 2022</span></div>
+              <div>⚡ <span style={{ color: 'var(--rp-cyan)' }}>React · Python · AI/ML</span></div>
+              <div>🌐 <span style={{ color: 'var(--rp-green)' }}>Open to Remote</span></div>
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>
   );
-};
-
-export default About;
+}

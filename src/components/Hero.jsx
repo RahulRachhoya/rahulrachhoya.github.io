@@ -1,296 +1,254 @@
-import { useEffect, useState, useRef } from 'react';
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 
-/* ─── Sparkle particle ─── */
-const Sparkle = ({ x, y, delay }) => (
-  <div
-    className="absolute pointer-events-none select-none"
-    style={{
-      left: `${x}%`,
-      top: `${y}%`,
-      animation: `twinkle ${2 + delay}s ease-in-out ${delay}s infinite alternate`,
-      fontSize: '10px',
-      color: Math.random() > 0.5 ? 'var(--rp-gold)' : 'var(--rp-cyan)',
-    }}
-  >
-    {['✦', '✧', '★', '✶', '✸'][Math.floor(Math.random() * 5)]}
-  </div>
-);
+const TITLES = [
+  'FULL-STACK DEVELOPER',
+  'AI ENGINEER',
+  'SYSTEMS BUILDER',
+  'OPEN-SOURCE CRAFTER',
+];
 
-/* ─── Pixel avatar (CSS art) ─── */
-const PixelAvatar = () => {
-  const colors = {
-    skin: '#FFCCAA',
-    hair: '#2D1B69',
-    shirt: '#6B46C1',
-    eye: '#2D1B69',
-    shadow: '#CC9977',
-    pixel: '#8B5CF6',
-  };
-
-  // 16x16 pixel grid representation
-  const grid = [
-    '....HHHHHH....',
-    '...HHHHHHHH...',
-    '...HSSSSSH...',
-    '...HSEESH...',
-    '..HSSSSSH...',
-    '..SSPPP SS..',
-    '.SSSSSSSSS.',
-    '.SSSSSSSSS.',
-    '..PPPPPPP..',
-    '..PPPPPPP..',
-    '...PP.PP...',
-    '...PP.PP...',
-    '..SSS.SSS..',
-    '..SSS.SSS..',
-    '...PP..PP...',
-    '...PP..PP...',
-  ];
-
-  // Map chars to colors
-  const colorMap = {
-    H: colors.hair,
-    S: colors.skin,
-    E: colors.eye,
-    P: colors.shirt,
-    '.': 'transparent',
-  };
-
-  const px = 6;
-  const totalW = grid[0].length * px;
-  const totalH = grid.length * px;
-
-  return (
-    <div
-      className="inline-block"
-      style={{
-        animation: 'idle-float 3s ease-in-out infinite',
-        imageRendering: 'pixelated',
-        filter: 'drop-shadow(0 0 12px rgba(107,70,193,0.7))',
-      }}
-    >
-      <svg
-        width={totalW}
-        height={totalH}
-        viewBox={`0 0 ${totalW} ${totalH}`}
-        style={{ imageRendering: 'pixelated' }}
-      >
-        {grid.map((row, y) =>
-          row.split('').map((char, x) => {
-            const fill = colorMap[char];
-            if (!fill || fill === 'transparent') return null;
-            return (
-              <rect
-                key={`${x}-${y}`}
-                x={x * px}
-                y={y * px}
-                width={px}
-                height={px}
-                fill={fill}
-              />
-            );
-          })
-        )}
-        {/* Border */}
-        <rect x={0} y={0} width={totalW} height={totalH} fill="none" stroke="white" strokeWidth="2" />
-      </svg>
-    </div>
-  );
-};
-
-/* ─── Typewriter text ─── */
-const TypewriterText = ({ text, speed = 60 }) => {
-  const [displayed, setDisplayed] = useState('');
-  const [done, setDone] = useState(false);
+function useTypewriter(texts, speed = 60, pause = 1800) {
+  const [display, setDisplay] = useState('');
+  const [ti, setTi] = useState(0);
+  const [ci, setCi] = useState(0);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
-    let i = 0;
-    const timer = setInterval(() => {
-      if (i < text.length) {
-        setDisplayed(text.slice(0, i + 1));
-        i++;
+    const current = texts[ti];
+    const delay = deleting ? speed / 2 : speed;
+    const t = setTimeout(() => {
+      if (!deleting) {
+        setDisplay(current.slice(0, ci + 1));
+        if (ci + 1 === current.length) {
+          setTimeout(() => setDeleting(true), pause);
+        } else {
+          setCi(c => c + 1);
+        }
       } else {
-        setDone(true);
-        clearInterval(timer);
+        setDisplay(current.slice(0, ci - 1));
+        if (ci - 1 === 0) {
+          setDeleting(false);
+          setTi(t => (t + 1) % texts.length);
+          setCi(0);
+        } else {
+          setCi(c => c - 1);
+        }
       }
-    }, speed);
-    return () => clearInterval(timer);
-  }, [text, speed]);
+    }, delay);
+    return () => clearTimeout(t);
+  }, [ci, deleting, ti, texts, speed, pause]);
 
+  return display;
+}
+
+/* Tiny pixel wizard SVG — pure CSS art */
+function PixelWizard() {
   return (
-    <span style={{ fontFamily: 'var(--font-retro)', fontSize: '1.25rem', color: 'var(--rp-light)' }}>
-      {displayed}
-      {!done && <span className="cursor-blink" />}
-    </span>
+    <motion.div
+      animate={{ y: [0, -10, 0] }}
+      transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+      style={{ lineHeight: 1, userSelect: 'none' }}
+    >
+      <svg
+        width="96" height="96" viewBox="0 0 16 16"
+        style={{ imageRendering: 'pixelated', display: 'block' }}
+      >
+        {/* hat */}
+        <rect x="6" y="0" width="4" height="1" fill="#FFD700"/>
+        <rect x="5" y="1" width="6" height="1" fill="#FFD700"/>
+        <rect x="4" y="2" width="8" height="1" fill="#FFD700"/>
+        <rect x="3" y="3" width="10" height="1" fill="#6B46C1"/>
+        {/* face */}
+        <rect x="5" y="4" width="6" height="4" fill="#F4C27F"/>
+        <rect x="5" y="5" width="2" height="1" fill="#1A1A2E"/>
+        <rect x="9" y="5" width="2" height="1" fill="#1A1A2E"/>
+        <rect x="6" y="7" width="4" height="1" fill="#C0392B"/>
+        {/* robe */}
+        <rect x="4" y="8"  width="8" height="5" fill="#6B46C1"/>
+        <rect x="3" y="9"  width="2" height="4" fill="#553C9A"/>
+        <rect x="11" y="9" width="2" height="4" fill="#553C9A"/>
+        <rect x="5" y="8"  width="6" height="1" fill="#C4B5FD"/>
+        {/* staff */}
+        <rect x="13" y="3" width="1" height="9" fill="#A0522D"/>
+        <rect x="12" y="2" width="3" height="3" fill="#00FFFF"/>
+        {/* feet */}
+        <rect x="5"  y="13" width="2" height="2" fill="#1A1A2E"/>
+        <rect x="9"  y="13" width="2" height="2" fill="#1A1A2E"/>
+      </svg>
+    </motion.div>
   );
-};
+}
 
-/* ─── Main Hero ─── */
-const Hero = () => {
-  const sparkles = useRef(
-    Array.from({ length: 25 }, (_, i) => ({
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      delay: Math.random() * 3,
-    }))
-  ).current;
+const SPARKLE_POSITIONS = [
+  { x: -60, y: -20, delay: 0,    dur: 2.0 },
+  { x:  70, y: -40, delay: 0.4,  dur: 2.3 },
+  { x: -50, y:  50, delay: 0.8,  dur: 1.8 },
+  { x:  55, y:  35, delay: 1.2,  dur: 2.1 },
+  { x:   0, y: -60, delay: 1.6,  dur: 2.5 },
+  { x: -80, y:  10, delay: 0.6,  dur: 1.9 },
+  { x:  80, y:   5, delay: 1.0,  dur: 2.2 },
+];
 
-  const stats = [
-    { label: 'PROJECTS',    value: '4+',   icon: '🗡️', color: 'var(--rp-purple)' },
-    { label: 'TESTS',       value: '188',  icon: '🛡️', color: 'var(--rp-cyan)' },
-    { label: 'INFRA COST',  value: '₹0',   icon: '💰', color: 'var(--rp-green)' },
-    { label: 'COMMITS',     value: '∞',    icon: '⚔️', color: 'var(--rp-gold)' },
-  ];
-
-  const scrollToSection = (id) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-  };
+export default function Hero() {
+  const subtitle = useTypewriter(TITLES, 65, 1600);
 
   return (
-    <section id="home" className="section relative overflow-hidden" style={{ paddingTop: '100px', minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
-      {/* Sparkle particles */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {sparkles.map((s, i) => (
-          <Sparkle key={i} x={s.x} y={s.y} delay={s.delay} />
-        ))}
-      </div>
+    <section
+      id="hero"
+      className="section"
+      style={{
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: 'center',
+        paddingTop: '96px',
+        position: 'relative',
+      }}
+    >
+      {/* Available badge */}
+      <motion.div
+        className="powerup-badge"
+        initial={{ opacity: 0, y: -16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2, duration: 0.4 }}
+        style={{ marginBottom: '40px' }}
+      >
+        <motion.span
+          className="powerup-dot"
+          animate={{ opacity: [1, 0, 1] }}
+          transition={{ duration: 1, repeat: Infinity, ease: 'steps(1)' }}
+        />
+        AVAILABLE FOR HIRE
+      </motion.div>
 
-      {/* Background grid */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage: `
-            linear-gradient(rgba(107,70,193,0.08) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(107,70,193,0.08) 1px, transparent 1px)
-          `,
-          backgroundSize: '32px 32px',
-        }}
-      />
-
-      <div className="container relative z-10 w-full">
-        {/* Game window header */}
-        <div
-          className="max-w-4xl mx-auto"
-          style={{
-            border: '4px solid white',
-            boxShadow: '8px 8px 0px #000, 0 0 40px rgba(107,70,193,0.3)',
-          }}
-        >
-          {/* Title bar */}
-          <div
-            className="flex items-center justify-between px-4 py-2"
-            style={{ background: 'var(--rp-purple)', borderBottom: '3px solid white' }}
+      {/* Wizard + sparkles */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.35, duration: 0.4, type: 'spring', stiffness: 200 }}
+        style={{ position: 'relative', marginBottom: '40px' }}
+      >
+        {/* sparkles */}
+        {SPARKLE_POSITIONS.map((s, i) => (
+          <motion.span
+            key={i}
+            style={{
+              position: 'absolute',
+              top: '50%', left: '50%',
+              transform: `translate(calc(-50% + ${s.x}px), calc(-50% + ${s.y}px))`,
+              fontFamily: 'var(--font-pixel)',
+              fontSize: '0.5rem',
+              color: i % 3 === 0 ? 'var(--rp-gold)' : i % 3 === 1 ? 'var(--rp-cyan)' : 'var(--rp-pink)',
+              pointerEvents: 'none',
+            }}
+            animate={{ opacity: [0, 1, 0], scale: [0.5, 1.2, 0.5] }}
+            transition={{ duration: s.dur, repeat: Infinity, delay: s.delay, ease: 'easeInOut' }}
           >
-            <span style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.5rem', color: 'white', letterSpacing: '0.15em' }}>
-              RAHUL_PORTFOLIO.EXE
-            </span>
-            <div className="flex gap-2">
-              <span style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.5rem', color: 'var(--rp-gold)' }}>▬ ▭ ✕</span>
-            </div>
-          </div>
+            ✦
+          </motion.span>
+        ))}
+        <PixelWizard />
+      </motion.div>
 
-          {/* Body */}
-          <div className="p-8 md:p-12 bg-[var(--rp-deep)]">
-            <div className="flex flex-col md:flex-row items-center gap-8">
-              {/* Avatar column */}
-              <div className="flex flex-col items-center gap-4 flex-shrink-0">
-                <PixelAvatar />
-                {/* Power-up badge */}
-                <div className="powerup-badge">
-                  <div className="powerup-dot" />
-                  OPEN TO HIRE
-                </div>
-              </div>
+      {/* Name */}
+      <motion.h1
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5, duration: 0.4 }}
+        style={{
+          fontFamily: 'var(--font-pixel)',
+          fontSize: 'clamp(1rem, 3vw, 1.75rem)',
+          color: 'var(--rp-white)',
+          letterSpacing: '0.08em',
+          marginBottom: '20px',
+          textShadow: '3px 3px 0 #000',
+        }}
+      >
+        RAHUL RACHHOYA
+      </motion.h1>
 
-              {/* Text column */}
-              <div className="flex-1 text-center md:text-left space-y-6">
-                {/* Name */}
-                <div>
-                  <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.55rem', color: 'var(--rp-gold)', letterSpacing: '0.2em', marginBottom: '12px' }}>
-                    ▶ PLAYER_01
-                  </div>
-                  <h1
-                    className="pixel-gradient-text"
-                    style={{ fontFamily: 'var(--font-pixel)', fontSize: 'clamp(0.9rem, 2.5vw, 1.4rem)', lineHeight: 1.5 }}
-                  >
-                    RAHUL<br />RACHHOYA
-                  </h1>
-                </div>
+      {/* Typewriter subtitle */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.65 }}
+        style={{
+          fontFamily: 'var(--font-pixel)',
+          fontSize: 'clamp(0.5rem, 1.4vw, 0.75rem)',
+          color: 'var(--rp-gold)',
+          letterSpacing: '0.1em',
+          marginBottom: '48px',
+          minHeight: '2rem',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '4px',
+          textShadow: '2px 2px 0 var(--rp-gold-dim)',
+        }}
+      >
+        {subtitle}
+        <motion.span
+          animate={{ opacity: [1, 0, 1] }}
+          transition={{ duration: 1, repeat: Infinity, ease: 'steps(1)' }}
+          style={{
+            display: 'inline-block',
+            width: '10px', height: '1.1em',
+            background: 'var(--rp-gold)',
+            verticalAlign: 'middle',
+          }}
+        />
+      </motion.div>
 
-                {/* Subtitle typewriter */}
-                <div className="dialogue-box mt-4">
-                  <TypewriterText
-                    text="Full-Stack Dev × AI Engineer × Security Researcher"
-                    speed={45}
-                  />
-                  <div className="dialogue-arrow" />
-                </div>
+      {/* CTA buttons */}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.8, duration: 0.4 }}
+        style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '64px' }}
+      >
+        <motion.a
+          href="#projects"
+          className="pixel-btn pixel-btn-primary"
+          whileHover={{ x: -2, y: -2 }}
+          whileTap={{ x: 2, y: 2 }}
+        >
+          ▶ VIEW QUESTS
+        </motion.a>
+        <motion.a
+          href="https://github.com/RahulRachhoya"
+          target="_blank"
+          rel="noreferrer"
+          className="pixel-btn pixel-btn-gold"
+          whileHover={{ x: -2, y: -2 }}
+          whileTap={{ x: 2, y: 2 }}
+        >
+          ⬇ DOWNLOAD SAVE
+        </motion.a>
+      </motion.div>
 
-                {/* Bio */}
-                <p style={{ fontFamily: 'var(--font-retro)', fontSize: '1.1rem', color: 'var(--rp-gray)', lineHeight: 1.7 }}>
-                  Building production-grade AI systems, trading platforms &amp; security tools with zero-cost infrastructure.
-                </p>
-
-                {/* CTA Buttons */}
-                <div className="flex flex-wrap gap-4 justify-center md:justify-start">
-                  <button
-                    onClick={() => scrollToSection('projects')}
-                    className="pixel-btn pixel-btn-primary"
-                  >
-                    ▶ VIEW QUESTS
-                  </button>
-                  <button
-                    onClick={() => scrollToSection('contact')}
-                    className="pixel-btn pixel-btn-ghost"
-                  >
-                    💬 CONTACT
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Stats grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-10 pt-8" style={{ borderTop: '3px dashed rgba(255,255,255,0.15)' }}>
-              {stats.map((stat, i) => (
-                <div
-                  key={i}
-                  className="text-center p-4"
-                  style={{
-                    background: 'var(--rp-black)',
-                    border: '2px solid white',
-                    boxShadow: `3px 3px 0 ${stat.color}`,
-                  }}
-                >
-                  <div style={{ fontSize: '1.5rem', marginBottom: '6px' }}>{stat.icon}</div>
-                  <div
-                    style={{
-                      fontFamily: 'var(--font-pixel)',
-                      fontSize: '1rem',
-                      color: stat.color,
-                      textShadow: `2px 2px 0 ${stat.color}55`,
-                      marginBottom: '4px',
-                    }}
-                  >
-                    {stat.value}
-                  </div>
-                  <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.4rem', color: 'var(--rp-gray)', letterSpacing: '0.1em' }}>
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Scroll hint */}
-        <div className="text-center mt-8" style={{ animation: 'blink 1.5s step-end infinite' }}>
-          <span style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.45rem', color: 'var(--rp-gray)', letterSpacing: '0.2em' }}>
-            ▼ SCROLL TO CONTINUE ▼
-          </span>
-        </div>
-      </div>
+      {/* Scroll indicator */}
+      <motion.div
+        animate={{ opacity: [1, 0.3, 1], y: [0, 6, 0] }}
+        transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+        style={{
+          fontFamily: 'var(--font-pixel)',
+          fontSize: '0.45rem',
+          color: 'var(--rp-gray)',
+          letterSpacing: '0.2em',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '6px',
+          position: 'absolute',
+          bottom: '32px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+        }}
+      >
+        <span>▼ SCROLL</span>
+      </motion.div>
     </section>
   );
-};
-
-export default Hero;
+}

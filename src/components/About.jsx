@@ -1,250 +1,135 @@
-import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
 
-const STATS = [
-  { label: 'ATK', value: 92, cls: 'bar-atk' },
-  { label: 'DEF', value: 78, cls: 'bar-def' },
-  { label: 'SPD', value: 85, cls: 'bar-spd' },
-  { label: 'MAG', value: 95, cls: 'bar-mag' },
+const stats = [
+  { label: 'ATK',  value: 95, color: 'var(--rp-gold)',   desc: 'AI Engineering'     },
+  { label: 'MAG',  value: 92, color: 'var(--rp-purple)', desc: 'LLM Architecture'   },
+  { label: 'DEF',  value: 85, color: 'var(--rp-cyan)',   desc: 'MLOps & Infra'      },
+  { label: 'SPD',  value: 88, color: 'var(--rp-green)',  desc: 'Delivery Speed'     },
+  { label: 'INT',  value: 94, color: 'var(--rp-white)',  desc: 'RAG & Vector DBs'   },
+  { label: 'LUCK', value: 78, color: 'var(--rp-gold)',   desc: 'Bug Bounty Finds'   },
 ];
 
-const ACHIEVEMENTS = [
-  { icon: '⚔', value: '47+',    label: 'PROJECTS' },
-  { icon: '⏱', value: '3+',     label: 'YEARS EXP' },
-  { icon: '★',  value: 'SR',    label: 'RANK' },
-  { icon: '🏆', value: '∞',     label: 'COFFEE' },
+const achievements = [
+  { icon: '🏆', title: '10K+ AI Sessions',     desc: 'Voice AI career counselor at Careers360' },
+  { icon: '⭐', title: '40% Cost Cut',          desc: 'Prompt caching + A/B testing LLM pipelines' },
+  { icon: '🔥', title: '35% Hallucination Drop', desc: 'RAG + hybrid search engineering' },
+  { icon: '🚀', title: 'Fine-tuned Mistral 7B',  desc: '78%→92% accuracy, $50 vs $2K full retrain' },
+  { icon: '🌐', title: '500+ Daily Users',        desc: 'Streamlit AI dashboard on AWS' },
+  { icon: '📝', title: '5K+ Article Views',       desc: '"Building Production Voice AI with Claude"' },
 ];
 
-function StatBar({ label, value, cls, animate }) {
-  return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-      <span style={{
-        fontFamily: 'var(--font-pixel)', fontSize: '0.5rem',
-        color: 'var(--rp-gray)', width: '32px', flexShrink: 0,
-      }}>
-        {label}
-      </span>
-      <div className="stat-bar-container" style={{ flex: 1 }}>
-        <div
-          className={`stat-bar-fill ${cls}`}
-          style={{ width: animate ? `${value}%` : '0%' }}
-        />
+const About = () => (
+  <section id="about" className="section" style={{ background: 'var(--rp-deep)' }}>
+    <div className="container">
+      <div className="section-header">
+        <span className="section-label">👤 PLAYER PROFILE 👤</span>
+        <h2 style={{ fontFamily: 'var(--font-pixel)', fontSize: 'clamp(0.7rem, 2vw, 1rem)', color: 'white' }}>
+          CHARACTER STATS
+        </h2>
+        <div className="section-divider mx-auto mt-3" />
       </div>
-      <span style={{
-        fontFamily: 'var(--font-pixel)', fontSize: '0.42rem',
-        color: 'var(--rp-white)', width: '28px', textAlign: 'right', flexShrink: 0,
+
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+        gap: '2rem',
+        maxWidth: '1000px',
+        margin: '0 auto',
       }}>
-        {value}
-      </span>
-    </div>
-  );
-}
 
-export default function About() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
-
-  return (
-    <section id="about" className="section" ref={ref}>
-      <div className="container">
+        {/* Left — stat card */}
         <motion.div
-          className="section-header"
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.4 }}
+          className="pixel-card pixel-card-purple"
+          initial={{ opacity: 0, x: -30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
         >
-          <span className="section-label">PLAYER PROFILE</span>
-          <h2 style={{ color: 'var(--rp-white)' }}>▸ ABOUT ME</h2>
-          <div className="section-divider" />
+          {/* Avatar + level */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem', paddingBottom: '1rem', borderBottom: '2px solid var(--rp-purple)' }}>
+            <div style={{
+              width: '64px', height: '64px', flexShrink: 0,
+              border: '3px solid var(--rp-gold)', background: 'var(--rp-purple-dark)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: '2rem', boxShadow: '4px 4px 0 #000',
+              animation: 'idle-float 3s ease-in-out infinite',
+            }}>🧙</div>
+            <div>
+              <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.55rem', color: 'white', letterSpacing: '0.05em' }}>RAHUL RACHHOYA</div>
+              <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.45rem', color: 'var(--rp-gold)' }}>LVL 26 · AI ENGINEER</div>
+              <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.4rem', color: 'var(--rp-green)' }}>📍 Noida, India</div>
+            </div>
+          </div>
+
+          {/* Bio */}
+          <p style={{ fontFamily: 'var(--font-retro)', fontSize: '0.95rem', color: 'var(--rp-light)', lineHeight: 1.7, marginBottom: '1.25rem' }}>
+            AI Engineer with 3+ years building production-grade AI systems — LLMs, RAG, Voice AI, fine-tuning.
+            Expertise in Python, AWS Bedrock, LangGraph, and deploying scalable AI workflows with full observability.
+            Strong track record of reducing hallucinations, cutting costs 40%, and shipping measurable impact.
+          </p>
+
+          {/* RPG stats */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
+            {stats.map(({ label, value, color, desc }) => (
+              <div key={label} title={desc} style={{
+                background: 'var(--rp-black)', border: `2px solid ${color}55`,
+                padding: '8px 4px', textAlign: 'center', cursor: 'default',
+              }}>
+                <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.42rem', color, marginBottom: '2px' }}>{label}</div>
+                <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.7rem', color: 'white' }}>{value}</div>
+              </div>
+            ))}
+          </div>
         </motion.div>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: '24px',
-        }}>
-          {/* Class card */}
-          <motion.div
-            className="pixel-card pixel-card-gold"
-            initial={{ opacity: 0, x: -24 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ delay: 0.1, duration: 0.4 }}
-          >
-            <div style={{
-              display: 'flex', flexDirection: 'column', alignItems: 'center',
-              gap: '16px', textAlign: 'center',
-            }}>
-              {/* pixel avatar */}
-              <div style={{
-                width: '80px', height: '80px',
-                background: 'var(--rp-purple-dark)',
-                border: '3px solid var(--rp-gold)',
-                boxShadow: '3px 3px 0 #000',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: '2rem',
-              }}>🧙</div>
-
-              <div>
-                <div style={{
-                  fontFamily: 'var(--font-pixel)', fontSize: '0.42rem',
-                  color: 'var(--rp-gold)', letterSpacing: '0.15em', marginBottom: '6px',
-                }}>
-                  CLASS
+        {/* Right — achievements */}
+        <motion.div
+          initial={{ opacity: 0, x: 30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+        >
+          <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.5rem', color: 'var(--rp-gold)', letterSpacing: '0.1em', marginBottom: '1rem' }}>
+            🏅 ACHIEVEMENTS UNLOCKED
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            {achievements.map(({ icon, title, desc }) => (
+              <motion.div
+                key={title}
+                className="pixel-card"
+                whileHover={{ x: 4 }}
+                style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', padding: '12px 14px' }}
+              >
+                <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>{icon}</span>
+                <div>
+                  <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.48rem', color: 'white', letterSpacing: '0.04em', marginBottom: '2px' }}>{title}</div>
+                  <div style={{ fontFamily: 'var(--font-retro)', fontSize: '0.85rem', color: 'var(--rp-gray)' }}>{desc}</div>
                 </div>
-                <div style={{
-                  fontFamily: 'var(--font-pixel)', fontSize: '0.6rem',
-                  color: 'var(--rp-white)',
-                }}>
-                  FULL-STACK DEV
-                </div>
-              </div>
+              </motion.div>
+            ))}
+          </div>
 
-              <div style={{
-                display: 'flex', gap: '16px',
-                fontFamily: 'var(--font-pixel)', fontSize: '0.42rem',
-                color: 'var(--rp-gray)',
-              }}>
-                <span>LVL <span style={{ color: 'var(--rp-gold)' }}>23</span></span>
-                <span>CLASS <span style={{ color: 'var(--rp-cyan)' }}>A</span></span>
-              </div>
-
-              {/* XP bar */}
-              <div style={{ width: '100%' }}>
-                <div style={{
-                  display: 'flex', justifyContent: 'space-between',
-                  fontFamily: 'var(--font-pixel)', fontSize: '0.38rem',
-                  color: 'var(--rp-gray)', marginBottom: '6px',
-                }}>
-                  <span>XP</span><span>8420 / 10000</span>
-                </div>
-                <div className="stat-bar-container">
-                  <div
-                    className="stat-bar-fill bar-xp"
-                    style={{ width: inView ? '84%' : '0%' }}
-                  />
-                </div>
-              </div>
-
-              <p style={{
-                fontFamily: 'var(--font-body)', fontSize: '0.8rem',
-                color: 'var(--rp-gray)', lineHeight: 1.6, textAlign: 'left',
-              }}>
-                Full-stack developer & AI engineer from India. Building production systems at Careers360 (40M+ users) and crafting open-source AI tools at night.
-              </p>
+          {/* Certifications */}
+          <div style={{ marginTop: '1.25rem' }}>
+            <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.45rem', color: 'var(--rp-cyan)', letterSpacing: '0.08em', marginBottom: '8px' }}>
+              📜 CERTIFICATIONS
             </div>
-          </motion.div>
-
-          {/* Stats card */}
-          <motion.div
-            className="pixel-card pixel-card-purple"
-            initial={{ opacity: 0, y: 24 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.2, duration: 0.4 }}
-          >
-            <div style={{
-              fontFamily: 'var(--font-pixel)', fontSize: '0.5rem',
-              color: 'var(--rp-gold)', marginBottom: '20px', letterSpacing: '0.1em',
-            }}>
-              ▸ BATTLE STATS
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-              {STATS.map(s => (
-                <StatBar key={s.label} {...s} animate={inView} />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              {[
+                'AWS Certified ML – Specialty (In Progress)',
+                'Deep Learning Specialization – Coursera',
+                'Open-source contributions: LangChain, LlamaIndex',
+              ].map((cert) => (
+                <div key={cert} style={{ fontFamily: 'var(--font-retro)', fontSize: '0.9rem', color: 'var(--rp-light)', display: 'flex', gap: '8px' }}>
+                  <span style={{ color: 'var(--rp-gold)' }}>▶</span>{cert}
+                </div>
               ))}
             </div>
-
-            <div style={{
-              marginTop: '24px',
-              borderTop: '2px solid var(--rp-purple)',
-              paddingTop: '16px',
-            }}>
-              <div style={{
-                fontFamily: 'var(--font-pixel)', fontSize: '0.42rem',
-                color: 'var(--rp-gold)', marginBottom: '12px',
-              }}>
-                HP / MP
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <span style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.42rem', color: 'var(--rp-green)', width: '24px' }}>HP</span>
-                  <div className="stat-bar-container" style={{ flex: 1 }}>
-                    <div className="stat-bar-fill bar-hp" style={{ width: inView ? '100%' : '0%' }} />
-                  </div>
-                  <span style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.38rem', color: 'var(--rp-white)', width: '50px', textAlign: 'right' }}>999/999</span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <span style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.42rem', color: 'var(--mp-color)', width: '24px' }}>MP</span>
-                  <div className="stat-bar-container" style={{ flex: 1 }}>
-                    <div className="stat-bar-fill bar-mp" style={{ width: inView ? '75%' : '0%' }} />
-                  </div>
-                  <span style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.38rem', color: 'var(--rp-white)', width: '50px', textAlign: 'right' }}>750/999</span>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Achievements card */}
-          <motion.div
-            className="pixel-card"
-            initial={{ opacity: 0, x: 24 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ delay: 0.3, duration: 0.4 }}
-          >
-            <div style={{
-              fontFamily: 'var(--font-pixel)', fontSize: '0.5rem',
-              color: 'var(--rp-gold)', marginBottom: '20px', letterSpacing: '0.1em',
-            }}>
-              ▸ ACHIEVEMENTS
-            </div>
-
-            <div style={{
-              display: 'grid', gridTemplateColumns: '1fr 1fr',
-              gap: '12px', marginBottom: '24px',
-            }}>
-              {ACHIEVEMENTS.map((a, i) => (
-                <motion.div
-                  key={a.label}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={inView ? { opacity: 1, scale: 1 } : {}}
-                  transition={{ delay: 0.4 + i * 0.08, duration: 0.3 }}
-                  style={{
-                    background: 'var(--rp-black)',
-                    border: '2px solid var(--rp-purple)',
-                    boxShadow: '2px 2px 0 #000',
-                    padding: '12px 8px',
-                    textAlign: 'center',
-                  }}
-                >
-                  <div style={{ fontSize: '1.4rem', marginBottom: '4px' }}>{a.icon}</div>
-                  <div style={{
-                    fontFamily: 'var(--font-pixel)', fontSize: '0.65rem',
-                    color: 'var(--rp-gold)', marginBottom: '4px',
-                  }}>{a.value}</div>
-                  <div style={{
-                    fontFamily: 'var(--font-pixel)', fontSize: '0.35rem',
-                    color: 'var(--rp-gray)', letterSpacing: '0.1em',
-                  }}>{a.label}</div>
-                </motion.div>
-              ))}
-            </div>
-
-            <div style={{
-              borderTop: '2px solid var(--rp-purple)',
-              paddingTop: '16px',
-              fontFamily: 'var(--font-pixel)',
-              fontSize: '0.38rem',
-              color: 'var(--rp-gray)',
-              lineHeight: 2,
-            }}>
-              <div>📍 <span style={{ color: 'var(--rp-white)' }}>Noida, India</span></div>
-              <div>🎓 <span style={{ color: 'var(--rp-white)' }}>B.Tech CSE 2022</span></div>
-              <div>⚡ <span style={{ color: 'var(--rp-cyan)' }}>React · Python · AI/ML</span></div>
-              <div>🌐 <span style={{ color: 'var(--rp-green)' }}>Open to Remote</span></div>
-            </div>
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
       </div>
-    </section>
-  );
-}
+    </div>
+  </section>
+);
+
+export default About;

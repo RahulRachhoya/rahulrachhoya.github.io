@@ -1,228 +1,176 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 
-const QUESTS = [
+const quests = [
   {
-    status: 'ACTIVE',
-    statusColor: 'var(--rp-gold)',
-    statusBg: 'rgba(255,215,0,0.15)',
-    icon: '★',
-    title: 'Software Engineer',
-    org: 'Careers360',
-    period: '2022 – Present',
-    location: 'Noida, India',
-    desc: 'Building AI-powered education platform serving 40M+ students across India. Led major frontend migrations, built recommendation engines, and deployed microservices at scale.',
-    tags: ['React', 'Python', 'AWS', 'PostgreSQL', 'Redis'],
-    xp: '+2400 XP',
-    stars: 5,
-  },
-  {
-    status: 'COMPLETE',
-    statusColor: 'var(--rp-green)',
-    statusBg: 'rgba(0,255,136,0.08)',
-    icon: '✓',
-    title: 'Full-Stack Developer',
-    org: 'Freelance',
-    period: '2021 – 2022',
-    location: 'Remote',
-    desc: 'Delivered 15+ client projects — e-commerce stores, SaaS dashboards, and REST APIs. Specialized in React + Node.js stacks with rapid delivery timelines.',
-    tags: ['React', 'Node.js', 'MongoDB', 'Stripe'],
-    xp: '+1200 XP',
-    stars: 4,
-  },
-  {
-    status: 'COMPLETE',
-    statusColor: 'var(--rp-cyan)',
-    statusBg: 'rgba(0,255,255,0.08)',
-    icon: '🎓',
-    title: 'B.Tech Computer Science',
-    org: 'University',
-    period: '2018 – 2022',
+    company: 'Careers360',
+    role: 'AI Engineer – Voice AI & Conversational Systems',
+    period: 'JAN 2026 – PRESENT',
     location: 'India',
-    desc: 'Graduated with CGPA 8.2. Deep-dived into data structures, algorithms, ML fundamentals, and systems design. Built graduation project — an AI-based exam proctoring system.',
-    tags: ['DSA', 'ML', 'Java', 'C++', 'DBMS'],
-    xp: '+3000 XP',
-    stars: 5,
+    status: 'ACTIVE QUEST',
+    statusColor: 'var(--rp-green)',
+    icon: '⚔️',
+    xp: '+2400 XP',
+    bullets: [
+      'Architected voice-based AI career counseling agent using Claude/Bedrock + Sarvam AI (STT/TTS) + pgvector RAG — grounded hallucinations on 10K+ sessions',
+      'Implemented LangSmith observability across latency, cost & quality; optimized 40% cost via prompt caching & A/B testing ($0.40→$0.24/session)',
+      'Built multi-agent workflow: intent classifier → retriever → counselor → roadmap; +28% accuracy; deployed on AWS at 99.7% uptime',
+    ],
+    stack: ['Claude/Bedrock', 'Sarvam AI', 'pgvector', 'LangSmith', 'AWS', 'FastAPI'],
+  },
+  {
+    company: 'Crystaltech Services',
+    role: 'AI Engineer',
+    period: 'AUG 2024 – DEC 2025',
+    location: 'India',
+    status: 'COMPLETED',
+    statusColor: 'var(--rp-cyan)',
+    icon: '🏆',
+    xp: '+1800 XP',
+    bullets: [
+      'Built RAG pipelines (FAISS, Pinecone) reducing hallucinations by 35%; fine-tuned Mistral 7B with LoRA achieving 92% accuracy vs 78% baseline — 40% faster inference',
+      'Implemented hybrid search (BM25 + vector) with Cohere reranking — retrieval 85%→91%; monitored 50+ LLM iterations with Weights & Biases',
+    ],
+    stack: ['Mistral 7B', 'LoRA/PEFT', 'FAISS', 'Pinecone', 'Cohere', 'W&B'],
+  },
+  {
+    company: 'STL Digital Limited',
+    role: 'System Engineer (AI Context)',
+    period: 'JUN 2022 – JUL 2024',
+    location: 'Pune, India',
+    status: 'COMPLETED',
+    statusColor: 'var(--rp-cyan)',
+    icon: '⚡',
+    xp: '+1200 XP',
+    bullets: [
+      'Implemented RAG-based systems improving accuracy by 40%; built AI-assisted validation reducing errors by 60%',
+      'Deployed Streamlit dashboard on AWS serving 500+ daily users; built pytest suite with 85%+ coverage',
+    ],
+    stack: ['Python', 'RAG', 'Streamlit', 'AWS', 'PostgreSQL', 'pytest'],
   },
 ];
 
-export default function Experience() {
+const QuestCard = ({ quest, index }) => {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
 
   return (
-    <section id="experience" className="section" ref={ref}>
-      <div className="container">
-        <motion.div
-          className="section-header"
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.4 }}
-        >
-          <span className="section-label">CAREER HISTORY</span>
-          <h2 style={{ color: 'var(--rp-white)' }}>▸ QUEST LOG</h2>
-          <div className="section-divider" />
-        </motion.div>
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, x: index % 2 === 0 ? -40 : 40 }}
+      animate={inView ? { opacity: 1, x: 0 } : {}}
+      transition={{ duration: 0.5, delay: index * 0.12 }}
+      style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}
+    >
+      {/* Timeline spine */}
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: '4px', flexShrink: 0 }}>
+        <div style={{
+          width: '40px', height: '40px',
+          border: '3px solid var(--rp-purple)',
+          background: 'var(--rp-purple-dark)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontSize: '1.2rem', boxShadow: '3px 3px 0 #000',
+        }}>{quest.icon}</div>
+        <div style={{ width: '2px', flex: 1, background: 'var(--rp-purple)', minHeight: '20px', marginTop: '4px' }} />
+      </div>
 
-        {/* Header box */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.1, duration: 0.35 }}
-          style={{
-            background: 'var(--rp-deep)',
-            border: '4px solid var(--rp-white)',
-            boxShadow: '8px 8px 0 #000',
-            padding: '20px 24px',
-            marginBottom: '48px',
-            position: 'relative',
-            overflow: 'hidden',
-          }}
-        >
-          <motion.div
-            animate={{ opacity: [1, 0.4, 1] }}
-            transition={{ duration: 1.4, repeat: Infinity, ease: 'steps(1)' }}
-            style={{
-              position: 'absolute', top: 0, left: 0, right: 0,
-              height: '3px', background: 'var(--rp-gold)',
-            }}
-          />
-          <h1 style={{
-            fontFamily: 'var(--font-pixel)',
-            fontSize: 'clamp(0.75rem, 2vw, 1.1rem)',
-            color: 'var(--rp-gold)',
-            display: 'flex', alignItems: 'center', gap: '12px',
-          }}>
-            <span>▸</span> QUEST LOG
-          </h1>
-          <p style={{
-            fontFamily: 'var(--font-pixel)', fontSize: '0.42rem',
-            color: 'var(--rp-cyan)', marginTop: '6px',
-          }}>
-            LOCATION: WORLD_MAP_SERVER_01
-          </p>
-        </motion.div>
+      {/* Card */}
+      <div className="pixel-card pixel-card-purple" style={{ flex: 1, marginBottom: '1.5rem' }}>
+        {/* Header row */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px', marginBottom: '12px' }}>
+          <div>
+            <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.55rem', color: 'white', letterSpacing: '0.05em', marginBottom: '4px' }}>
+              {quest.role}
+            </div>
+            <div style={{ fontFamily: 'var(--font-retro)', fontSize: '1rem', color: 'var(--rp-cyan)', fontWeight: 700 }}>
+              {quest.company}
+            </div>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px' }}>
+            <span style={{
+              fontFamily: 'var(--font-pixel)', fontSize: '0.4rem',
+              color: quest.statusColor, border: `2px solid ${quest.statusColor}`,
+              padding: '2px 8px', letterSpacing: '0.08em',
+            }}>{quest.status}</span>
+            <span style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.4rem', color: 'var(--rp-gold)' }}>{quest.xp}</span>
+          </div>
+        </div>
 
-        {/* Timeline */}
-        <div style={{ position: 'relative' }}>
-          {/* vertical line */}
-          <div style={{
-            position: 'absolute',
-            left: '24px',
-            top: 0, bottom: 0,
-            width: '3px',
-            background: 'var(--rp-white)',
-          }} />
+        {/* Period */}
+        <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.42rem', color: 'var(--rp-gray)', marginBottom: '12px', letterSpacing: '0.08em' }}>
+          📅 {quest.period} · 📍 {quest.location}
+        </div>
 
-          {QUESTS.map((q, i) => (
-            <motion.div
-              key={q.title}
-              initial={{ opacity: 0, x: -24 }}
-              animate={inView ? { opacity: 1, x: 0 } : {}}
-              transition={{ delay: 0.15 + i * 0.15, duration: 0.4 }}
-              style={{ position: 'relative', marginBottom: '40px', paddingLeft: '64px' }}
-            >
-              {/* timeline dot */}
-              <div style={{ position: 'absolute', left: '12px', top: '20px' }}>
-                {q.status === 'ACTIVE' && (
-                  <motion.div
-                    animate={{ scale: [1, 1.6, 1], opacity: [0.6, 0, 0.6] }}
-                    transition={{ duration: 1.4, repeat: Infinity }}
-                    style={{
-                      position: 'absolute',
-                      width: '22px', height: '22px',
-                      background: 'var(--rp-gold)',
-                      border: '2px solid var(--rp-white)',
-                      top: '-3px', left: '-3px',
-                    }}
-                  />
-                )}
-                <div style={{
-                  width: '16px', height: '16px',
-                  background: q.status === 'ACTIVE' ? 'var(--rp-gold)' : 'var(--rp-white)',
-                  border: '2px solid var(--rp-white)',
-                  position: 'relative', zIndex: 2,
-                }} />
-              </div>
+        {/* Bullets */}
+        <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '14px' }}>
+          {quest.bullets.map((b, i) => (
+            <li key={i} style={{ display: 'flex', gap: '8px', fontFamily: 'var(--font-retro)', fontSize: '0.9rem', color: 'var(--rp-light)', lineHeight: 1.5 }}>
+              <span style={{ color: 'var(--rp-gold)', flexShrink: 0 }}>▶</span>
+              {b}
+            </li>
+          ))}
+        </ul>
 
-              {/* card */}
-              <div
-                className="pixel-card"
-                style={{ borderColor: q.statusColor, boxShadow: `4px 4px 0 #000` }}
-              >
-                {/* header row */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px', flexWrap: 'wrap', gap: '8px' }}>
-                  <span style={{
-                    fontFamily: 'var(--font-pixel)', fontSize: '0.42rem',
-                    background: q.statusBg, color: q.statusColor,
-                    border: `2px solid ${q.statusColor}`,
-                    padding: '3px 8px',
-                  }}>
-                    {q.icon} {q.status}
-                  </span>
-                  {/* stars */}
-                  <div style={{ display: 'flex', gap: '3px' }}>
-                    {Array.from({ length: 5 }).map((_, si) => (
-                      <span key={si} style={{
-                        fontSize: '0.8rem',
-                        color: si < q.stars ? 'var(--rp-gold)' : 'var(--rp-gray-dim)',
-                      }}>★</span>
-                    ))}
-                  </div>
-                </div>
-
-                <h3 style={{
-                  fontFamily: 'var(--font-pixel)',
-                  fontSize: 'clamp(0.5rem, 1.2vw, 0.7rem)',
-                  color: 'var(--rp-white)', marginBottom: '4px',
-                }}>
-                  {q.title}
-                </h3>
-
-                <div style={{
-                  fontFamily: 'var(--font-pixel)', fontSize: '0.42rem',
-                  color: q.statusColor, marginBottom: '4px',
-                }}>
-                  {q.org}
-                </div>
-
-                <div style={{
-                  fontFamily: 'var(--font-pixel)', fontSize: '0.38rem',
-                  color: 'var(--rp-gray)', marginBottom: '12px',
-                }}>
-                  {q.period} · {q.location}
-                </div>
-
-                <p style={{
-                  fontFamily: 'var(--font-body)', fontSize: '0.82rem',
-                  color: 'var(--rp-gray)', lineHeight: 1.6, marginBottom: '14px',
-                }}>
-                  {q.desc}
-                </p>
-
-                {/* tag row */}
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '14px' }}>
-                  {q.tags.map(t => (
-                    <span key={t} className="pixel-tag">{t}</span>
-                  ))}
-                </div>
-
-                {/* XP badge */}
-                <div style={{
-                  display: 'inline-flex', alignItems: 'center', gap: '6px',
-                  background: 'rgba(255,215,0,0.12)',
-                  border: '2px solid var(--rp-gold)',
-                  padding: '4px 10px',
-                  fontFamily: 'var(--font-pixel)', fontSize: '0.42rem',
-                  color: 'var(--rp-gold)',
-                }}>
-                  ⭐ {q.xp}
-                </div>
-              </div>
-            </motion.div>
+        {/* Stack tags */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+          {quest.stack.map((s) => (
+            <span key={s} style={{
+              fontFamily: 'var(--font-pixel)', fontSize: '0.38rem',
+              color: 'var(--rp-cyan)', border: '1px solid var(--rp-cyan)',
+              padding: '2px 8px', background: 'rgba(0,255,255,0.07)',
+              letterSpacing: '0.06em',
+            }}>{s}</span>
           ))}
         </div>
       </div>
-    </section>
+    </motion.div>
   );
-}
+};
+
+const Experience = () => (
+  <section id="experience" className="section" style={{ background: 'var(--rp-black)' }}>
+    <div className="container">
+      <div className="section-header">
+        <span className="section-label">📜 QUEST LOG 📜</span>
+        <h2 style={{ fontFamily: 'var(--font-pixel)', fontSize: 'clamp(0.7rem, 2vw, 1rem)', color: 'white' }}>
+          PROFESSIONAL HISTORY
+        </h2>
+        <div className="section-divider mx-auto mt-3" />
+      </div>
+
+      <div className="max-w-3xl mx-auto">
+        {quests.map((q, i) => <QuestCard key={q.company} quest={q} index={i} />)}
+
+        {/* Education unlock */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="pixel-card"
+          style={{ borderColor: 'var(--rp-gold)', marginTop: '0.5rem' }}
+        >
+          <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
+            <span style={{ fontSize: '1.8rem' }}>🎓</span>
+            <div>
+              <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.55rem', color: 'var(--rp-gold)', marginBottom: '4px', letterSpacing: '0.06em' }}>
+                EDUCATION UNLOCKED
+              </div>
+              <div style={{ fontFamily: 'var(--font-retro)', fontSize: '1rem', color: 'white', fontWeight: 700 }}>
+                MCA — Master of Computer Applications
+              </div>
+              <div style={{ fontFamily: 'var(--font-retro)', fontSize: '0.9rem', color: 'var(--rp-cyan)' }}>
+                University of Hyderabad · 2019–2022
+              </div>
+              <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.4rem', color: 'var(--rp-gray)', marginTop: '4px' }}>
+                FOCUS: Artificial Intelligence · Data Science · Machine Learning
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  </section>
+);
+
+export default Experience;

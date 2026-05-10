@@ -4,6 +4,10 @@ on:
   push:
     branches: [master, main]
   workflow_dispatch:
+  schedule:
+    # Rebuild daily at 00:00 UTC — keeps GitHub API data (repos, stars,
+    # activity) fresh even if there's no code push that day.
+    - cron: '0 0 * * *'
 
 permissions:
   contents: read

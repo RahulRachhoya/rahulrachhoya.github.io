@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useGitHubProfile, useGitHubStats } from '../hooks/useGitHub';
 
 const TITLES = [
   'FULL-STACK DEVELOPER',
@@ -92,6 +93,14 @@ const SPARKLE_POSITIONS = [
 
 export default function Hero() {
   const subtitle = useTypewriter(TITLES, 65, 1600);
+  const { profile } = useGitHubProfile();
+  const { stats } = useGitHubStats();
+
+  const liveStats = [
+    { label: 'FOLLOWERS', value: profile?.followers ?? '…', icon: '👥' },
+    { label: 'REPOS',     value: stats.repos          || '…', icon: '📁' },
+    { label: 'STARS',     value: stats.stars          || '…', icon: '⭐' },
+  ];
 
   return (
     <section
@@ -131,7 +140,6 @@ export default function Hero() {
         transition={{ delay: 0.35, duration: 0.4, type: 'spring', stiffness: 200 }}
         style={{ position: 'relative', marginBottom: '40px' }}
       >
-        {/* sparkles */}
         {SPARKLE_POSITIONS.map((s, i) => (
           <motion.span
             key={i}
@@ -180,7 +188,7 @@ export default function Hero() {
           fontSize: 'clamp(0.5rem, 1.4vw, 0.75rem)',
           color: 'var(--rp-gold)',
           letterSpacing: '0.1em',
-          marginBottom: '48px',
+          marginBottom: '36px',
           minHeight: '2rem',
           display: 'flex',
           alignItems: 'center',
@@ -201,11 +209,64 @@ export default function Hero() {
         />
       </motion.div>
 
+      {/* ── Live GitHub stats bar ── */}
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.75, duration: 0.4 }}
+        style={{
+          display: 'flex',
+          gap: '12px',
+          marginBottom: '48px',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+        }}
+      >
+        {liveStats.map((s) => (
+          <a
+            key={s.label}
+            href="https://github.com/RahulRachhoya"
+            target="_blank"
+            rel="noreferrer"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '7px',
+              padding: '8px 14px',
+              background: 'var(--rp-dark)',
+              border: '2px solid var(--rp-purple)',
+              boxShadow: '3px 3px 0 #000',
+              textDecoration: 'none',
+              transition: 'border-color 0.15s',
+            }}
+            onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--rp-gold)'}
+            onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--rp-purple)'}
+          >
+            <span style={{ fontSize: '0.9rem' }}>{s.icon}</span>
+            <span style={{
+              fontFamily: 'var(--font-pixel)',
+              fontSize: '0.6rem',
+              color: 'var(--rp-gold)',
+            }}>
+              {s.value}
+            </span>
+            <span style={{
+              fontFamily: 'var(--font-pixel)',
+              fontSize: '0.35rem',
+              color: 'var(--rp-gray-dim)',
+              letterSpacing: '0.06em',
+            }}>
+              {s.label}
+            </span>
+          </a>
+        ))}
+      </motion.div>
+
       {/* CTA buttons */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8, duration: 0.4 }}
+        transition={{ delay: 0.85, duration: 0.4 }}
         style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '64px' }}
       >
         <motion.a

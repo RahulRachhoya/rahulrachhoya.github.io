@@ -1,4 +1,4 @@
-import { GithubLogo, LinkedinLogo } from '@phosphor-icons/react';
+import { GithubLogo, LinkedinLogo, DownloadSimple } from '@phosphor-icons/react';
 
 export default function Footer() {
   return (
@@ -25,11 +25,11 @@ export default function Footer() {
           RAHUL RACHHOYA
         </div>
         <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>
-          AI Engineer · Noida, India
+          AI Engineer · Hyderabad, India
         </div>
       </div>
 
-      <div style={{ display: 'flex', gap: 8 }}>
+      <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
         {[
           { icon: <GithubLogo size={16} weight="light" />, href: 'https://github.com/RahulRachhoya' },
           { icon: <LinkedinLogo size={16} weight="light" />, href: 'https://linkedin.com/in/rahulrachhoya' },
@@ -55,6 +55,39 @@ export default function Footer() {
             {icon}
           </a>
         ))}
+
+        {/* Resume download */}
+        <a
+          href="/rahulrachhoya-resume.pdf"
+          download="Rahul_Rachhoya_Resume.pdf"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 7,
+            background: 'rgba(59,130,246,0.08)',
+            border: '1px solid rgba(59,130,246,0.2)',
+            borderRadius: '9999px',
+            padding: '8px 16px',
+            fontSize: 12,
+            fontWeight: 600,
+            color: 'var(--accent)',
+            textDecoration: 'none',
+            transition: 'all 0.3s cubic-bezier(0.32,0.72,0,1)',
+          }}
+          onMouseEnter={e => {
+            e.currentTarget.style.background = 'rgba(59,130,246,0.16)';
+            e.currentTarget.style.borderColor = 'rgba(59,130,246,0.4)';
+            e.currentTarget.style.boxShadow = '0 0 16px rgba(59,130,246,0.2)';
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.background = 'rgba(59,130,246,0.08)';
+            e.currentTarget.style.borderColor = 'rgba(59,130,246,0.2)';
+            e.currentTarget.style.boxShadow = 'none';
+          }}
+        >
+          <DownloadSimple size={14} weight="bold" />
+          Download Resume
+        </a>
       </div>
 
       <div style={{

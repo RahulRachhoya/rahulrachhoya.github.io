@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowUpRight, Code, Brain, Microphone } from '@phosphor-icons/react';
+import { ArrowUpRight, Code, Brain, Microphone, DownloadSimple } from '@phosphor-icons/react';
 import ThreeBackground from './ThreeBackground';
 
 const TYPED_WORDS = ['LLM Systems', 'RAG Pipelines', 'Voice AI', 'MLOps', 'Multi-Agent'];
@@ -163,9 +163,7 @@ export default function Hero() {
               marginBottom: 36,
             }}
           >
-            3+ years building production LLM systems at Careers360.
-            40% cost cuts, 35% hallucination drops, 10K+ voice sessions.
-            Obsessed with measurable impact.
+            3+ years building production LLM systems at Careers360, Crystaltech & STL Digital. 40% cost cuts, 35% hallucination drops, 92% model accuracy.
           </motion.p>
 
           {/* CTAs */}
@@ -241,6 +239,37 @@ export default function Hero() {
               }}
             >
               GitHub Profile
+            </a>
+
+            {/* Resume Download CTA */}
+            <a
+              href="/rahulrachhoya-resume.pdf"
+              download="Rahul_Rachhoya_Resume.pdf"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 8,
+                background: 'rgba(255,255,255,0.04)',
+                color: '#f5f5f5',
+                textDecoration: 'none',
+                borderRadius: '9999px',
+                padding: '12px 22px',
+                fontWeight: 500,
+                fontSize: 14,
+                border: '1px solid var(--border)',
+                transition: 'all 0.35s cubic-bezier(0.32,0.72,0,1)',
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)';
+                e.currentTarget.style.background = 'rgba(255,255,255,0.07)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.borderColor = 'var(--border)';
+                e.currentTarget.style.background = 'rgba(255,255,255,0.04)';
+              }}
+            >
+              <DownloadSimple size={16} weight="light" />
+              Resume
             </a>
           </motion.div>
         </div>

@@ -4,26 +4,52 @@ import { Briefcase, CalendarBlank } from '@phosphor-icons/react';
 const EXPERIENCE = [
   {
     company: 'Careers360',
-    role: 'AI Engineer',
-    period: 'Jan 2022 - Present',
-    location: 'Noida, India',
+    role: 'AI Engineer — Voice AI & Conversational Systems',
+    period: 'Jan 2026 - Present',
+    location: 'Hyderabad, India',
     current: true,
     bullets: [
-      'Built Voice AI career counselor (Claude/Bedrock + Sarvam AI) serving 10K+ sessions with 88% satisfaction',
-      'Reduced LLM hallucinations 35% via hybrid RAG (BM25 + dense + cross-encoder reranking)',
-      'Cut LLM inference costs 40% with prompt caching, batching, and multi-model A/B routing',
-      'Fine-tuned Mistral 7B (LoRA/PEFT) from 78% to 92% intent accuracy at $50 vs $2K full retrain',
-      'Orchestrated multi-agent pipelines (LangGraph + CrewAI) for document processing at enterprise scale',
-      'Built LLM observability stack (LangSmith + Prometheus + Grafana) tracking 500+ daily users',
+      'Architected voice AI career counselor using Claude/Bedrock + Sarvam AI (STT/TTS) + pgvector serving 10K+ sessions',
+      'RAG pipeline reduces hallucinations 35%; LangSmith observability tracking latency, cost, quality',
+      'Optimized costs 40% ($0.40→$0.24/session) via prompt caching + A/B testing',
+      'Built multi-agent workflow (function calling) improving accuracy 28%; AWS Lambda with 99.7% uptime',
     ],
-    stack: ['Claude', 'AWS Bedrock', 'LangGraph', 'CrewAI', 'Sarvam AI', 'pgvector', 'Mistral', 'FastAPI'],
+    stack: ['Claude/Bedrock', 'Sarvam AI', 'pgvector', 'LangSmith', 'AWS Lambda', 'FastAPI'],
+  },
+  {
+    company: 'Crystaltech Services',
+    role: 'AI Engineer',
+    period: 'Aug 2024 - Dec 2025',
+    location: 'Remote, India',
+    current: false,
+    bullets: [
+      'Built RAG pipelines with hybrid search (BM25+vector) + Cohere reranker improving retrieval 85%→91%',
+      'Fine-tuned Mistral 7B (LoRA/PEFT) from 78%→92% accuracy; training cost $50 vs $2K full retrain',
+      'A/B tested GPT-4 vs Claude achieving 60% cost savings; W&B monitoring 50+ LLM iterations',
+      'Built 4-agent document system (LangGraph) processing 500+ docs with 94% accuracy; 75% time reduction',
+    ],
+    stack: ['Mistral 7B', 'LoRA/PEFT', 'LangGraph', 'Cohere', 'W&B', 'GPT-4', 'Claude'],
+  },
+  {
+    company: 'STL Digital Limited',
+    role: 'System Engineer (AI/ML Focus)',
+    period: 'Jun 2022 - Jul 2024',
+    location: 'Pune, India',
+    current: false,
+    bullets: [
+      'Built RAG system improving accuracy 40% (65%→91%) using ChromaDB + GPT-3.5; 500+ daily queries at 1.8s response',
+      'AI-assisted validation reducing errors 60%; deployed Streamlit dashboard to AWS serving 500+ daily users',
+      'Implemented pytest suite with 85% coverage; CI/CD pipeline via GitHub Actions',
+    ],
+    stack: ['ChromaDB', 'GPT-3.5', 'Streamlit', 'AWS', 'pytest', 'GitHub Actions'],
   },
 ];
 
 const CERTS = [
-  { name: 'AWS Certified ML - Specialty', status: 'In Progress', year: '2025' },
+  { name: 'AWS ML Specialty', status: 'In Progress', year: '2025' },
   { name: 'Deep Learning Specialization', org: 'Coursera', year: '2022' },
-  { name: 'LangChain Open-Source', org: 'Contributor', year: '2023' },
+  { name: 'LangChain', org: '8 merged PRs', year: '2023' },
+  { name: 'LlamaIndex', org: '3 merged PRs', year: '2023' },
 ];
 
 const fadeUp = {
@@ -61,86 +87,89 @@ export default function Experience() {
           3 years building prod AI
         </motion.h2>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '2fr 1fr',
-          gap: 12,
-          alignItems: 'start',
-        }}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '2fr 1fr',
+            gap: 12,
+            alignItems: 'start',
+          }}
           className="exp-grid"
         >
-          {/* Main experience card */}
-          {EXPERIENCE.map((job, ji) => (
-            <motion.div key={job.company} variants={fadeUp} custom={ji + 2} className="card-outer">
-              <div className="card-inner" style={{ padding: '32px 28px' }}>
-                {/* Header */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 20, flexWrap: 'wrap', gap: 12 }}>
-                  <div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-                      <h3 style={{ fontSize: 18, fontWeight: 700, letterSpacing: '-0.02em', color: '#f5f5f5' }}>
-                        {job.role}
-                      </h3>
-                      {job.current && (
-                        <span className="tag tag-accent">
-                          <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#22c55e', display: 'inline-block' }} />
-                          Current
-                        </span>
-                      )}
+          {/* Left column — all 3 job cards stacked vertically */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {EXPERIENCE.map((job, ji) => (
+              <motion.div key={job.company} variants={fadeUp} custom={ji + 2} className="card-outer">
+                <div className="card-inner" style={{ padding: '32px 28px' }}>
+                  {/* Header */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 20, flexWrap: 'wrap', gap: 12 }}>
+                    <div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+                        <h3 style={{ fontSize: 18, fontWeight: 700, letterSpacing: '-0.02em', color: '#f5f5f5' }}>
+                          {job.role}
+                        </h3>
+                        {job.current && (
+                          <span className="tag tag-accent">
+                            <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#22c55e', display: 'inline-block' }} />
+                            Current
+                          </span>
+                        )}
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <Briefcase size={13} weight="light" style={{ color: 'var(--accent)' }} />
+                        <span style={{ color: 'var(--accent)', fontSize: 14, fontWeight: 600 }}>{job.company}</span>
+                        <span style={{ color: 'var(--text-muted)', fontSize: 12 }}>{job.location}</span>
+                      </div>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                      <Briefcase size={13} weight="light" style={{ color: 'var(--accent)' }} />
-                      <span style={{ color: 'var(--accent)', fontSize: 14, fontWeight: 600 }}>{job.company}</span>
-                      <span style={{ color: 'var(--text-muted)', fontSize: 12 }}>{job.location}</span>
+                      <CalendarBlank size={13} weight="light" style={{ color: 'var(--text-muted)' }} />
+                      <span style={{
+                        fontFamily: "'Geist Mono', monospace",
+                        fontSize: 11,
+                        color: 'var(--text-muted)',
+                        letterSpacing: '0.04em',
+                      }}>
+                        {job.period}
+                      </span>
                     </div>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                    <CalendarBlank size={13} weight="light" style={{ color: 'var(--text-muted)' }} />
-                    <span style={{
-                      fontFamily: "'Geist Mono', monospace",
-                      fontSize: 11,
-                      color: 'var(--text-muted)',
-                      letterSpacing: '0.04em',
-                    }}>
-                      {job.period}
-                    </span>
+
+                  {/* Divider */}
+                  <div style={{ height: 1, background: 'var(--border)', marginBottom: 20 }} />
+
+                  {/* Bullets */}
+                  <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 24 }}>
+                    {job.bullets.map(b => (
+                      <li key={b} style={{
+                        display: 'flex', alignItems: 'flex-start', gap: 10,
+                        fontSize: 13.5, color: 'var(--text-secondary)', lineHeight: 1.6,
+                      }}>
+                        <span style={{
+                          color: 'var(--accent)',
+                          marginTop: 6,
+                          flexShrink: 0,
+                          width: 4, height: 4, borderRadius: '50%',
+                          background: 'var(--accent)',
+                          display: 'inline-block',
+                        }} />
+                        {b}
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* Stack */}
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                    {job.stack.map(t => (
+                      <span key={t} className="tag">{t}</span>
+                    ))}
                   </div>
                 </div>
+              </motion.div>
+            ))}
+          </div>
 
-                {/* Divider */}
-                <div style={{ height: 1, background: 'var(--border)', marginBottom: 20 }} />
-
-                {/* Bullets */}
-                <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 24 }}>
-                  {job.bullets.map(b => (
-                    <li key={b} style={{
-                      display: 'flex', alignItems: 'flex-start', gap: 10,
-                      fontSize: 13.5, color: 'var(--text-secondary)', lineHeight: 1.6,
-                    }}>
-                      <span style={{
-                        color: 'var(--accent)',
-                        marginTop: 6,
-                        flexShrink: 0,
-                        width: 4, height: 4, borderRadius: '50%',
-                        background: 'var(--accent)',
-                        display: 'inline-block',
-                      }} />
-                      {b}
-                    </li>
-                  ))}
-                </ul>
-
-                {/* Stack */}
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                  {job.stack.map(t => (
-                    <span key={t} className="tag">{t}</span>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-
-          {/* Sidebar - certs */}
-          <motion.div variants={fadeUp} custom={4} className="card-outer">
+          {/* Sidebar — certs */}
+          <motion.div variants={fadeUp} custom={5} className="card-outer">
             <div className="card-inner" style={{ padding: '28px 24px' }}>
               <h4 style={{
                 fontSize: 12,

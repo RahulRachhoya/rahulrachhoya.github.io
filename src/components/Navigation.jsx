@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { List, X } from '@phosphor-icons/react';
+import { List, X, DownloadSimple } from '@phosphor-icons/react';
 
 const NAV_ITEMS = ['About', 'Skills', 'Projects', 'Experience', 'Contact'];
 
@@ -154,6 +154,32 @@ export default function Navigation() {
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: 10,
               }}>↗</span>
+            </a>
+            {/* Resume download */}
+            <a
+              href="/rahulrachhoya-resume.pdf"
+              download="Rahul_Rachhoya_Resume.pdf"
+              style={{
+                background: 'rgba(255,255,255,0.05)',
+                border: '1px solid var(--border)',
+                borderRadius: '9999px',
+                padding: '6px 14px',
+                fontSize: 12,
+                fontWeight: 500,
+                color: 'var(--text-secondary)',
+                cursor: 'pointer',
+                textDecoration: 'none',
+                marginLeft: 4,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 6,
+                transition: 'all 0.3s cubic-bezier(0.32,0.72,0,1)',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.color = '#f5f5f5'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'; e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; }}
+              onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-secondary)'; e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; }}
+            >
+              <DownloadSimple size={13} weight="bold" />
+              Resume
             </a>
           </nav>
 

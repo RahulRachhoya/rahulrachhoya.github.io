@@ -34,13 +34,36 @@ const fadeUp = {
 export default function Contact() {
   const [formState, setFormState] = useState({ name: '', email: '', message: '' });
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const mailto = `mailto:rahulrachhoya0@gmail.com?subject=Portfolio Contact from ${formState.name}&body=${encodeURIComponent(formState.message + '\n\nFrom: ' + formState.email)}`;
-    window.open(mailto);
-    setSent(true);
-    setTimeout(() => setSent(false), 3000);
+    setSending(true);
+    try {
+      const res = await fetch('https://formspree.io/f/rahulrachhoya0@gmail.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          name: formState.name,
+          email: formState.email,
+          message: formState.message,
+        }),
+      });
+      if (res.ok) {
+        setSent(true);
+        setFormState({ name: '', email: '', message: '' });
+        setTimeout(() => setSent(false), 4000);
+      } else {
+        setError(true);
+        setTimeout(() => setError(false), 4000);
+      }
+    } catch {
+      setError(true);
+      setTimeout(() => setError(false), 4000);
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -142,6 +165,7 @@ export default function Contact() {
                 </div>
                 <motion.button
                   type="submit"
+                  disabled={sending}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   style={{
@@ -149,24 +173,26 @@ export default function Contact() {
                     alignItems: 'center',
                     justifyContent: 'center',
                     gap: 10,
-                    background: sent ? '#22c55e' : 'var(--accent)',
+                    background: error ? '#ef4444' : sent ? '#22c55e' : 'var(--accent)',
                     border: 'none',
                     borderRadius: '9999px',
                     padding: '14px 28px',
                     fontSize: 14,
                     fontWeight: 600,
                     color: '#fff',
-                    cursor: 'pointer',
+                    cursor: sending ? 'not-allowed' : 'pointer',
                     transition: 'background 0.4s cubic-bezier(0.32,0.72,0,1)',
-                    boxShadow: sent ? '0 0 20px rgba(34,197,94,0.3)' : '0 0 20px rgba(59,130,246,0.2)',
+                    boxShadow: error ? '0 0 20px rgba(239,68,68,0.3)' : sent ? '0 0 20px rgba(34,197,94,0.3)' : '0 0 20px rgba(59,130,246,0.2)',
                     fontFamily: "'Geist', sans-serif",
+                    opacity: sending ? 0.8 : 1,
                   }}
                 >
-                  {sent ? 'Sent!' : 'Send Message'}
+                  {error ? 'Failed — Try Again' : sent ? 'Message Sent!' : sending ? 'Sending...' : 'Send Message'}
                   <span style={{
                     width: 24, height: 24, borderRadius: '50%',
                     background: 'rgba(0,0,0,0.2)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    animation: sending ? 'pulse 1s ease-in-out infinite' : 'none',
                   }}>
                     <PaperPlaneTilt size={12} weight="fill" />
                   </span>
@@ -222,6 +248,10 @@ export default function Contact() {
       <style>{`
         @media (max-width: 768px) {
           .contact-grid { grid-template-columns: 1fr !important; }
+        }
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.4; }
         }
       `}</style>
     </section>

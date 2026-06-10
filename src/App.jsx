@@ -8,22 +8,18 @@ import GitHubActivity from './components/GitHubActivity';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 
-function App() {
+export default function App() {
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--rp-black)' }}>
+    <div style={{ background: 'var(--bg)', minHeight: '100dvh' }}>
       <Navigation />
-      <main>
-        <Hero />
-        <About />
-        <Skills />
-        <Projects />
-        <Experience />
-        <GitHubActivity />
-        <Contact />
-      </main>
+      <Hero />
+      <About />
+      <Skills />
+      <Projects />
+      <Experience />
+      <GitHubActivity />
+      <Contact />
       <Footer />
     </div>
   );
 }
-
-export default App;

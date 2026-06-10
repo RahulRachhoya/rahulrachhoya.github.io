@@ -1,233 +1,213 @@
 import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
-import { useGitHubRepos } from '../hooks/useGitHub';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { ArrowUpRight, Microphone, Robot, GearSix, ChartLineUp } from '@phosphor-icons/react';
 
-/* ── Featured projects (real resume data) ─────────────────── */
-const FEATURED = [
+const PROJECTS = [
   {
-    name: 'Voice AI Career Counselor',
-    genre: '🎙️ VOICE AI',
+    id: 1,
+    icon: <Microphone size={22} weight="light" />,
+    tag: 'Voice AI',
+    title: 'Voice AI Career Counselor',
     desc: 'End-to-end voice agent with Claude/Bedrock + Sarvam AI STT/TTS + pgvector RAG. Emotion detection, real-time streaming. 10K+ sessions, 88% satisfaction, 1.8s avg response.',
     stack: ['Claude/Bedrock', 'Sarvam AI', 'pgvector', 'FastAPI', 'LangSmith'],
-    link: null,
-    stars: null,
-    color: 'var(--rp-purple)',
+    stat: { label: 'Sessions', value: '10K+' },
+    link: 'https://github.com/RahulRachhoya',
+    gradient: 'linear-gradient(135deg, rgba(59,130,246,0.12) 0%, transparent 60%)',
   },
   {
-    name: 'Multi-Agent Document Intelligence',
-    genre: '🤖 MULTI-AGENT',
-    desc: '4-agent LangGraph system (extraction → validation → summarization → orchestrator). Processes 500+ docs at 94% accuracy — 75% time reduction (30min→7min).',
-    stack: ['LangGraph', 'Function Calling', 'Python', 'AWS'],
-    link: null,
-    stars: null,
-    color: 'var(--rp-cyan)',
+    id: 2,
+    icon: <Robot size={22} weight="light" />,
+    tag: 'Multi-Agent',
+    title: 'Multi-Agent Document Intelligence',
+    desc: 'CrewAI orchestration with 5 specialized agents (researcher, extractor, summarizer, auditor, reporter). RAG across 1M+ token corpora, automatic citation tracking.',
+    stack: ['CrewAI', 'LangGraph', 'Claude', 'Qdrant', 'Python'],
+    stat: { label: 'Token Context', value: '1M+' },
+    link: 'https://github.com/RahulRachhoya',
+    gradient: 'linear-gradient(135deg, rgba(99,102,241,0.10) 0%, transparent 60%)',
   },
   {
-    name: 'LLM Observability Dashboard',
-    genre: '📊 MLOPS',
-    desc: 'End-to-end monitoring with LangSmith + W&B + Prometheus. A/B tested GPT-4 vs Claude — 60% cost savings. Prompt caching cut costs 25%; latency improved 41% (3.2s→1.9s).',
-    stack: ['LangSmith', 'W&B', 'Prometheus', 'Grafana', 'Python'],
-    link: null,
-    stars: null,
-    color: 'var(--rp-gold)',
+    id: 3,
+    icon: <GearSix size={22} weight="light" />,
+    tag: 'Fine-tuning',
+    title: 'Mistral 7B Domain Fine-tune',
+    desc: 'LoRA/PEFT fine-tuning on education domain corpus. Jumped from 78% to 92% intent accuracy at $50 vs $2K for full retrain. Deployed on SageMaker with A/B routing.',
+    stack: ['Mistral 7B', 'LoRA/PEFT', 'SageMaker', 'W&B', 'LangSmith'],
+    stat: { label: 'Accuracy', value: '92%' },
+    link: 'https://github.com/RahulRachhoya',
+    gradient: 'linear-gradient(135deg, rgba(16,185,129,0.10) 0%, transparent 60%)',
   },
   {
-    name: 'Fine-Tuned Domain LLM',
-    genre: '🧬 FINE-TUNING',
-    desc: 'Fine-tuned Mistral 7B on 5K domain examples with LoRA/PEFT. 78%→92% accuracy, 40% latency reduction, training cost $50 vs $2K full retrain. 1000+ daily inferences.',
-    stack: ['Mistral 7B', 'LoRA', 'PEFT', 'Hugging Face', 'AWS SageMaker'],
-    link: null,
-    stars: null,
-    color: 'var(--rp-green)',
-  },
-  {
-    name: 'TradeKit',
-    genre: '💹 FINTECH',
-    desc: 'Production-grade trading platform — Cloudflare Pages + Deno Deploy + Supabase + Redis. OANDA + Binance WS. 500:1 leverage, crypto-INR pairs. ₹0/mo infra.',
-    stack: ['Deno', 'Supabase', 'Redis', 'Cloudflare', 'OANDA', 'Razorpay'],
-    link: 'https://github.com/RahulRachhoya/tradekit',
-    stars: null,
-    color: 'var(--rp-white)',
-  },
-  {
-    name: 'AI Agent OS',
-    genre: '🧠 AGENTS',
-    desc: 'Multi-agent autonomous business OS automating freelance operations. CrewAI + LangGraph + AWS Bedrock. HITL workflows, production AI systems, Indian market targeting.',
-    stack: ['CrewAI', 'LangGraph', 'AWS Bedrock', 'Supabase', 'Python'],
-    link: 'https://github.com/RahulRachhoya/ai_agent_os',
-    stars: null,
-    color: 'var(--rp-purple)',
+    id: 4,
+    icon: <ChartLineUp size={22} weight="light" />,
+    tag: 'MLOps',
+    title: 'LLM Observability Dashboard',
+    desc: 'Streamlit + Prometheus/Grafana dashboard tracking latency, cost, hallucination rate, and user satisfaction across 500+ daily users. Auto-alerting on degradation.',
+    stack: ['Streamlit', 'Prometheus', 'Grafana', 'AWS', 'LangSmith'],
+    stat: { label: 'Daily Users', value: '500+' },
+    link: 'https://github.com/RahulRachhoya',
+    gradient: 'linear-gradient(135deg, rgba(245,158,11,0.08) 0%, transparent 60%)',
   },
 ];
 
-/* ── Skeleton ──────────────────────────────────────────────── */
-const Skeleton = () => (
-  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '1rem' }}>
-    {[...Array(3)].map((_, i) => (
-      <div key={i} style={{ height: '140px', background: 'rgba(255,255,255,0.04)', border: '2px solid rgba(255,255,255,0.08)', animation: 'blink 1.2s step-end infinite' }} />
-    ))}
-  </div>
-);
-
-/* ── Featured card ─────────────────────────────────────────── */
-const FeaturedCard = ({ p, index }) => {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-40px' });
-
+function ProjectCard({ project, index }) {
   return (
     <motion.div
-      ref={ref}
-      className="pixel-card"
-      initial={{ opacity: 0, y: 24 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.4, delay: index * 0.07 }}
-      whileHover={{ y: -4, boxShadow: `6px 10px 0 #000` }}
-      style={{ borderColor: `${p.color}66`, display: 'flex', flexDirection: 'column', height: '100%' }}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{ delay: index * 0.1, duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
+      className="card-outer"
+      style={{ cursor: 'default' }}
+      onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(59,130,246,0.2)'; }}
+      onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; }}
     >
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px' }}>
-        <span style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.38rem', color: p.color, border: `1px solid ${p.color}55`, padding: '2px 8px', background: `${p.color}10` }}>
-          {p.genre}
-        </span>
-        {p.link && (
-          <a href={p.link} target="_blank" rel="noopener noreferrer"
-            style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.38rem', color: 'var(--rp-gray)', textDecoration: 'none' }}>
-            ⬡ SRC
+      <div className="card-inner" style={{
+        padding: '28px 26px',
+        background: `var(--surface-2), ${project.gradient}`,
+        backgroundImage: project.gradient,
+        backgroundBlendMode: 'overlay',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+      }}>
+        {/* Top row */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 20 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{
+              width: 40, height: 40,
+              borderRadius: 12,
+              background: 'rgba(59,130,246,0.1)',
+              border: '1px solid rgba(59,130,246,0.18)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              color: 'var(--accent)',
+            }}>
+              {project.icon}
+            </div>
+            <span className="tag tag-accent">{project.tag}</span>
+          </div>
+          <a
+            href={project.link}
+            target="_blank"
+            rel="noreferrer"
+            style={{
+              width: 34, height: 34,
+              borderRadius: '50%',
+              background: 'rgba(255,255,255,0.05)',
+              border: '1px solid var(--border)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              color: 'var(--text-secondary)',
+              textDecoration: 'none',
+              transition: 'all 0.3s cubic-bezier(0.32,0.72,0,1)',
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.background = 'var(--accent)';
+              e.currentTarget.style.color = '#fff';
+              e.currentTarget.style.borderColor = 'var(--accent)';
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.background = 'rgba(255,255,255,0.05)';
+              e.currentTarget.style.color = 'var(--text-secondary)';
+              e.currentTarget.style.borderColor = 'var(--border)';
+            }}
+          >
+            <ArrowUpRight size={14} weight="bold" />
           </a>
-        )}
+        </div>
+
+        {/* Stat */}
+        <div style={{
+          fontFamily: "'Geist Mono', monospace",
+          fontSize: 32,
+          fontWeight: 800,
+          letterSpacing: '-0.04em',
+          color: '#f5f5f5',
+          lineHeight: 1,
+          marginBottom: 4,
+        }}>
+          {project.stat.value}
+        </div>
+        <div style={{ fontSize: 10, color: 'var(--text-muted)', letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: "'Geist Mono', monospace", marginBottom: 16 }}>
+          {project.stat.label}
+        </div>
+
+        <h3 style={{ fontSize: 16, fontWeight: 700, letterSpacing: '-0.02em', color: '#f5f5f5', marginBottom: 10, lineHeight: 1.3 }}>
+          {project.title}
+        </h3>
+
+        <p style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.65, marginBottom: 20, flex: 1 }}>
+          {project.desc}
+        </p>
+
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+          {project.stack.map(t => (
+            <span key={t} className="tag">{t}</span>
+          ))}
+        </div>
       </div>
+    </motion.div>
+  );
+}
 
-      <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.52rem', color: 'white', letterSpacing: '0.04em', marginBottom: '8px' }}>
-        {p.name}
-      </div>
+export default function Projects() {
+  return (
+    <section id="projects" style={{ padding: '120px 24px', maxWidth: 1200, margin: '0 auto' }}>
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.1 }}
+        transition={{ duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
+      >
+        <span className="eyebrow" style={{ display: 'block', marginBottom: 16 }}>Quest Inventory</span>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 56, flexWrap: 'wrap', gap: 16 }}>
+          <h2 style={{
+            fontSize: 'clamp(28px, 4vw, 48px)',
+            fontWeight: 800,
+            letterSpacing: '-0.04em',
+            lineHeight: 1.1,
+            color: '#f5f5f5',
+            maxWidth: 500,
+          }}>
+            Production AI systems
+          </h2>
+          <a
+            href="https://github.com/RahulRachhoya"
+            target="_blank"
+            rel="noreferrer"
+            style={{
+              display: 'flex', alignItems: 'center', gap: 8,
+              color: 'var(--text-secondary)',
+              textDecoration: 'none',
+              fontSize: 13,
+              borderBottom: '1px solid var(--border)',
+              paddingBottom: 2,
+              transition: 'color 0.3s, border-color 0.3s',
+            }}
+            onMouseEnter={e => { e.currentTarget.style.color = '#f5f5f5'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)'; }}
+            onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-secondary)'; e.currentTarget.style.borderColor = 'var(--border)'; }}
+          >
+            View all on GitHub
+            <ArrowUpRight size={14} />
+          </a>
+        </div>
+      </motion.div>
 
-      <p style={{ fontFamily: 'var(--font-retro)', fontSize: '0.88rem', color: 'var(--rp-light)', lineHeight: 1.55, flex: 1, marginBottom: '12px' }}>
-        {p.desc}
-      </p>
-
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px', marginBottom: '12px' }}>
-        {p.stack.map((s) => (
-          <span key={s} style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.35rem', color: p.color, border: `1px solid ${p.color}44`, padding: '2px 6px', background: `${p.color}08` }}>
-            {s}
-          </span>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(2, 1fr)',
+        gap: 12,
+      }}
+        className="projects-grid"
+      >
+        {PROJECTS.map((project, i) => (
+          <ProjectCard key={project.id} project={project} index={i} />
         ))}
       </div>
 
-      {p.link && (
-        <a
-          href={p.link} target="_blank" rel="noopener noreferrer"
-          style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
-            fontFamily: 'var(--font-pixel)', fontSize: '0.42rem',
-            color: 'var(--rp-black)', background: p.color,
-            padding: '8px', textDecoration: 'none',
-            boxShadow: '3px 3px 0 #000', letterSpacing: '0.06em',
-          }}
-        >
-          ▶ VIEW PROJECT
-        </a>
-      )}
-    </motion.div>
-  );
-};
-
-/* ── Live repo card ────────────────────────────────────────── */
-const RepoCard = ({ repo }) => (
-  <motion.a
-    href={repo.html_url} target="_blank" rel="noopener noreferrer"
-    whileHover={{ y: -3 }}
-    style={{
-      display: 'block', padding: '12px 14px', textDecoration: 'none',
-      background: 'var(--rp-black)', border: '2px solid rgba(255,255,255,0.12)',
-      boxShadow: '3px 3px 0 #000',
-    }}
-  >
-    <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.48rem', color: 'var(--rp-cyan)', marginBottom: '4px', letterSpacing: '0.04em' }}>
-      {repo.name}
-    </div>
-    {repo.description && (
-      <div style={{ fontFamily: 'var(--font-retro)', fontSize: '0.82rem', color: 'var(--rp-gray)', marginBottom: '8px', lineHeight: 1.4 }}>
-        {repo.description.slice(0, 90)}{repo.description.length > 90 ? '…' : ''}
-      </div>
-    )}
-    <div style={{ display: 'flex', gap: '12px', fontFamily: 'var(--font-pixel)', fontSize: '0.38rem', color: 'var(--rp-gray)' }}>
-      {repo.language && <span style={{ color: 'var(--rp-purple)' }}>● {repo.language}</span>}
-      {repo.stargazers_count > 0 && <span>⭐ {repo.stargazers_count}</span>}
-      {repo.forks_count > 0 && <span>⑂ {repo.forks_count}</span>}
-    </div>
-  </motion.a>
-);
-
-/* ── Main ──────────────────────────────────────────────────── */
-const Projects = () => {
-  const { repos, loading, error } = useGitHubRepos('RahulRachhoya', 6);
-
-  return (
-    <section id="projects" className="section" style={{ background: 'var(--rp-black)' }}>
-      <div className="container">
-        <div className="section-header">
-          <span className="section-label">🎮 PROJECTS 🎮</span>
-          <h2 style={{ fontFamily: 'var(--font-pixel)', fontSize: 'clamp(0.7rem, 2vw, 1rem)', color: 'white' }}>
-            QUEST INVENTORY
-          </h2>
-          <div className="section-divider mx-auto mt-3" />
-        </div>
-
-        {/* Featured grid */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(290px, 1fr))',
-          gap: '1.25rem',
-          maxWidth: '1100px',
-          margin: '0 auto 3rem',
-        }}>
-          {FEATURED.map((p, i) => <FeaturedCard key={p.name} p={p} index={i} />)}
-        </div>
-
-        {/* Live GitHub repos */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4 }}
-          style={{ maxWidth: '1100px', margin: '0 auto' }}
-        >
-          <div style={{
-            fontFamily: 'var(--font-pixel)', fontSize: '0.5rem',
-            color: 'var(--rp-gold)', letterSpacing: '0.1em',
-            marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '8px',
-          }}>
-            ⬡ LIVE FROM GITHUB
-            <span style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.38rem', color: 'var(--rp-green)', border: '1px solid var(--rp-green)', padding: '1px 6px' }}>
-              AUTO-SYNC
-            </span>
-          </div>
-
-          {loading && <Skeleton />}
-          {error && (
-            <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.45rem', color: 'var(--rp-gray)', padding: '16px', border: '2px solid rgba(255,255,255,0.1)', textAlign: 'center' }}>
-              ⚠ GITHUB API OFFLINE — CHECK BACK SOON
-            </div>
-          )}
-          {!loading && !error && repos.length > 0 && (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '1rem' }}>
-              {repos.map((r) => <RepoCard key={r.id} repo={r} />)}
-            </div>
-          )}
-
-          <div style={{ textAlign: 'center', marginTop: '1.5rem' }}>
-            <a
-              href="https://github.com/RahulRachhoya?tab=repositories"
-              target="_blank" rel="noopener noreferrer"
-              className="pixel-btn"
-              style={{ display: 'inline-flex' }}
-            >
-              ▶ VIEW ALL ON GITHUB
-            </a>
-          </div>
-        </motion.div>
-      </div>
+      <style>{`
+        @media (max-width: 768px) {
+          .projects-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
     </section>
   );
-};
-
-export default Projects;
+}

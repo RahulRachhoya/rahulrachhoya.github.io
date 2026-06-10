@@ -1,267 +1,229 @@
-import { useState, useEffect, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { PaperPlaneTilt, At, LinkedinLogo, GithubLogo, ArrowUpRight } from '@phosphor-icons/react';
 
-/* ─── Typewriter ─── */
-const useTypewriter = (text, speed = 30, trigger = false) => {
-  const [displayed, setDisplayed] = useState('');
-  const [done, setDone] = useState(false);
-  useEffect(() => {
-    if (!trigger) return;
-    setDisplayed(''); setDone(false); let i = 0;
-    const t = setInterval(() => {
-      if (i < text.length) { setDisplayed(text.slice(0, ++i)); }
-      else { setDone(true); clearInterval(t); }
-    }, speed);
-    return () => clearInterval(t);
-  }, [text, speed, trigger]);
-  return { displayed, done };
+const LINKS = [
+  {
+    label: 'Email',
+    value: 'rahulrachhoya0@gmail.com',
+    href: 'mailto:rahulrachhoya0@gmail.com',
+    icon: <At size={18} weight="light" />,
+  },
+  {
+    label: 'LinkedIn',
+    value: 'linkedin.com/in/rahulrachhoya',
+    href: 'https://linkedin.com/in/rahulrachhoya',
+    icon: <LinkedinLogo size={18} weight="light" />,
+  },
+  {
+    label: 'GitHub',
+    value: 'github.com/RahulRachhoya',
+    href: 'https://github.com/RahulRachhoya',
+    icon: <GithubLogo size={18} weight="light" />,
+  },
+];
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  show: (i) => ({
+    opacity: 1, y: 0,
+    transition: { delay: i * 0.08, duration: 0.55, ease: [0.32, 0.72, 0, 1] },
+  }),
 };
 
-const Contact = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-  const [status, setStatus]     = useState('');
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-100px' });
-
-  const npcDialogue = "Greetings, adventurer! I'm Rahul — AI Engineer & Full-Stack Dev. Ready to collaborate on your next quest? Drop a message below!";
-  const { displayed, done } = useTypewriter(npcDialogue, 28, inView);
+export default function Contact() {
+  const [formState, setFormState] = useState({ name: '', email: '', message: '' });
+  const [sent, setSent] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setStatus('MESSAGE DELIVERED! Awaiting response from Rahul...');
-    setFormData({ name: '', email: '', message: '' });
-    setTimeout(() => setStatus(''), 4000);
+    const mailto = `mailto:rahulrachhoya0@gmail.com?subject=Portfolio Contact from ${formState.name}&body=${encodeURIComponent(formState.message + '\n\nFrom: ' + formState.email)}`;
+    window.open(mailto);
+    setSent(true);
+    setTimeout(() => setSent(false), 3000);
   };
 
-  const socialLinks = [
-    { name: 'GITHUB',   url: 'https://github.com/RahulRachhoya',     emoji: '⬡', color: 'var(--rp-white)' },
-    { name: 'LINKEDIN', url: 'https://www.linkedin.com/in/rahul-rachhoya/', emoji: '💼', color: 'var(--rp-cyan)'  },
-    { name: 'EMAIL',    url: 'mailto:rahulrachhoya0@gmail.com',       emoji: '✉️', color: 'var(--rp-gold)'  },
-  ];
-
   return (
-    <section id="contact" ref={ref} className="section" style={{ background: 'var(--rp-deep)' }}>
-      <div className="container">
+    <section id="contact" style={{ padding: '120px 24px 80px', maxWidth: 1200, margin: '0 auto' }}>
+      <motion.div
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.1 }}
+      >
+        <motion.div variants={fadeUp} custom={0} style={{ marginBottom: 16 }}>
+          <span className="eyebrow">Send Message</span>
+        </motion.div>
 
-        {/* Header */}
-        <div className="section-header">
-          <span className="section-label">💬 DIALOGUE 💬</span>
-          <h2 style={{ fontFamily: 'var(--font-pixel)', fontSize: 'clamp(0.7rem, 2vw, 1rem)', color: 'white' }}>
-            TALK TO NPC
-          </h2>
-          <div className="section-divider mx-auto mt-3" />
-        </div>
+        <motion.h2
+          variants={fadeUp}
+          custom={1}
+          style={{
+            fontSize: 'clamp(28px, 4vw, 48px)',
+            fontWeight: 800,
+            letterSpacing: '-0.04em',
+            lineHeight: 1.1,
+            color: '#f5f5f5',
+            marginBottom: 56,
+          }}
+        >
+          Let's build something
+          <span style={{ color: 'var(--accent)' }}> together</span>
+        </motion.h2>
 
-        <div className="max-w-4xl mx-auto" style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-
-          {/* NPC Dialogue Box */}
-          <div style={{ position: 'relative', paddingTop: '1rem' }}>
-            <div style={{
-              background: 'var(--rp-black)',
-              border: '4px solid white',
-              boxShadow: '6px 6px 0 #000, inset 0 0 0 2px var(--rp-purple-dark)',
-              padding: '20px 24px',
-              position: 'relative',
-            }}>
-              {/* NPC name badge */}
-              <div style={{
-                position: 'absolute', top: '-14px', left: '20px',
-                background: 'var(--rp-purple)', border: '3px solid white',
-                padding: '2px 12px', fontFamily: 'var(--font-pixel)',
-                fontSize: '0.5rem', color: 'white', letterSpacing: '0.1em',
-              }}>
-                RAHUL.NPC
-              </div>
-
-              <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
-                <div style={{
-                  width: '48px', height: '48px', flexShrink: 0,
-                  border: '3px solid var(--rp-purple)', background: 'var(--rp-purple-dark)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: '1.5rem', boxShadow: '3px 3px 0 #000',
-                  animation: 'idle-float 2.5s ease-in-out infinite',
-                }}>
-                  👾
-                </div>
-                <div style={{ flex: 1 }}>
-                  <p style={{ fontFamily: 'var(--font-retro)', fontSize: '1.05rem', color: 'var(--rp-light)', lineHeight: 1.7, margin: 0 }}>
-                    {displayed}
-                    {!done && <span style={{ animation: 'blink 0.7s step-end infinite', fontFamily: 'var(--font-pixel)' }}>▮</span>}
-                  </p>
-                </div>
-              </div>
-
-              {done && (
-                <div style={{
-                  position: 'absolute', bottom: '10px', right: '16px',
-                  fontFamily: 'var(--font-pixel)', fontSize: '0.5rem',
-                  color: 'var(--rp-gold)', animation: 'blink 0.8s step-end infinite',
-                }}>▼</div>
-              )}
-            </div>
-          </div>
-
-          {/* Two-column layout */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.5rem' }}>
-
-            {/* Left — contact info + socials */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-
-              {/* Email card */}
-              <div className="pixel-card pixel-card-purple">
-                <div style={{
-                  fontFamily: 'var(--font-pixel)', fontSize: '0.5rem',
-                  color: 'var(--rp-gold)', letterSpacing: '0.1em',
-                  marginBottom: '14px', paddingBottom: '10px',
-                  borderBottom: '2px solid var(--rp-purple)',
-                }}>
-                  ♦ CONTACT INFO
-                </div>
-                <a
-                  href="mailto:rahulrachhoya0@gmail.com"
-                  style={{
-                    fontFamily: 'var(--font-retro)', fontSize: '0.95rem',
-                    color: 'var(--rp-cyan)', textDecoration: 'none',
-                    display: 'flex', alignItems: 'center', gap: '8px',
-                    wordBreak: 'break-all',
-                  }}
-                >
-                  ✉️ rahulrachhoya0@gmail.com
-                </a>
-              </div>
-
-              {/* Social links */}
-              <div className="pixel-card">
-                <div style={{
-                  fontFamily: 'var(--font-pixel)', fontSize: '0.5rem',
-                  color: 'var(--rp-gold)', letterSpacing: '0.1em',
-                  marginBottom: '14px', paddingBottom: '10px',
-                  borderBottom: '2px solid rgba(255,255,255,0.15)',
-                }}>
-                  ♦ SOCIAL LINKS
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  {socialLinks.map((link) => (
-                    <a
-                      key={link.name}
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        display: 'flex', alignItems: 'center', gap: '10px',
-                        fontFamily: 'var(--font-pixel)', fontSize: '0.5rem',
-                        color: link.color, padding: '8px 10px',
-                        border: `2px solid ${link.color}44`,
-                        background: `${link.color}10`,
-                        transition: 'all 0.1s', letterSpacing: '0.08em',
-                        textDecoration: 'none',
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.background = `${link.color}25`;
-                        e.currentTarget.style.transform = 'translateX(3px)';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.background = `${link.color}10`;
-                        e.currentTarget.style.transform = '';
-                      }}
-                    >
-                      <span>{link.emoji}</span>
-                      ▶ {link.name}
-                    </a>
-                  ))}
-                </div>
-              </div>
-
-              {/* Resume download CTA */}
-              <motion.a
-                href="/resume.pdf"
-                download="Rahul_Rachhoya_Resume.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.02, y: -2 }}
-                whileTap={{ scale: 0.97 }}
-                style={{
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  gap: '10px', padding: '14px 20px',
-                  background: 'linear-gradient(135deg, var(--rp-purple), var(--rp-purple-dark))',
-                  border: '3px solid var(--rp-gold)',
-                  boxShadow: '4px 4px 0 #000',
-                  fontFamily: 'var(--font-pixel)', fontSize: '0.55rem',
-                  color: 'var(--rp-gold)', letterSpacing: '0.1em',
-                  textDecoration: 'none', cursor: 'pointer',
-                }}
-              >
-                ⬇ DOWNLOAD RESUME
-              </motion.a>
-            </div>
-
-            {/* Right — form */}
-            <div className="pixel-card pixel-card-gold">
-              <div style={{
-                fontFamily: 'var(--font-pixel)', fontSize: '0.5rem',
-                color: 'var(--rp-gold)', letterSpacing: '0.1em',
-                marginBottom: '20px', paddingBottom: '12px',
-                borderBottom: '2px solid var(--rp-gold)',
-              }}>
-                ♦ SEND MESSAGE
-              </div>
-
-              <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: 12,
+          alignItems: 'start',
+        }}
+          className="contact-grid"
+        >
+          {/* Form */}
+          <motion.div variants={fadeUp} custom={2} className="card-outer">
+            <div className="card-inner" style={{ padding: '32px 28px' }}>
+              <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                 {[
-                  { id: 'name',  label: 'YOUR NAME',     type: 'text',  placeholder: 'ADVENTURER...' },
-                  { id: 'email', label: 'EMAIL ADDRESS',  type: 'email', placeholder: 'hero@quest.gg' },
-                ].map((field) => (
-                  <div key={field.id} style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                    <label
-                      htmlFor={field.id}
-                      style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.45rem', color: 'var(--rp-gray)', letterSpacing: '0.1em' }}
-                    >
-                      ▶ {field.label}
+                  { key: 'name', label: 'Name', type: 'text', placeholder: 'Your name' },
+                  { key: 'email', label: 'Email', type: 'email', placeholder: 'your@email.com' },
+                ].map(field => (
+                  <div key={field.key}>
+                    <label style={{ fontSize: 11, color: 'var(--text-muted)', letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: "'Geist Mono', monospace", display: 'block', marginBottom: 8 }}>
+                      {field.label}
                     </label>
                     <input
-                      type={field.type} id={field.id} name={field.id}
-                      value={formData[field.id]} onChange={(e) => setFormData({ ...formData, [e.target.name]: e.target.value })}
-                      required placeholder={field.placeholder} className="pixel-input"
+                      type={field.type}
+                      value={formState[field.key]}
+                      onChange={e => setFormState(s => ({ ...s, [field.key]: e.target.value }))}
+                      placeholder={field.placeholder}
+                      required
+                      style={{
+                        width: '100%',
+                        background: 'rgba(255,255,255,0.04)',
+                        border: '1px solid var(--border)',
+                        borderRadius: 12,
+                        padding: '12px 16px',
+                        fontSize: 14,
+                        color: '#f5f5f5',
+                        outline: 'none',
+                        transition: 'border-color 0.3s cubic-bezier(0.32,0.72,0,1)',
+                        fontFamily: "'Geist', sans-serif",
+                      }}
+                      onFocus={e => { e.target.style.borderColor = 'rgba(59,130,246,0.4)'; }}
+                      onBlur={e => { e.target.style.borderColor = 'var(--border)'; }}
                     />
                   </div>
                 ))}
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                  <label
-                    htmlFor="message"
-                    style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.45rem', color: 'var(--rp-gray)', letterSpacing: '0.1em' }}
-                  >
-                    ▶ MESSAGE
+                <div>
+                  <label style={{ fontSize: 11, color: 'var(--text-muted)', letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: "'Geist Mono', monospace", display: 'block', marginBottom: 8 }}>
+                    Message
                   </label>
                   <textarea
-                    id="message" name="message"
-                    value={formData.message} onChange={(e) => setFormData({ ...formData, [e.target.name]: e.target.value })}
-                    required rows={4} placeholder="DESCRIBE YOUR QUEST..."
-                    className="pixel-input" style={{ resize: 'none' }}
+                    value={formState.message}
+                    onChange={e => setFormState(s => ({ ...s, message: e.target.value }))}
+                    placeholder="Tell me about your project or opportunity..."
+                    required
+                    rows={4}
+                    style={{
+                      width: '100%',
+                      background: 'rgba(255,255,255,0.04)',
+                      border: '1px solid var(--border)',
+                      borderRadius: 12,
+                      padding: '12px 16px',
+                      fontSize: 14,
+                      color: '#f5f5f5',
+                      outline: 'none',
+                      resize: 'vertical',
+                      transition: 'border-color 0.3s cubic-bezier(0.32,0.72,0,1)',
+                      fontFamily: "'Geist', sans-serif",
+                    }}
+                    onFocus={e => { e.target.style.borderColor = 'rgba(59,130,246,0.4)'; }}
+                    onBlur={e => { e.target.style.borderColor = 'var(--border)'; }}
                   />
                 </div>
-
-                <button type="submit" className="pixel-btn pixel-btn-gold w-full justify-center">
-                  ▶ SEND MESSAGE
-                </button>
-
-                {status && (
-                  <div style={{
-                    fontFamily: 'var(--font-pixel)', fontSize: '0.45rem',
-                    color: 'var(--rp-green)', border: '2px solid var(--rp-green)',
-                    padding: '10px 14px', background: 'rgba(0,255,136,0.1)',
-                    letterSpacing: '0.05em', textAlign: 'center',
+                <motion.button
+                  type="submit"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 10,
+                    background: sent ? '#22c55e' : 'var(--accent)',
+                    border: 'none',
+                    borderRadius: '9999px',
+                    padding: '14px 28px',
+                    fontSize: 14,
+                    fontWeight: 600,
+                    color: '#fff',
+                    cursor: 'pointer',
+                    transition: 'background 0.4s cubic-bezier(0.32,0.72,0,1)',
+                    boxShadow: sent ? '0 0 20px rgba(34,197,94,0.3)' : '0 0 20px rgba(59,130,246,0.2)',
+                    fontFamily: "'Geist', sans-serif",
+                  }}
+                >
+                  {sent ? 'Sent!' : 'Send Message'}
+                  <span style={{
+                    width: 24, height: 24, borderRadius: '50%',
+                    background: 'rgba(0,0,0,0.2)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
                   }}>
-                    ✓ {status}
-                  </div>
-                )}
+                    <PaperPlaneTilt size={12} weight="fill" />
+                  </span>
+                </motion.button>
               </form>
             </div>
+          </motion.div>
+
+          {/* Sidebar links */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {LINKS.map((link, i) => (
+              <motion.a
+                key={link.label}
+                variants={fadeUp}
+                custom={i + 3}
+                href={link.href}
+                target={link.href.startsWith('mailto') ? undefined : '_blank'}
+                rel="noreferrer"
+                className="card-outer"
+                style={{ textDecoration: 'none', display: 'block' }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(59,130,246,0.25)'; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; }}
+              >
+                <div className="card-inner" style={{ padding: '22px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <div style={{
+                      width: 36, height: 36,
+                      borderRadius: 10,
+                      background: 'rgba(59,130,246,0.08)',
+                      border: '1px solid rgba(59,130,246,0.15)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      color: 'var(--accent)',
+                    }}>
+                      {link.icon}
+                    </div>
+                    <div>
+                      <div style={{ fontSize: 11, color: 'var(--text-muted)', letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: "'Geist Mono', monospace", marginBottom: 2 }}>
+                        {link.label}
+                      </div>
+                      <div style={{ fontSize: 13, color: '#f5f5f5', fontWeight: 500 }}>
+                        {link.value}
+                      </div>
+                    </div>
+                  </div>
+                  <ArrowUpRight size={14} weight="bold" style={{ color: 'var(--text-muted)' }} />
+                </div>
+              </motion.a>
+            ))}
           </div>
         </div>
-      </div>
+      </motion.div>
+
+      <style>{`
+        @media (max-width: 768px) {
+          .contact-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
     </section>
   );
-};
-
-export default Contact;
+}

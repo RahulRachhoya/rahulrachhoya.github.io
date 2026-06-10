@@ -1,250 +1,336 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { useGitHubProfile, useGitHubStats } from '../hooks/useGitHub';
+import { ArrowUpRight, Code, Brain, Microphone } from '@phosphor-icons/react';
+import ThreeBackground from './ThreeBackground';
 
-const TITLES = [
-  'AI ENGINEER',
-  'LLM ARCHITECT',
-  'VOICE AI BUILDER',
-  'RAG SPECIALIST',
-  'FULL-STACK DEV',
-  'MLOPS ENGINEER',
-];
+const TYPED_WORDS = ['LLM Systems', 'RAG Pipelines', 'Voice AI', 'MLOps', 'Multi-Agent'];
 
-const SPARKLE_POSITIONS = [
-  { top: '8%',  left: '12%' }, { top: '15%', left: '75%' },
-  { top: '70%', left: '8%'  }, { top: '60%', left: '85%' },
-  { top: '35%', left: '92%' }, { top: '80%', left: '60%' },
-];
+export default function Hero() {
+  const [wordIdx, setWordIdx] = useState(0);
+  const [displayed, setDisplayed] = useState('');
+  const [deleting, setDeleting] = useState(false);
+  const timeoutRef = useRef(null);
 
-const Hero = () => {
-  const [titleIdx, setTitleIdx] = useState(0);
-  const { profile } = useGitHubProfile('RahulRachhoya');
-  const { totalStars, totalRepos, loading: statsLoading } = useGitHubStats('RahulRachhoya');
-
+  // Typewriter effect
   useEffect(() => {
-    const t = setInterval(() => setTitleIdx((i) => (i + 1) % TITLES.length), 2200);
-    return () => clearInterval(t);
-  }, []);
-
-  const stats = [
-    { label: 'REPOS',     value: statsLoading ? '…' : totalRepos,                       color: 'var(--rp-cyan)'   },
-    { label: 'STARS',     value: statsLoading ? '…' : totalStars,                       color: 'var(--rp-gold)'   },
-    { label: 'FOLLOWERS', value: statsLoading ? '…' : (profile?.followers ?? '…'),      color: 'var(--rp-purple)' },
-    { label: 'YRS EXP',   value: '3+',                                                  color: 'var(--rp-green)'  },
-  ];
+    const word = TYPED_WORDS[wordIdx];
+    if (!deleting && displayed.length < word.length) {
+      timeoutRef.current = setTimeout(() => setDisplayed(word.slice(0, displayed.length + 1)), 75);
+    } else if (!deleting && displayed.length === word.length) {
+      timeoutRef.current = setTimeout(() => setDeleting(true), 1800);
+    } else if (deleting && displayed.length > 0) {
+      timeoutRef.current = setTimeout(() => setDisplayed(displayed.slice(0, -1)), 40);
+    } else if (deleting && displayed.length === 0) {
+      setDeleting(false);
+      setWordIdx(i => (i + 1) % TYPED_WORDS.length);
+    }
+    return () => clearTimeout(timeoutRef.current);
+  }, [displayed, deleting, wordIdx]);
 
   return (
     <section
       id="home"
-      className="section"
       style={{
-        minHeight: '100vh', display: 'flex', alignItems: 'center',
-        background: 'linear-gradient(180deg, var(--rp-black) 0%, var(--rp-deep) 100%)',
-        position: 'relative', overflow: 'hidden',
+        position: 'relative',
+        minHeight: '100dvh',
+        display: 'flex',
+        alignItems: 'center',
+        overflow: 'hidden',
+        paddingTop: 80,
       }}
     >
-      {/* Scanline overlay */}
+      {/* 3D WebGL background */}
+      <ThreeBackground />
+
+      {/* Radial glow blobs */}
       <div style={{
-        position: 'absolute', inset: 0, pointerEvents: 'none',
-        background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.06) 2px, rgba(0,0,0,0.06) 4px)',
+        position: 'absolute',
+        top: '20%',
+        left: '55%',
+        width: 600,
+        height: 600,
+        borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%)',
+        pointerEvents: 'none',
+        zIndex: 1,
+      }} />
+      <div style={{
+        position: 'absolute',
+        bottom: '10%',
+        left: '5%',
+        width: 400,
+        height: 400,
+        borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(59,130,246,0.05) 0%, transparent 70%)',
+        pointerEvents: 'none',
         zIndex: 1,
       }} />
 
-      {/* Sparkles */}
-      {SPARKLE_POSITIONS.map((pos, i) => (
-        <motion.div
-          key={i}
-          style={{ position: 'absolute', ...pos, zIndex: 2, fontSize: '0.9rem', color: 'var(--rp-gold)', pointerEvents: 'none' }}
-          animate={{ opacity: [0, 1, 0], scale: [0.5, 1, 0.5] }}
-          transition={{ duration: 2.5, delay: i * 0.5, repeat: Infinity }}
-        >✦</motion.div>
-      ))}
-
-      <div className="container" style={{ position: 'relative', zIndex: 3 }}>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: '3rem', alignItems: 'center',
-        }}>
-
-          {/* ── Left: text ── */}
+      {/* Content */}
+      <div style={{
+        position: 'relative',
+        zIndex: 2,
+        width: '100%',
+        maxWidth: 1200,
+        margin: '0 auto',
+        padding: '0 24px',
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gap: 60,
+        alignItems: 'center',
+      }}
+        className="hero-grid"
+      >
+        {/* LEFT — text */}
+        <div>
+          {/* Available tag */}
           <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
+            style={{ marginBottom: 24 }}
           >
-            {/* Available badge */}
-            <motion.div
-              animate={{ opacity: [0.7, 1, 0.7] }}
-              transition={{ duration: 2, repeat: Infinity }}
+            <span className="tag tag-accent">
+              <span style={{
+                width: 6, height: 6, borderRadius: '50%',
+                background: '#22c55e',
+                display: 'inline-block',
+                animation: 'pulse 2s infinite',
+              }} />
+              Available for hire
+            </span>
+          </motion.div>
+
+          {/* Headline */}
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.7, ease: [0.32, 0.72, 0, 1] }}
+            style={{
+              fontSize: 'clamp(42px, 6vw, 76px)',
+              fontWeight: 800,
+              letterSpacing: '-0.04em',
+              lineHeight: 1.0,
+              color: '#f5f5f5',
+              marginBottom: 16,
+            }}
+          >
+            Rahul<br />
+            <span style={{ color: 'var(--text-secondary)', fontWeight: 300 }}>Rachhoya</span>
+          </motion.h1>
+
+          {/* Typewriter subtitle */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.55, duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8,
+              marginBottom: 20,
+              fontFamily: "'Geist Mono', monospace",
+              fontSize: 'clamp(14px, 2vw, 18px)',
+              color: 'var(--text-secondary)',
+            }}
+          >
+            <span style={{ color: 'var(--accent)' }}>AI Engineer</span>
+            <span style={{ color: 'var(--text-muted)' }}>/</span>
+            <span style={{ color: '#f5f5f5', minWidth: 180 }}>
+              {displayed}
+              <span style={{
+                display: 'inline-block',
+                width: 2,
+                height: '1em',
+                background: 'var(--accent)',
+                marginLeft: 2,
+                verticalAlign: 'text-bottom',
+                animation: 'blink 1s step-end infinite',
+              }} />
+            </span>
+          </motion.div>
+
+          {/* Bio */}
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.65, duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
+            style={{
+              color: 'var(--text-secondary)',
+              fontSize: 15,
+              lineHeight: 1.7,
+              maxWidth: 440,
+              marginBottom: 36,
+            }}
+          >
+            3+ years building production LLM systems at Careers360.
+            40% cost cuts, 35% hallucination drops, 10K+ voice sessions.
+            Obsessed with measurable impact.
+          </motion.p>
+
+          {/* CTAs */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.75, duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
+            style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}
+          >
+            {/* Primary CTA */}
+            <a
+              href="#projects"
+              onClick={e => { e.preventDefault(); document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' }); }}
               style={{
-                display: 'inline-flex', alignItems: 'center', gap: '8px',
-                fontFamily: 'var(--font-pixel)', fontSize: '0.45rem',
-                color: 'var(--rp-green)', border: '2px solid var(--rp-green)',
-                padding: '4px 12px', marginBottom: '1.5rem',
-                background: 'rgba(0,255,136,0.08)', letterSpacing: '0.1em',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 8,
+                background: 'var(--accent)',
+                color: '#fff',
+                textDecoration: 'none',
+                borderRadius: '9999px',
+                padding: '12px 22px',
+                fontWeight: 600,
+                fontSize: 14,
+                transition: 'all 0.35s cubic-bezier(0.32,0.72,0,1)',
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 8px 30px rgba(59,130,246,0.4)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = 'none';
               }}
             >
-              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--rp-green)', display: 'inline-block', boxShadow: '0 0 6px var(--rp-green)' }} />
-              AVAILABLE FOR HIRE
-            </motion.div>
+              View Projects
+              <span style={{
+                width: 22, height: 22, borderRadius: '50%',
+                background: 'rgba(0,0,0,0.2)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                transition: 'transform 0.35s cubic-bezier(0.32,0.72,0,1)',
+              }}>
+                <ArrowUpRight size={12} weight="bold" />
+              </span>
+            </a>
 
-            {/* Name */}
-            <h1 style={{
-              fontFamily: 'var(--font-pixel)', lineHeight: 1.15,
-              fontSize: 'clamp(1rem, 4vw, 1.9rem)',
-              color: 'white', letterSpacing: '0.04em', marginBottom: '0.75rem',
-            }}>
-              RAHUL<br />
-              <span style={{ color: 'var(--rp-purple)' }}>RACHHOYA</span>
-            </h1>
-
-            {/* Rotating title */}
-            <div style={{ height: '2rem', marginBottom: '1.25rem', overflow: 'hidden' }}>
-              <motion.div
-                key={titleIdx}
-                initial={{ y: 24, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -24, opacity: 0 }}
-                transition={{ duration: 0.28 }}
-                style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.6rem', color: 'var(--rp-cyan)', letterSpacing: '0.12em' }}
-              >
-                ▶ {TITLES[titleIdx]}
-              </motion.div>
-            </div>
-
-            {/* Subtitle */}
-            <p style={{
-              fontFamily: 'var(--font-retro)', fontSize: '1.05rem',
-              color: 'var(--rp-light)', lineHeight: 1.7, marginBottom: '2rem',
-              maxWidth: '480px',
-            }}>
-              AI Engineer with 3+ years building production LLM systems — RAG pipelines, Voice AI,
-              fine-tuning & MLOps on AWS. Obsessed with measurable impact: 40% cost cuts, 35% hallucination drops, 10K+ sessions served.
-            </p>
-
-            {/* CTA buttons */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
-              <motion.a
-                href="#projects"
-                whileHover={{ scale: 1.04, y: -2 }}
-                whileTap={{ scale: 0.97 }}
-                className="pixel-btn pixel-btn-gold"
-                style={{ textDecoration: 'none' }}
-              >
-                ⚔ VIEW QUESTS
-              </motion.a>
-
-              <motion.a
-                href="/resume.pdf"
-                download="Rahul_Rachhoya_Resume.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.04, y: -2 }}
-                whileTap={{ scale: 0.97 }}
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: '8px',
-                  fontFamily: 'var(--font-pixel)', fontSize: '0.5rem', letterSpacing: '0.1em',
-                  color: 'var(--rp-gold)', border: '3px solid var(--rp-gold)',
-                  padding: '10px 18px', background: 'rgba(255,204,0,0.08)',
-                  boxShadow: '4px 4px 0 #000', textDecoration: 'none',
-                  cursor: 'pointer',
-                }}
-              >
-                ⬇ RESUME
-              </motion.a>
-
-              <motion.a
-                href="#contact"
-                whileHover={{ scale: 1.04, y: -2 }}
-                whileTap={{ scale: 0.97 }}
-                className="pixel-btn"
-                style={{ textDecoration: 'none' }}
-              >
-                💬 CONTACT NPC
-              </motion.a>
-            </div>
-          </motion.div>
-
-          {/* ── Right: avatar stage ── */}
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.15 }}
-            style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem' }}
-          >
-            {/* Avatar */}
-            <div style={{ position: 'relative' }}>
-              <motion.div
-                animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-                style={{
-                  width: '160px', height: '160px',
-                  border: '4px solid var(--rp-gold)',
-                  background: 'linear-gradient(135deg, var(--rp-purple-dark), var(--rp-black))',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: '5rem', boxShadow: '8px 8px 0 #000, 0 0 30px rgba(139,92,246,0.3)',
-                }}
-              >
-                🧙
-              </motion.div>
-
-              {/* Level badge */}
-              <div style={{
-                position: 'absolute', bottom: '-10px', right: '-10px',
-                background: 'var(--rp-gold)', color: 'var(--rp-black)',
-                fontFamily: 'var(--font-pixel)', fontSize: '0.42rem',
-                padding: '4px 8px', border: '2px solid var(--rp-black)',
-                boxShadow: '2px 2px 0 #000', letterSpacing: '0.08em',
-              }}>LVL 26</div>
-            </div>
-
-            {/* HP / MP bars */}
-            <div style={{ width: '100%', maxWidth: '280px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              {[
-                { label: 'HP', pct: 94, color: 'var(--rp-green)',  desc: 'AI Engineering' },
-                { label: 'MP', pct: 88, color: 'var(--rp-purple)', desc: 'System Design'  },
-                { label: 'XP', pct: 76, color: 'var(--rp-gold)',   desc: 'To Next Level'  },
-              ].map(({ label, pct, color, desc }) => (
-                <div key={label}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3px' }}>
-                    <span style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.42rem', color }}>{label}</span>
-                    <span style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.38rem', color: 'var(--rp-gray)' }}>{desc}</span>
-                  </div>
-                  <div style={{ height: '12px', background: 'var(--rp-black)', border: '2px solid rgba(255,255,255,0.18)', overflow: 'hidden' }}>
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: `${pct}%` }}
-                      transition={{ duration: 1.5, delay: 0.6, ease: 'easeOut' }}
-                      style={{
-                        height: '100%',
-                        background: `linear-gradient(90deg, ${color}88, ${color})`,
-                        boxShadow: `0 0 8px ${color}66`,
-                      }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Live stats */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '6px', width: '100%', maxWidth: '280px' }}>
-              {stats.map(({ label, value, color }) => (
-                <div key={label} style={{
-                  background: 'var(--rp-black)', border: `2px solid ${color}44`,
-                  padding: '8px 4px', textAlign: 'center',
-                }}>
-                  <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.55rem', color, marginBottom: '2px' }}>{value}</div>
-                  <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.35rem', color: 'var(--rp-gray)' }}>{label}</div>
-                </div>
-              ))}
-            </div>
+            {/* Secondary CTA */}
+            <a
+              href="https://github.com/RahulRachhoya"
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 8,
+                background: 'rgba(255,255,255,0.04)',
+                color: '#f5f5f5',
+                textDecoration: 'none',
+                borderRadius: '9999px',
+                padding: '12px 22px',
+                fontWeight: 500,
+                fontSize: 14,
+                border: '1px solid var(--border)',
+                transition: 'all 0.35s cubic-bezier(0.32,0.72,0,1)',
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)';
+                e.currentTarget.style.background = 'rgba(255,255,255,0.07)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.borderColor = 'var(--border)';
+                e.currentTarget.style.background = 'rgba(255,255,255,0.04)';
+              }}
+            >
+              GitHub Profile
+            </a>
           </motion.div>
         </div>
+
+        {/* RIGHT — stat cards */}
+        <motion.div
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.5, duration: 0.8, ease: [0.32, 0.72, 0, 1] }}
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: 12,
+          }}
+          className="hero-cards"
+        >
+          {[
+            { icon: <Microphone size={22} weight="light" />, label: 'Voice Sessions', value: '10K+', sub: 'served at Careers360' },
+            { icon: <Brain size={22} weight="light" />, label: 'Hallucination', value: '-35%', sub: 'via RAG + hybrid search' },
+            { icon: <Code size={22} weight="light" />, label: 'LLM Cost Cut', value: '40%', sub: 'prompt cache + A/B' },
+            { icon: <ArrowUpRight size={22} weight="light" />, label: 'YoE', value: '3+', sub: 'years in production AI' },
+          ].map((stat, i) => (
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 + i * 0.08, duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
+              className="card-outer"
+              style={{ cursor: 'default' }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(59,130,246,0.25)'; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; }}
+            >
+              <div className="card-inner" style={{ padding: '20px 18px' }}>
+                <div style={{
+                  color: 'var(--accent)',
+                  marginBottom: 12,
+                  width: 38, height: 38,
+                  borderRadius: 10,
+                  background: 'rgba(59,130,246,0.08)',
+                  border: '1px solid rgba(59,130,246,0.15)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}>
+                  {stat.icon}
+                </div>
+                <div style={{
+                  fontSize: 28,
+                  fontWeight: 800,
+                  letterSpacing: '-0.04em',
+                  color: '#f5f5f5',
+                  lineHeight: 1,
+                  marginBottom: 4,
+                  fontFamily: "'Geist Mono', monospace",
+                }}>
+                  {stat.value}
+                </div>
+                <div style={{ fontSize: 11, color: 'var(--text-muted)', lineHeight: 1.4 }}>
+                  {stat.sub}
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
+
+      {/* Bottom fade */}
+      <div style={{
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        height: 120,
+        background: 'linear-gradient(to top, var(--bg), transparent)',
+        zIndex: 2,
+        pointerEvents: 'none',
+      }} />
+
+      <style>{`
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.4; }
+        }
+        @keyframes blink {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0; }
+        }
+        @media (max-width: 768px) {
+          .hero-grid { grid-template-columns: 1fr !important; gap: 40px !important; padding-top: 40px !important; }
+          .hero-cards { grid-template-columns: 1fr 1fr !important; }
+        }
+      `}</style>
     </section>
   );
-};
-
-export default Hero;
+}

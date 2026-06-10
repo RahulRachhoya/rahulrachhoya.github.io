@@ -1,132 +1,70 @@
-const Footer = () => {
-  const year = new Date().getFullYear();
+import { GithubLogo, LinkedinLogo } from '@phosphor-icons/react';
 
+export default function Footer() {
   return (
-    <footer
-      style={{
-        borderTop: '4px solid white',
-        background: 'var(--rp-black)',
-        padding: '40px 0 24px',
-        position: 'relative',
-        zIndex: 1,
-      }}
-    >
-      <div className="container">
-        {/* Top divider text */}
-        <div
-          className="text-center mb-8"
-          style={{
-            fontFamily: 'var(--font-pixel)',
-            fontSize: '0.4rem',
-            color: 'var(--rp-gray-dim)',
-            letterSpacing: '0.3em',
-          }}
-        >
-          ══════════════ GAME OVER? NEVER. ══════════════
+    <footer style={{
+      borderTop: '1px solid var(--border)',
+      padding: '40px 24px',
+      maxWidth: 1200,
+      margin: '0 auto',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      flexWrap: 'wrap',
+      gap: 16,
+    }}>
+      <div>
+        <div style={{
+          fontFamily: "'Geist Mono', monospace",
+          fontSize: 13,
+          fontWeight: 600,
+          letterSpacing: '0.08em',
+          color: '#f5f5f5',
+          marginBottom: 4,
+        }}>
+          RAHUL RACHHOYA
         </div>
-
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-          {/* Logo */}
-          <div className="text-center md:text-left">
-            <div
-              style={{
-                fontFamily: 'var(--font-pixel)',
-                fontSize: '0.75rem',
-                color: 'var(--rp-gold)',
-                textShadow: '2px 2px 0 var(--rp-gold-dim)',
-                letterSpacing: '0.1em',
-                marginBottom: '6px',
-              }}
-            >
-              ▶ RR.EXE
-            </div>
-            <p style={{ fontFamily: 'var(--font-retro)', fontSize: '0.9rem', color: 'var(--rp-gray-dim)' }}>
-              © {year} Rahul Rachhoya
-            </p>
-          </div>
-
-          {/* Nav links */}
-          <nav className="flex flex-wrap justify-center gap-6">
-            {['About', 'Projects', 'Skills', 'Quests', 'Contact'].map((link) => (
-              <a
-                key={link}
-                href={`#${link.toLowerCase() === 'quests' ? 'experience' : link.toLowerCase()}`}
-                style={{
-                  fontFamily: 'var(--font-pixel)',
-                  fontSize: '0.45rem',
-                  color: 'var(--rp-gray)',
-                  textDecoration: 'none',
-                  letterSpacing: '0.08em',
-                  transition: 'color 0.1s',
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.color = 'var(--rp-gold)'}
-                onMouseLeave={(e) => e.currentTarget.style.color = 'var(--rp-gray)'}
-              >
-                {link.toUpperCase()}
-              </a>
-            ))}
-          </nav>
-
-          {/* Social */}
-          <div className="flex gap-4">
-            {[
-              { label: 'GITHUB',   url: 'https://github.com/RahulRachhoya' },
-              { label: 'LINKEDIN', url: 'https://www.linkedin.com/in/rahul-rachhoya/' },
-              { label: 'TWITTER',  url: 'https://twitter.com/rahulrachhoya' },
-            ].map((s) => (
-              <a
-                key={s.label}
-                href={s.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  fontFamily: 'var(--font-pixel)',
-                  fontSize: '0.4rem',
-                  color: 'var(--rp-gray-dim)',
-                  textDecoration: 'none',
-                  letterSpacing: '0.08em',
-                  transition: 'color 0.1s',
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.color = 'var(--rp-purple)'}
-                onMouseLeave={(e) => e.currentTarget.style.color = 'var(--rp-gray-dim)'}
-              >
-                {s.label}
-              </a>
-            ))}
-          </div>
+        <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>
+          AI Engineer · Noida, India
         </div>
+      </div>
 
-        {/* Bottom credit line */}
-        <div
-          className="mt-8 pt-4 text-center"
-          style={{ borderTop: '2px dashed rgba(255,255,255,0.1)' }}
-        >
-          <p
+      <div style={{ display: 'flex', gap: 8 }}>
+        {[
+          { icon: <GithubLogo size={16} weight="light" />, href: 'https://github.com/RahulRachhoya' },
+          { icon: <LinkedinLogo size={16} weight="light" />, href: 'https://linkedin.com/in/rahulrachhoya' },
+        ].map(({ icon, href }, i) => (
+          <a
+            key={i}
+            href={href}
+            target="_blank"
+            rel="noreferrer"
             style={{
-              fontFamily: 'var(--font-pixel)',
-              fontSize: '0.38rem',
-              color: 'var(--rp-gray-dim)',
-              letterSpacing: '0.1em',
+              width: 36, height: 36,
+              borderRadius: '50%',
+              background: 'rgba(255,255,255,0.04)',
+              border: '1px solid var(--border)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              color: 'var(--text-secondary)',
+              textDecoration: 'none',
+              transition: 'all 0.3s cubic-bezier(0.32,0.72,0,1)',
             }}
+            onMouseEnter={e => { e.currentTarget.style.color = '#f5f5f5'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'; }}
+            onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-secondary)'; e.currentTarget.style.borderColor = 'var(--border)'; }}
           >
-            BUILT WITH REACT · VITE · TAILWIND CSS · &lt;3
-          </p>
-          <div
-            style={{
-              marginTop: '10px',
-              fontFamily: 'var(--font-pixel)',
-              fontSize: '0.38rem',
-              color: 'var(--rp-purple)',
-              letterSpacing: '0.15em',
-              animation: 'flicker 6s ease-in-out infinite',
-            }}
-          >
-            INSERT COIN TO CONTINUE...
-          </div>
-        </div>
+            {icon}
+          </a>
+        ))}
+      </div>
+
+      <div style={{
+        fontFamily: "'Geist Mono', monospace",
+        fontSize: 11,
+        color: 'var(--text-muted)',
+        letterSpacing: '0.04em',
+      }}>
+        {new Date().getFullYear()} · Built with React + Three.js
       </div>
     </footer>
   );
-};
-
-export default Footer;
+}

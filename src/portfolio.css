@@ -279,7 +279,7 @@ summary::-webkit-details-marker { display: none; }
   .experience-layout { grid-template-columns: 1fr; gap: 34px; }.experience-heading h2 br { display: none; }.experience-heading > p:not(.section-label) br { display: none; }.experience-heading > p:not(.section-label) { margin-top: 15px; }.experience-heading .text-link { margin-top: 15px; }
   .contact-panel { padding: 32px 35px 20px; }.contact-bottom { align-items: start; }.button-lime { font-size: 10px; gap: 15px; }.contact-bottom p { font-size: 11px; }.social-links { gap: 16px; }.email-group > a { font-size: 10px; }
 }
-@media (max-width: 640px) {
+@media (max-width: 720px) {
   html { scroll-padding-top: 88px; }
   .container { width: calc(100% - 40px); }.section-pad { padding-block: 62px; }
   .nav-shell { min-height: 74px; }.wordmark { font-size: 13px; }.brand-mark { width: 37px; height: 37px; font-size: 31px; border-radius: 10px; }.wordmark-role { font-size: 7px; }

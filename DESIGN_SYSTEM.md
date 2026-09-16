@@ -15,7 +15,7 @@ An editorial AI engineering portfolio with a clear hierarchy: introduction, sele
 
 ## Components
 
-The hero workflow switcher explains Voice AI, RAG, and agent workflows. Project filters show the existing four projects by category. Native details controls expose project overviews and work history. Skills use categorized tags. The contact panel offers email, email copying, GitHub, and LinkedIn.
+The hero workflow switcher explains Voice AI, RAG, and agent workflows. Project filters show the three projects by category. Native details controls expose project overviews and work history. Skills use categorized tags. Both contact buttons open a native dialog with Gmail, Outlook, default email-app and copy-address choices. The panel also links to GitHub and LinkedIn. The dialog traps focus, closes with Escape, and returns focus to the trigger (or mobile menu button).
 
 ## Responsive and accessible behavior
 

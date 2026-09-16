@@ -1,15 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
 import {
-  ArrowDown, ArrowRight, ArrowUpRight, Check, Copy, Database,
+  ArrowDown, ArrowUpRight, Check, Copy, Database,
   DownloadSimple, GithubLogo, LinkedinLogo, List, Microphone,
   Robot, Sparkle, X,
 } from '@phosphor-icons/react';
 import './portfolio.css';
 
 const EMAIL = 'its.rahul.rachhoya@gmail.com';
-const CONTACT_LINK = `mailto:${EMAIL}?subject=${encodeURIComponent("Let's build something together")}`;
+const CONTACT_SUBJECT = "Let's build something together";
+const CONTACT_LINK = `mailto:${EMAIL}?subject=${encodeURIComponent(CONTACT_SUBJECT)}`;
+const GMAIL_LINK = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(EMAIL)}&su=${encodeURIComponent(CONTACT_SUBJECT)}`;
+const OUTLOOK_LINK = `https://outlook.live.com/mail/0/deeplink/compose?to=${encodeURIComponent(EMAIL)}&subject=${encodeURIComponent(CONTACT_SUBJECT)}`;
 const GITHUB = 'https://github.com/RahulRachhoya';
-const LINKEDIN = 'https://linkedin.com/in/rahulrachhoya';
+const LINKEDIN = 'https://linkedin.com/in/rahul-rachhoya';
 const RESUME = '/rahulrachhoya-resume.pdf';
 const NAVIGATION = [['Work', 'projects'], ['About', 'about'], ['Experience', 'experience'], ['Skills', 'skills']];
 
@@ -27,22 +30,13 @@ const PROJECTS = [
     id: 'agents', category: 'Multi-agent', number: '02',
     title: 'Multi-Agent Document Intelligence',
     intro: 'Complex documents. Specialized agents. Connected insights.',
-    description: 'Five specialized agents coordinate research, extraction, summarization, auditing and reporting, with retrieval across large document collections and automatic citation tracking.',
-    detail: 'CrewAI orchestration connects a researcher, extractor, summarizer, auditor and reporter. LangGraph, Claude and Qdrant support a retrieval workflow across 1M+ token corpora.',
-    stack: ['CrewAI', 'LangGraph', 'Claude', 'Qdrant', 'Python'],
-    metric: '1M+', metricLabel: 'token context',
+    description: 'A four-agent LangGraph workflow for extracting, validating and summarizing documents, with an orchestrator coordinating the work.',
+    detail: 'The workflow processed 500+ documents at 94% accuracy and reduced handling time from 30 minutes to 7 minutes.',
+    stack: ['LangGraph', 'Python', 'Function calling', 'AWS'],
+    metric: '94%', metricLabel: 'document accuracy',
   },
   {
-    id: 'finetune', category: 'Fine-tuning', number: '03',
-    title: 'Mistral 7B Domain Fine-tune',
-    intro: 'A smaller model, tuned for a more specific job.',
-    description: 'LoRA/PEFT fine-tuning on an education corpus, with experiment tracking and A/B routing on SageMaker.',
-    detail: 'Education-domain intent accuracy improved from 78% to 92%, with $50 in training costs compared with $2K for a full retrain.',
-    stack: ['Mistral 7B', 'LoRA / PEFT', 'SageMaker', 'W&B', 'LangSmith'],
-    metric: '92%', metricLabel: 'intent accuracy',
-  },
-  {
-    id: 'observability', category: 'MLOps', number: '04',
+    id: 'observability', category: 'MLOps', number: '03',
     title: 'LLM Observability Dashboard',
     intro: 'A clearer picture of what happens after deployment.',
     description: 'A Streamlit dashboard for latency, cost, hallucination rate and user satisfaction, supported by Prometheus, Grafana and automated alerts.',
@@ -54,8 +48,8 @@ const PROJECTS = [
 
 const EXPERIENCE = [
   {
-    company: 'Careers360', initials: 'C360', period: 'Jan 2026 — Present',
-    role: 'AI Engineer — Voice AI & Conversational Systems', location: 'Hyderabad, India', current: true,
+    company: 'Careers360', initials: 'C360', period: 'Jan 2026 — Sep 2026',
+    role: 'AI Engineer — Voice AI & Conversational Systems', location: 'Hyderabad, India',
     bullets: [
       'Architected a voice AI career counselor using Claude/Bedrock, Sarvam AI and pgvector serving 10K+ sessions.',
       'Built a RAG pipeline that reduces hallucinations by 35%, with LangSmith tracking latency, cost and quality.',
@@ -69,11 +63,10 @@ const EXPERIENCE = [
     role: 'AI Engineer', location: 'Remote, India',
     bullets: [
       'Built hybrid-search RAG pipelines with BM25, vectors and Cohere reranking, improving retrieval from 85% to 91%.',
-      'Fine-tuned Mistral 7B with LoRA/PEFT, improving accuracy from 78% to 92%.',
       'A/B tested GPT-4 and Claude, achieving 60% cost savings while tracking 50+ LLM iterations in W&B.',
-      'Built a four-agent document system using LangGraph, processing 500+ documents with 94% accuracy and reducing processing time by 75%.',
+      'Built a four-agent document system using LangGraph, processing 500+ documents with 94% accuracy and reducing processing time from 30 minutes to 7 minutes.',
     ],
-    stack: ['Mistral 7B', 'LoRA / PEFT', 'LangGraph', 'Cohere', 'W&B'],
+    stack: ['LangGraph', 'Hybrid search', 'Cohere', 'W&B'],
   },
   {
     company: 'STL Digital Limited', initials: 'STL', period: 'Jun 2022 — Jul 2024',
@@ -88,10 +81,10 @@ const EXPERIENCE = [
 ];
 
 const SKILLS = [
-  { number: '01', title: 'Models & intelligence', description: 'The right model for the problem.', tags: ['Claude', 'OpenAI API', 'Mistral', 'LLaMA', 'Gemini', 'LoRA / PEFT', 'Prompt engineering'] },
-  { number: '02', title: 'Agents & retrieval', description: 'Context, tools and orchestration.', tags: ['LangGraph', 'LangChain', 'CrewAI', 'LlamaIndex', 'pgvector', 'Pinecone', 'FAISS', 'Hybrid search', 'Cohere Rerank'] },
-  { number: '03', title: 'Cloud & operations', description: 'Built to run beyond the demo.', tags: ['AWS Bedrock', 'EC2 / S3 / Lambda', 'Docker', 'CI/CD', 'SageMaker', 'LangSmith', 'MLflow', 'W&B', 'Prometheus / Grafana'] },
-  { number: '04', title: 'The engineering layer', description: 'Everything that connects the system.', tags: ['Python', 'FastAPI', 'TypeScript', 'PostgreSQL', 'Redis', 'Supabase', 'Sarvam AI', 'Streamlit', 'Gradio'] },
+  { number: '01', title: 'Models & intelligence', description: 'The right model for the problem.', tags: ['Claude', 'OpenAI API', 'Prompt engineering', 'Tool calling', 'Voice agents', 'Sarvam AI'] },
+  { number: '02', title: 'Agents & retrieval', description: 'Context, tools and orchestration.', tags: ['LangGraph', 'LangChain', 'LlamaIndex', 'MCP', 'pgvector', 'ChromaDB', 'Hybrid search', 'Cohere Rerank'] },
+  { number: '03', title: 'Cloud & operations', description: 'Built to run beyond the demo.', tags: ['AWS Bedrock', 'EC2 / S3 / Lambda', 'Docker', 'Kubernetes', 'GitHub Actions', 'LangSmith', 'W&B'] },
+  { number: '04', title: 'The engineering layer', description: 'Everything that connects the system.', tags: ['Python', 'FastAPI', 'REST APIs', 'SQL', 'pytest', 'Streamlit', 'Claude Code', 'Cursor'] },
 ];
 
 const BLUEPRINTS = {
@@ -108,7 +101,7 @@ function Tags({ items }) {
   return <ul className="tags" aria-label="Technologies">{items.map(item => <li key={item}>{item}</li>)}</ul>;
 }
 
-function Header() {
+function Header({ onContact }) {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState('');
   const menuButton = useRef(null);
@@ -144,7 +137,11 @@ function Header() {
         </button>
         <nav id="main-navigation" aria-label="Main navigation" className={`main-nav ${open ? 'is-open' : ''}`}>
           {NAVIGATION.map(([label, id]) => <a key={id} href={`#${id}`} className={active === id ? 'is-active' : ''} aria-current={active === id ? 'location' : undefined} onClick={() => setOpen(false)}>{label}</a>)}
-          <a className="nav-contact" href={CONTACT_LINK} onClick={() => setOpen(false)}>Let’s talk <ArrowUpRight size={17} /></a>
+          <button className="nav-contact" type="button" aria-haspopup="dialog" aria-controls="contact-dialog" onClick={event => {
+            const returnFocus = open ? menuButton.current : event.currentTarget;
+            setOpen(false);
+            onContact(returnFocus);
+          }}>Let’s talk <ArrowUpRight size={17} /></button>
         </nav>
       </div>
     </header>
@@ -192,13 +189,13 @@ function Hero() {
             <a className="button button-dark" href="#projects">Explore my work <ArrowDown size={17} /></a>
             <a className="button button-outline" href={RESUME} target="_blank" rel="noreferrer">View résumé <ArrowUpRight size={17} /></a>
           </div>
-          <div className="hero-location"><span className="location-symbol" aria-hidden="true">↗</span> Hyderabad, India <span className="separator">/</span> Open to remote work</div>
+          <div className="hero-location"><span className="location-symbol" aria-hidden="true">↗</span> Gurugram, India <span className="separator">/</span> Open to remote work</div>
         </div>
         <SystemBlueprint />
       </div>
       <div className="career-strip">
         <p>BUILT WITH REAL-WORLD<br /><strong>EXPERIENCE</strong></p>
-        <span className="company-name careers">Careers<span>360</span><small>CURRENTLY</small></span>
+        <span className="company-name careers">Careers<span>360</span></span>
         <span className="company-name crystal">crystaltech<span className="company-suffix"> SERVICES</span></span>
         <span className="company-name stl">STL<span> digital</span></span>
         <a href="#experience" className="career-link" aria-label="Explore my experience"><ArrowDown size={22} /></a>
@@ -210,7 +207,7 @@ function Hero() {
 function ProjectVisual({ type }) {
   if (type === 'voice') return (
     <div className="project-visual visual-voice" aria-hidden="true">
-      <div className="visual-caption"><Microphone size={16} /><span>CONVERSATIONAL INTELLIGENCE</span><span>01 / 04</span></div>
+      <div className="visual-caption"><Microphone size={16} /><span>CONVERSATIONAL INTELLIGENCE</span><span>01 / 03</span></div>
       <div className="voice-orb"><Microphone size={28} weight="light" /></div>
       <div className="waveform">{[14, 22, 35, 26, 48, 66, 38, 58, 82, 51, 74, 95, 63, 42, 77, 55, 32, 60, 41, 26, 37, 19, 12].map((height, index) => <i key={index} style={{ '--wave-height': `${height}px` }} />)}</div>
       <div className="visual-footer"><span>SPEECH</span><span className="visual-line" /><span>CONTEXT</span><span className="visual-line" /><span>CONVERSATION</span></div>
@@ -218,26 +215,19 @@ function ProjectVisual({ type }) {
   );
   if (type === 'agents') return (
     <div className="project-visual visual-agents" aria-hidden="true">
-      <div className="visual-caption"><Robot size={16} /><span>MULTI-AGENT ORCHESTRATION</span><span>02 / 04</span></div>
+      <div className="visual-caption"><Robot size={16} /><span>MULTI-AGENT ORCHESTRATION</span><span>02 / 03</span></div>
       <div className="agent-map">
         <svg viewBox="0 0 400 170" className="agent-lines"><path d="M75 40H150Q200 40 200 85M75 130H150Q200 130 200 85M200 85Q200 40 250 40H325M200 85Q200 130 250 130H325" /><circle cx="200" cy="85" r="35" /></svg>
-        <span className="agent-node researcher">Research</span><span className="agent-node extractor">Extract</span>
+        <span className="agent-node researcher">Extract</span><span className="agent-node extractor">Validate</span>
         <span className="agent-hub"><Robot size={28} weight="light" /></span>
-        <span className="agent-node auditor">Audit</span><span className="agent-node reporter">Report</span>
+        <span className="agent-node auditor">Summarize</span><span className="agent-node reporter">Orchestrate</span>
       </div>
       <div className="visual-footer"><span>SPECIALIZED AGENTS</span><span className="visual-line" /><span>ONE CONNECTED WORKFLOW</span></div>
     </div>
   );
-  if (type === 'finetune') return (
-    <div className="project-visual visual-finetune" aria-hidden="true">
-      <div className="visual-caption"><Sparkle size={16} /><span>DOMAIN-SPECIFIC INTELLIGENCE</span><span>03 / 04</span></div>
-      <div className="model-comparison"><div><span>BASE MODEL</span><strong>78<small>%</small></strong><i /></div><ArrowRight size={26} /><div className="tuned-model"><span>FINE-TUNED</span><strong>92<small>%</small></strong><i /></div></div>
-      <div className="visual-footer"><span>MISTRAL 7B</span><span className="visual-line" /><span>LoRA / PEFT</span></div>
-    </div>
-  );
   return (
     <div className="project-visual visual-observability" aria-hidden="true">
-      <div className="visual-caption"><Database size={16} /><span>VISIBILITY AFTER DEPLOYMENT</span><span>04 / 04</span></div>
+      <div className="visual-caption"><Database size={16} /><span>VISIBILITY AFTER DEPLOYMENT</span><span>03 / 03</span></div>
       <div className="observability-grid"><span>Latency</span><span>Cost</span><span>Quality</span></div>
       <svg className="observability-chart" viewBox="0 0 480 110"><path className="chart-grid" d="M0 20H480M0 55H480M0 90H480M60 0V110M180 0V110M300 0V110M420 0V110" /><path className="chart-path" d="M0 82L32 72L64 77L96 46L128 59L160 50L192 61L224 27L256 38L288 31L320 43L352 21L384 33L416 17L448 24L480 10" /></svg>
       <div className="visual-footer"><span>MONITOR</span><span className="visual-line" /><span>UNDERSTAND</span><span className="visual-line" /><span>IMPROVE</span></div>
@@ -255,7 +245,7 @@ function Projects() {
         <SectionLabel number="01">SELECTED WORK</SectionLabel>
         <div className="section-heading"><h2 id="work-title">Built to solve.<br /><span>Designed to work.</span></h2><p>A selection of my work in voice, agents,<br className="desktop-break" /> language models and production AI.</p></div>
         <div className="work-toolbar">
-          <div className="project-filters" role="group" aria-label="Filter projects">{filters.map(name => <button key={name} type="button" aria-pressed={filter === name} onClick={() => setFilter(name)}>{name}{name === 'All work' && <span>04</span>}</button>)}</div>
+          <div className="project-filters" role="group" aria-label="Filter projects">{filters.map(name => <button key={name} type="button" aria-pressed={filter === name} onClick={() => setFilter(name)}>{name}{name === 'All work' && <span>{String(PROJECTS.length).padStart(2, '0')}</span>}</button>)}</div>
           <span className="project-count mono" role="status">{String(visibleProjects.length).padStart(2, '0')} PROJECTS</span>
         </div>
         <div className="project-grid">
@@ -286,8 +276,8 @@ function About() {
       <div className="about-heading"><SectionLabel number="02">A LITTLE ABOUT ME</SectionLabel><h2 id="about-title">Curiosity drives me.<br /><span>Engineering grounds me.</span></h2></div>
       <div className="about-grid">
         <div className="about-art" aria-hidden="true"><div className="about-monogram">rr<span>.</span></div><div className="about-art-caption"><span>THINK IN SYSTEMS.<br />BUILD FOR PEOPLE.</span><Sparkle size={35} weight="light" /></div></div>
-        <div className="about-copy"><p className="about-lead">I’m Rahul, an AI engineer who cares about what happens <em>after the prototype.</em></p><p>At Careers360, I build voice-first AI counselors and the infrastructure behind them. My work connects language models, retrieval, specialized agents and the engineering that makes them useful in everyday life.</p><p>I’m interested in the practical questions: Is the answer grounded? Does the system respond quickly? Can we understand its behavior? And does it make someone’s day easier?</p>
-          <div className="about-facts"><div><span>BASED IN</span><strong>Hyderabad, India</strong></div><div><span>EDUCATION</span><strong>University of Hyderabad</strong><small>Computer Science</small></div></div>
+        <div className="about-copy"><p className="about-lead">I’m Rahul, an AI engineer who cares about what happens <em>after the prototype.</em></p><p>Most recently at Careers360, I built voice-first AI counselors and the infrastructure behind them. My work connects language models, retrieval, specialized agents and the engineering that makes them useful in everyday life.</p><p>I’m interested in the practical questions: Is the answer grounded? Does the system respond quickly? Can we understand its behavior? And does it make someone’s day easier?</p>
+          <div className="about-facts"><div><span>BASED IN</span><strong>Gurugram, India</strong></div><div><span>EDUCATION</span><strong>University of Hyderabad</strong><small>Master of Computer Applications</small></div></div>
           <a className="text-link" href={RESUME} target="_blank" rel="noreferrer">The full story, in my résumé <DownloadSimple size={18} /></a>
         </div>
       </div>
@@ -321,7 +311,7 @@ function Skills() {
   );
 }
 
-function Contact() {
+function Contact({ onContact }) {
   const [copyState, setCopyState] = useState('');
   const resetTimer = useRef(null);
   useEffect(() => () => clearTimeout(resetTimer.current), []);
@@ -339,7 +329,7 @@ function Contact() {
     <section className="contact-section container" id="contact" aria-labelledby="contact-title">
       <div className="contact-panel">
         <div className="contact-top"><span className="availability availability-dark"><span aria-hidden="true" />OPEN TO WHAT’S NEXT</span><Sparkle size={40} weight="light" aria-hidden="true" /></div>
-        <h2 id="contact-title">Have something<br /><span>worth building?</span></h2><div className="contact-bottom"><p>An interesting problem, a new team, or an idea<br className="desktop-break" /> that needs a little intelligence. Let’s talk.</p><a className="button button-lime" href={CONTACT_LINK}>Start a conversation <ArrowUpRight size={19} /></a></div>
+        <h2 id="contact-title">Have something<br /><span>worth building?</span></h2><div className="contact-bottom"><p>An interesting problem, a new team, or an idea<br className="desktop-break" /> that needs a little intelligence. Let’s talk.</p><button className="button button-lime" type="button" aria-haspopup="dialog" aria-controls="contact-dialog" onClick={event => onContact(event.currentTarget)}>Start a conversation <ArrowUpRight size={19} /></button></div>
         <div className="contact-links"><div className="email-group"><a href={CONTACT_LINK}>{EMAIL}</a><button type="button" className="copy-button" onClick={copyEmail} aria-label="Copy email address">{copyState === 'Email copied' ? <Check size={17} /> : <Copy size={17} />}</button></div><div className="social-links"><a href={GITHUB} target="_blank" rel="noreferrer"><GithubLogo size={18} />GitHub <ArrowUpRight size={13} /></a><a href={LINKEDIN} target="_blank" rel="noreferrer"><LinkedinLogo size={18} />LinkedIn <ArrowUpRight size={13} /></a></div></div>
         <p className="copy-status" role="status">{copyState}</p>
       </div>
@@ -347,13 +337,48 @@ function Contact() {
   );
 }
 
+function ContactDialog({ dialogRef, onClose }) {
+  const [status, setStatus] = useState('');
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(EMAIL);
+      setStatus('Email copied. Paste it into a new message.');
+    } catch {
+      setStatus('Select the email address above to copy it manually.');
+    }
+  };
+  return (
+    <dialog ref={dialogRef} id="contact-dialog" className="contact-dialog" aria-labelledby="contact-dialog-title" aria-describedby="contact-dialog-description" onClose={() => { setStatus(''); onClose(); }}>
+      <form method="dialog" className="dialog-close-form"><button className="dialog-close" type="submit" aria-label="Close contact options"><X size={21} /></button></form>
+      <p className="section-label">LET’S CONNECT</p>
+      <h2 id="contact-dialog-title">Start a conversation.</h2>
+      <p id="contact-dialog-description" className="dialog-intro">Choose where to write your message. Works on desktop and mobile.</p>
+      <div className="contact-options">
+        <a className="contact-option" href={GMAIL_LINK} target="_blank" rel="noopener noreferrer"><span className="email-provider" aria-hidden="true">G</span><span><strong>Compose in Gmail</strong><small>Open Gmail in a new browser tab</small></span><ArrowUpRight size={20} aria-hidden="true" /></a>
+        <a className="contact-option" href={OUTLOOK_LINK} target="_blank" rel="noopener noreferrer"><span className="email-provider" aria-hidden="true">O</span><span><strong>Compose in Outlook</strong><small>Open Outlook in a new browser tab</small></span><ArrowUpRight size={20} aria-hidden="true" /></a>
+        <a className="contact-option" href={CONTACT_LINK} onClick={() => setStatus('If your email app doesn’t open, choose Gmail or Outlook, or copy the address below.')}><span className="email-provider" aria-hidden="true">@</span><span><strong>Use my email app</strong><small>Use the default mail app on this device</small></span><ArrowUpRight size={20} aria-hidden="true" /></a>
+      </div>
+      <div className="dialog-email"><span>{EMAIL}</span><button type="button" onClick={copyEmail} aria-label="Copy email address"><Copy size={17} />Copy</button></div>
+      <p className="dialog-status" role="status">{status}</p>
+      <p className="dialog-note">Gmail or Outlook may ask you to sign in. A message is only sent when you press Send.</p>
+    </dialog>
+  );
+}
+
 export default function Portfolio() {
+  const contactDialog = useRef(null);
+  const contactReturnFocus = useRef(null);
+  const openContact = returnFocus => {
+    contactReturnFocus.current = returnFocus;
+    contactDialog.current.showModal();
+  };
   return (
     <>
       <a href="#main-content" className="skip-link">Skip to content</a>
-      <Header />
-      <main id="main-content" tabIndex={-1}><Hero /><Projects /><About /><Experience /><Skills /><Contact /></main>
+      <Header onContact={openContact} />
+      <main id="main-content" tabIndex={-1}><Hero /><Projects /><About /><Experience /><Skills /><Contact onContact={openContact} /></main>
       <footer className="site-footer container"><a className="footer-name" href="#home">rahul rachhoya<span>.</span></a><a className="footer-email" href={CONTACT_LINK}>{EMAIL} <ArrowUpRight size={15} aria-hidden="true" /></a><p>© {new Date().getFullYear()} · Built with intention.</p><a className="back-to-top" href="#home">Back to top <ArrowUpRight size={17} /></a></footer>
+      <ContactDialog dialogRef={contactDialog} onClose={() => contactReturnFocus.current?.focus()} />
     </>
   );
 }

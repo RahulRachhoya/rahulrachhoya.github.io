@@ -2,7 +2,7 @@
 
 Personal portfolio at **https://rahulrachhoya.is-a.dev/**, built with React and Vite.
 
-The September 2026 UI refresh uses ivory surfaces, deep green, lime accents, Manrope typography, and original CSS/SVG illustrations. The existing four featured projects remain in place; additional GitHub projects await Rahul's selection.
+The September 2026 UI refresh uses ivory surfaces, deep green, lime accents, Manrope typography, and original CSS/SVG illustrations. Three featured projects remain after removing the outdated fine-tuning project; additional GitHub projects await Rahul's selection.
 
 ## Run and verify
 
@@ -22,9 +22,9 @@ npm run preview
 - `public/`: résumé, custom domain, search metadata, and existing public assets.
 - `index.html`: existing SEO and structured data.
 
-Project overviews and experience entries use native disclosure controls. Navigation supports keyboard focus and Escape to close the mobile menu. Contact actions open email or external profiles. The copy button uses the browser clipboard API and offers manual copying if unavailable. No contact form submission service is required.
+Project overviews and experience entries use native disclosure controls. Navigation supports keyboard focus and Escape to close the mobile menu. Both contact buttons open a keyboard-accessible dialog with Gmail, Outlook, and default email-app choices on desktop and mobile. Gmail and Outlook open browser tabs; the email-app choice requires a configured mail handler. The copy button uses the browser clipboard API and offers manual copying if unavailable. No contact form submission service is required.
 
-The workflow illustrations explain concepts; they do not run AI inference. Project descriptions and metrics originate from the previously published portfolio.
+The workflow illustrations explain concepts; they do not run AI inference. The work history, skills, and September 2026 resume use Rahul's current candidate profile. Both public resume filenames serve the same updated one-page PDF.
 
 ## Publishing
 

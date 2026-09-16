@@ -299,7 +299,7 @@ function Experience() {
   return (
     <section className="experience-section section-pad" id="experience" aria-labelledby="experience-title">
       <div className="container experience-layout">
-        <div className="experience-heading"><SectionLabel number="03">THE JOURNEY SO FAR</SectionLabel><h2 id="experience-title">From ideas<br />to <span>production.</span></h2><p>Building, learning and shipping<br className="desktop-break" /> across teams and industries.</p><a className="text-link" href={RESUME} target="_blank" rel="noreferrer">View full résumé <ArrowUpRight size={18} /></a></div>
+        <div className="experience-heading"><SectionLabel number="03">THE JOURNEY SO FAR</SectionLabel><h2 id="experience-title">From ideas<br /> to <span>production.</span></h2><p>Building, learning and shipping<br className="desktop-break" /> across teams and industries.</p><a className="text-link" href={RESUME} target="_blank" rel="noreferrer">View full résumé <ArrowUpRight size={18} /></a></div>
         <div className="experience-list">{EXPERIENCE.map((job, index) => (
           <details className="experience-item" name="experience" key={job.company} open={index === 0}>
             <summary><span className={`company-icon company-icon-${index}`} aria-hidden="true">{job.initials}</span><span className="job-heading"><span className="job-topline"><strong>{job.company}</strong>{job.current && <span className="current-tag">CURRENT</span>}</span><span className="job-role">{job.role}</span><span className="job-period">{job.period}</span></span><span className="disclosure-symbol" aria-hidden="true">+</span></summary>

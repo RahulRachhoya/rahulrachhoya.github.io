@@ -6,7 +6,8 @@ import {
 } from '@phosphor-icons/react';
 import './portfolio.css';
 
-const EMAIL = 'rahulrachhoya0@gmail.com';
+const EMAIL = 'its.rahul.rachhoya@gmail.com';
+const CONTACT_LINK = `mailto:${EMAIL}?subject=${encodeURIComponent("Let's build something together")}`;
 const GITHUB = 'https://github.com/RahulRachhoya';
 const LINKEDIN = 'https://linkedin.com/in/rahulrachhoya';
 const RESUME = '/rahulrachhoya-resume.pdf';
@@ -143,7 +144,7 @@ function Header() {
         </button>
         <nav id="main-navigation" aria-label="Main navigation" className={`main-nav ${open ? 'is-open' : ''}`}>
           {NAVIGATION.map(([label, id]) => <a key={id} href={`#${id}`} className={active === id ? 'is-active' : ''} aria-current={active === id ? 'location' : undefined} onClick={() => setOpen(false)}>{label}</a>)}
-          <a className="nav-contact" href="#contact" onClick={() => setOpen(false)}>Let’s talk <ArrowUpRight size={17} /></a>
+          <a className="nav-contact" href={CONTACT_LINK} onClick={() => setOpen(false)}>Let’s talk <ArrowUpRight size={17} /></a>
         </nav>
       </div>
     </header>
@@ -338,8 +339,8 @@ function Contact() {
     <section className="contact-section container" id="contact" aria-labelledby="contact-title">
       <div className="contact-panel">
         <div className="contact-top"><span className="availability availability-dark"><span aria-hidden="true" />OPEN TO WHAT’S NEXT</span><Sparkle size={40} weight="light" aria-hidden="true" /></div>
-        <h2 id="contact-title">Have something<br /><span>worth building?</span></h2><div className="contact-bottom"><p>An interesting problem, a new team, or an idea<br className="desktop-break" /> that needs a little intelligence. Let’s talk.</p><a className="button button-lime" href={`mailto:${EMAIL}`}>Start a conversation <ArrowUpRight size={19} /></a></div>
-        <div className="contact-links"><div className="email-group"><a href={`mailto:${EMAIL}`}>{EMAIL}</a><button type="button" className="copy-button" onClick={copyEmail} aria-label="Copy email address">{copyState === 'Email copied' ? <Check size={17} /> : <Copy size={17} />}</button></div><div className="social-links"><a href={GITHUB} target="_blank" rel="noreferrer"><GithubLogo size={18} />GitHub <ArrowUpRight size={13} /></a><a href={LINKEDIN} target="_blank" rel="noreferrer"><LinkedinLogo size={18} />LinkedIn <ArrowUpRight size={13} /></a></div></div>
+        <h2 id="contact-title">Have something<br /><span>worth building?</span></h2><div className="contact-bottom"><p>An interesting problem, a new team, or an idea<br className="desktop-break" /> that needs a little intelligence. Let’s talk.</p><a className="button button-lime" href={CONTACT_LINK}>Start a conversation <ArrowUpRight size={19} /></a></div>
+        <div className="contact-links"><div className="email-group"><a href={CONTACT_LINK}>{EMAIL}</a><button type="button" className="copy-button" onClick={copyEmail} aria-label="Copy email address">{copyState === 'Email copied' ? <Check size={17} /> : <Copy size={17} />}</button></div><div className="social-links"><a href={GITHUB} target="_blank" rel="noreferrer"><GithubLogo size={18} />GitHub <ArrowUpRight size={13} /></a><a href={LINKEDIN} target="_blank" rel="noreferrer"><LinkedinLogo size={18} />LinkedIn <ArrowUpRight size={13} /></a></div></div>
         <p className="copy-status" role="status">{copyState}</p>
       </div>
     </section>
@@ -352,7 +353,7 @@ export default function Portfolio() {
       <a href="#main-content" className="skip-link">Skip to content</a>
       <Header />
       <main id="main-content" tabIndex={-1}><Hero /><Projects /><About /><Experience /><Skills /><Contact /></main>
-      <footer className="site-footer container"><a className="footer-name" href="#home">rahul rachhoya<span>.</span></a><p>© {new Date().getFullYear()} · Built with intention.</p><a className="back-to-top" href="#home">Back to top <ArrowUpRight size={17} /></a></footer>
+      <footer className="site-footer container"><a className="footer-name" href="#home">rahul rachhoya<span>.</span></a><a className="footer-email" href={CONTACT_LINK}>{EMAIL} <ArrowUpRight size={15} aria-hidden="true" /></a><p>© {new Date().getFullYear()} · Built with intention.</p><a className="back-to-top" href="#home">Back to top <ArrowUpRight size={17} /></a></footer>
     </>
   );
 }

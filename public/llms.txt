@@ -1,70 +1,38 @@
-# Rahul Rachhoya — AI Engineer
+# Rahul Rachhoya
 
-> Portfolio: https://rahulrachhoya.is-a.dev/
-> Resume: https://rahulrachhoya.is-a.dev/rahulrachhoya-resume.pdf
-> GitHub: https://github.com/RahulRachhoya
-> LinkedIn: https://www.linkedin.com/in/rahul-rachhoya/
-> Email: its.rahul.rachhoya@gmail.com
+AI engineer based in Gurugram, India, available for remote work. Builds agents,
+retrieval systems, fine-tuned models, and model-serving infrastructure.
 
-## Profile
+## Portfolio
+- Website: https://rahulrachhoya.is-a.dev/
+- GitHub: https://github.com/RahulRachhoya
+- LinkedIn: https://linkedin.com/in/rahul-rachhoya
+- Contact: its.rahul.rachhoya@gmail.com
+- Resume: https://rahulrachhoya.is-a.dev/rahulrachhoya-resume.pdf
 
-AI engineer based in Gurugram, India, with 4+ years in software engineering
-and 3+ years in applied AI. Builds production Python services, voice agents
-and RAG workflows using FastAPI, LangGraph and AWS.
-Immediately available for fully remote work from India.
-
-## Technical Skills
-
-- AI applications: Claude and OpenAI APIs, LangGraph, LangChain, LlamaIndex,
-  MCP, tool calling, voice agents, Sarvam AI STT/TTS
-- Retrieval and evaluation: RAG, BM25 + vector search, Cohere reranking,
-  pgvector, ChromaDB, LangSmith
-- Backend and delivery: Python, FastAPI, REST APIs, SQL, Docker, Kubernetes,
-  pytest, GitHub Actions
-- Cloud and developer tools: AWS Bedrock, Lambda, EC2, S3, Claude Code, Cursor
+## Selected public projects
+- ai-sdk-research-agent: https://github.com/RahulRachhoya/ai-sdk-research-agent
+  Next.js and Vercel AI SDK research agent with hybrid search, MongoDB memory,
+  streaming, and telemetry. BM25 token IDs matched Python on 300/300 queries;
+  hybrid rankings can differ on ties. Public demo uses Groq; recorded local
+  agent benchmarks used Claude on Bedrock.
+- finetune-intent-lab: https://github.com/RahulRachhoya/finetune-intent-lab
+  QLoRA Qwen2.5-1.5B reached 93.4% on 3,076 Banking77 test queries, versus 36.9%
+  zero-shot and 91.1% logistic regression. On the same 300-query subset, QLoRA
+  scored 91.0% versus prompted Claude 83.7%. One task and one seed.
+- llm-serving-k8s: https://github.com/RahulRachhoya/llm-serving-k8s
+  Local one-GPU vLLM deployment on k3d. Peak 185.5 req/s at 32 concurrent requests
+  (p50 172 ms); single-request p50 78 ms. Multi-GPU scaling was not tested.
+- agent-memory-lab: https://github.com/RahulRachhoya/agent-memory-lab
+  SciFact retrieval benchmark over 5,183 abstracts and 300 claims. Qdrant hybrid
+  nDCG@10 0.725 versus 0.713 dense, with tie-related variation. LangGraph agent
+  adds MongoDB checkpoints, memory, and telemetry. Five demo turns are not an
+  evaluation of answer quality.
 
 ## Experience
+- Careers360, AI Engineer: January 2026 to September 2026.
+- Crystaltech Services, AI Engineer: August 2024 to December 2025.
+- STL Digital Limited, System Engineer: June 2022 to July 2024.
 
-### Careers360 — AI Engineer, Voice AI & Conversational Systems
-Hyderabad, India | January 2026 - September 2026
-
-- Built a voice counselor serving 10K+ sessions using Claude on AWS Bedrock,
-  Sarvam AI and pgvector; RAG grounding reduced hallucinations by 35%.
-- Built multi-agent function-calling workflows improving accuracy by 28%,
-  deployed on AWS Lambda with 99.7% uptime.
-- Reduced per-session costs by 40%, from $0.40 to $0.24, through prompt
-  caching and A/B testing; tracked latency, cost and quality in LangSmith.
-
-### Crystaltech Services — AI Engineer
-Remote, India | August 2024 - December 2025
-
-- Built a four-agent LangGraph workflow processing 500+ documents at 94%
-  accuracy; reduced handling time from 30 minutes to 7 minutes.
-- Improved retrieval from 85% to 91% with hybrid search and Cohere reranking.
-- Tracked 50+ LLM iterations in W&B; A/B tested GPT-4 and Claude
-  configurations, achieving 60% cost savings.
-
-### STL Digital Limited — System Engineer (AI/ML Focus)
-Pune, India | June 2022 - July 2024
-
-- Built a ChromaDB and GPT-3.5 RAG system improving accuracy from 65% to 91%,
-  serving 500+ daily queries at a 1.8-second response time.
-- Reduced validation errors by 60%; deployed a Streamlit dashboard on AWS
-  for 500+ daily users, with pytest at 85% coverage and GitHub Actions CI/CD.
-
-## Portfolio Work
-
-- Voice AI Career Counselor
-- Multi-Agent Document Intelligence
-- LLM Observability Dashboard
-
-## Education and Certification
-
-Master of Computer Applications (MCA), University of Hyderabad, 2019-2022.
-GPA: 8.2/10. Focus: AI, Data Science and Machine Learning.
-Deep Learning Specialization, Coursera — completed.
-
-## Contact
-
-The portfolio contact buttons offer Gmail, Outlook, a default email app,
-and a copy-address option. Email: its.rahul.rachhoya@gmail.com.
+Personal projects and their benchmark results are separate from employer work.
+The repository READMEs and recorded results provide benchmark context.

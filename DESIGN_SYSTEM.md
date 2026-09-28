@@ -1,31 +1,47 @@
 # Portfolio design system
 
-## Direction
+Reading this as an AI engineering portfolio for hiring teams, with confident
+sans-serif typography and a restrained green palette. A visual overhaul of the
+existing React/Vite site, retaining its URL, section anchors, navigation labels,
+wordmark, contact workflow, employment record, and custom domain.
 
-An editorial AI engineering portfolio with a clear hierarchy: introduction, selected work, about, experience, toolkit, and contact.
+## Taste configuration
 
-## Foundations
+- DESIGN_VARIANCE: 6. Asymmetric hero; two-column project collection; split about;
+  horizontal experience rows; four-part toolkit; full-width contact panel.
+- MOTION_INTENSITY: 5. Hero sequence establishes hierarchy. IntersectionObserver
+  reveals introduce sections. Buttons respond on hover and press. No scroll
+  interception, perpetual decoration, or React scroll-state updates.
+- VISUAL_DENSITY: 4. Short project introductions with native case-study disclosures.
+- Foundation: existing React + native CSS, Phosphor icons, self-hosted Geist and
+  Geist Mono. No design-system imitation or framework migration.
 
-- Page: `#f7f8f2`; alternate sections: `#eef0e7`.
-- Primary text: `#202822`; secondary text: `#656d63`.
-- Deep green: `#233d32`; lime accent: `#d7f49a`.
-- Typography: Manrope for content; DM Mono for small labels.
-- Content width: 1220px maximum, with responsive gutters.
-- Cards: 7–18px corner radii, restrained borders, original SVG/CSS illustrations.
+## Audit and changes
 
-## Components
+The prior site used Manrope, green/lime, conceptual workflow diagrams, three
+employer project cards, a contact dialog, and one-page anchors. It lacked direct
+repository links per project and the four new public projects. Google Fonts were
+external, the theme metadata disagreed with the light design, and JSON-LD declared
+an unsupported search action. New content is based on the four GitHub READMEs and
+recorded result files. The research image is an actual recorded local demo.
 
-The hero workflow switcher explains Voice AI, RAG, and agent workflows. Project filters show the three projects by category. Native details controls expose project overviews and work history. Skills use categorized tags. Both contact buttons open a native dialog with Gmail, Outlook, default email-app and copy-address choices. The panel also links to GitHub and LinkedIn. The dialog traps focus, closes with Escape, and returns focus to the trigger (or mobile menu button).
+## Tokens and interaction
 
-## Responsive and accessible behavior
+- Light: page #f6f8f3, surface #eef2e9, text #202a23, accent #315d3e.
+- Dark: page #141b17, surface #1e2a22, text #e7eee4, accent #b1d9a5.
+- Radius: containers 18px, controls 8px, internal chart bars/tags 4-5px.
+- Layers: header 10, skip link 20, native top-layer dialog.
+- Default theme follows the system; Auto/Light/Dark selection persists locally.
+- Original anchor IDs are preserved. Main project categories filter four repos.
+- Charts use saved benchmark data and link to evidence. No fabricated activity,
+  star counts, throughput, or live status. The research agent is the sole live demo.
+- Native disclosures retain keyboard support. Contact has Gmail, Outlook, mailto,
+  clipboard fallback, Escape dismissal, and trigger focus return.
+- All motion honors reduced motion. Mobile navigation collapses below 768px.
 
-- Two project columns on desktop, one on small screens.
-- Four skill columns on wide screens, two on tablets, one on phones.
-- Mobile navigation has an expanded state, Escape dismissal, and focus return.
-- A skip link, visible focus indicators, landmark sections, and semantic headings support keyboard navigation.
-- Reduced-motion preferences disable smooth scrolling and transitions.
-- Tested viewport widths: 320, 390, 768, 1024, and 1440 pixels.
+## Evidence and limits
 
-## Content boundaries
-
-This release redesigns the existing portfolio. It adds no new projects or outcome metrics. Graphics are conceptual illustrations; they are not product screenshots or live analytics. Project selection will happen separately.
+Source content was checked against GitHub on 28 September 2026. Local README blob
+hashes matched the published repositories. Benchmark sample sizes, one-GPU scope,
+RRF tie variation, and the public/local agent-provider difference are explicit.
+Professional results remain in experience. See src/projects.js for case studies.

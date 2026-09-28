@@ -1,10 +1,12 @@
-# Rahul Rachhoya — AI engineering portfolio
+# Rahul Rachhoya's portfolio
 
-Personal portfolio at **https://rahulrachhoya.is-a.dev/**, built with React and Vite.
+Live at https://rahulrachhoya.is-a.dev/.
 
-The September 2026 UI refresh uses ivory surfaces, deep green, lime accents, Manrope typography, and original CSS/SVG illustrations. Three featured projects remain after removing the outdated fine-tuning project; additional GitHub projects await Rahul's selection.
+React + Vite, native CSS, self-hosted Geist fonts, and Phosphor icons. Redesigned
+with Leonxlnx/taste-skill. Four public AI projects have direct GitHub links,
+recorded results, expandable case studies, and explicit benchmark limitations.
 
-## Run and verify
+## Local development
 
 ```sh
 npm ci
@@ -14,20 +16,20 @@ npm run build
 npm run preview
 ```
 
-## Editing
+## Content
 
-- `src/Portfolio.jsx`: page sections, project/experience/skill data, workflow switcher, filters, and contact links.
-- `src/portfolio.css`: design tokens, layout, mobile navigation, responsive styles, and reduced-motion support.
-- `src/App.jsx` and `src/main.jsx`: application entry points.
-- `public/`: résumé, custom domain, search metadata, and existing public assets.
-- `index.html`: existing SEO and structured data.
+- `src/projects.js`: curated project descriptions, source links, evidence, and limits.
+- `src/Portfolio.jsx`: page, interactive charts, project filters, contact, and themes.
+- `src/portfolio.css`: shared light/dark tokens and responsive layout.
+- `public/images/research-agent.webp`: cropped screenshot of the actual local demo.
+- `public/rahulrachhoya-resume.pdf` and `public/resume.pdf`: current résumé aliases.
+- `DESIGN_SYSTEM.md`: design direction, tokens, accessibility, and content decisions.
 
-Project overviews and experience entries use native disclosure controls. Navigation supports keyboard focus and Escape to close the mobile menu. Both contact buttons open a keyboard-accessible dialog with Gmail, Outlook, and default email-app choices on desktop and mobile. Gmail and Outlook open browser tabs; the email-app choice requires a configured mail handler. The copy button uses the browser clipboard API and offers manual copying if unavailable. No contact form submission service is required.
+The public demo runs Groq; the recorded local agent uses Claude on Bedrock.
+Other projects are reproducible local experiments, not hosted services.
 
-The workflow illustrations explain concepts; they do not run AI inference. The work history, skills, and September 2026 resume use Rahul's current candidate profile. Both public resume filenames serve the same updated one-page PDF.
+## Deployment
 
-## Publishing
-
-The existing GitHub Actions workflow builds pushes to `master` or `main` and deploys `dist/` to GitHub Pages. `public/CNAME` preserves the current domain. The root portfolio is separate from the `rahul-studio` and `rahul-ai-lab` sites.
-
-The previous UI remains recoverable through Git history.
+GitHub Actions builds and deploys `master` to GitHub Pages. `public/CNAME` preserves
+the custom domain. No API keys or secrets are needed by the portfolio. Theme choice
+is stored locally in the browser; the site has no analytics or contact-form backend.

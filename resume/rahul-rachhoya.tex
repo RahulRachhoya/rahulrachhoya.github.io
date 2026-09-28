@@ -1,0 +1,75 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[top=0.57in,bottom=0.57in,left=0.62in,right=0.62in]{geometry}
+% Latin Modern Sans with the fi/fl ligatures off, so text extraction (ATS) reads "fine-tuning" as plain letters.
+\usepackage{fontspec}
+\setsansfont{lmsans10-regular.otf}[BoldFont=lmsans10-bold.otf,ItalicFont=lmsans10-oblique.otf,BoldItalicFont=lmsans10-boldoblique.otf,Ligatures={TeX,CommonOff}]
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{needspace}
+\usepackage[unicode,hidelinks]{hyperref}
+\renewcommand{\familydefault}{\sfdefault}
+\definecolor{ink}{HTML}{162C3B}
+\definecolor{accent}{HTML}{087783}
+\definecolor{muted}{HTML}{52616B}
+\color{ink}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\emergencystretch}{2em}
+\hyphenpenalty=8000
+\urlstyle{same}
+\titleformat{\section}{\fontsize{10}{12}\selectfont\bfseries\color{accent}}{}{0pt}{}[\vspace{2pt}\titlerule]
+\titlespacing*{\section}{0pt}{9pt}{5pt}
+\setlist[itemize]{leftmargin=12pt,label=\textbullet,itemsep=2.6pt,topsep=3pt,parsep=0pt,partopsep=0pt}
+\newcommand{\experience}[4]{%
+  \needspace{5\baselineskip}%
+  {\bfseries #1}\hfill{\small\color{muted}#2}\par
+  {\small #3}\hfill{\small\color{muted}#4}\par}
+\hypersetup{pdftitle={Rahul Rachhoya - Resume},pdfauthor={Rahul Rachhoya},pdfpagemode=UseNone}
+\begin{document}
+\fontsize{10}{12.1}\selectfont
+{\fontsize{27}{30}\selectfont\bfseries Rahul Rachhoya}\par
+\vspace{5pt}
+
+{\fontsize{9.1}{11}\selectfont\bfseries\color{accent} AI ENGINEER | LLM AGENTS, RAG, FINE-TUNING \& LLM SERVING}\par
+\vspace{5pt}
+{\fontsize{9}{11}\selectfont\color{muted}
+Gurugram, India \enspace|\enspace +91-8386067676 \enspace|\enspace \href{mailto:its.rahul.rachhoya@gmail.com}{its.rahul.rachhoya@gmail.com}\par
+\href{https://linkedin.com/in/rahul-rachhoya}{linkedin.com/in/rahul-rachhoya} \enspace|\enspace \href{https://github.com/RahulRachhoya}{github.com/RahulRachhoya}\par}
+\section*{PROFILE}
+AI engineer with 4+ years in software engineering and 3+ years in applied AI: RAG with hybrid search and reranking (retrieval \textbf{85\% to 91\%}), LangGraph agents and AWS deployments at \textbf{99.7\% uptime}. Four public projects go below the API layer: QLoRA fine-tuning, vLLM serving on Kubernetes, retrieval benchmarks and a deployed TypeScript agent. Available immediately, remote from India.\par
+\section*{TECHNICAL SKILLS}
+\textbf{LLMs \& agents:} LangGraph, LangChain, LlamaIndex, Vercel AI SDK, function calling, Claude, GPT-4, AWS Bedrock\par\vspace{2pt}
+\textbf{Fine-tuning \& serving:} QLoRA/LoRA, PEFT, TRL, Hugging Face Transformers, PyTorch, scikit-learn, vLLM, Kubernetes\par\vspace{2pt}
+\textbf{Retrieval \& data:} hybrid BM25 + dense search, RRF, Cohere reranking, Qdrant, pgvector, PostgreSQL, MongoDB\par\vspace{2pt}
+\textbf{Engineering \& cloud:} Python, TypeScript, Next.js, Node.js, FastAPI, Docker, AWS Lambda, EC2, S3, Vercel, pytest\par\vspace{2pt}
+\textbf{Evaluation \& MLOps:} LangSmith, Weights \& Biases, MLflow, Prometheus, nDCG/Recall evals, A/B testing\par
+\section*{PROFESSIONAL EXPERIENCE}
+\experience{Careers360}{Hyderabad, India}{AI Engineer - Voice AI \& Conversational Systems}{Jan 2026 - Sep 2026}
+\begin{itemize}
+\item Owned a production voice AI career counselor using Claude on AWS Bedrock, Sarvam AI STT/TTS and pgvector retrieval, serving \textbf{10K+ sessions}; RAG grounding reduced hallucinations by 35\%.
+\item Integrated LLM function calling into multi-agent workflows, improving accuracy by 28\%; deployed services on AWS Lambda with \textbf{99.7\% uptime}.
+\item Reduced per-session cost by \textbf{40\%}, from \textbf{\$0.40 to \$0.24}, through prompt caching and A/B testing; tracked latency, cost and quality with LangSmith.
+\end{itemize}\vspace{3pt}
+\experience{Crystaltech Services}{Remote, India}{AI Engineer}{Aug 2024 - Dec 2025}
+\begin{itemize}
+\item Built a four-agent document workflow with LangGraph, processing 500+ documents at \textbf{94\% accuracy} and reducing handling time from \textbf{30 minutes to 7 minutes}.
+\item Improved retrieval from \textbf{85\% to 91\%} with BM25 + vector search and Cohere reranking; A/B tested GPT-4 and Claude configurations across 50+ tracked iterations for 60\% cost savings.
+\end{itemize}\vspace{3pt}
+\experience{STL Digital Limited}{Pune, India}{System Engineer (AI/ML Focus)}{Jun 2022 - Jul 2024}
+\begin{itemize}
+\item Implemented a ChromaDB and GPT-3.5 RAG system that improved accuracy from \textbf{65\% to 91\%}, serving 500+ daily queries at a 1.8-second response time; maintained 85\% test coverage with pytest and GitHub Actions CI/CD.
+\end{itemize}\vspace{3pt}
+\section*{PROJECTS}
+{\raggedright
+\begin{itemize}
+\item \textbf{finetune-intent-lab} (\href{https://github.com/RahulRachhoya/finetune-intent-lab}{\color{accent}github.com/RahulRachhoya/finetune-intent-lab}): QLoRA fine-tune of Qwen2.5-1.5B for 77-class intent classification, \textbf{36.9\% to 93.4\%} accuracy training 1.2\% of the parameters; beat TF-IDF + logistic regression (91.1\%), PyTorch (90.0\%), tracked in MLflow.
+\item \textbf{llm-serving-k8s} (\href{https://github.com/RahulRachhoya/llm-serving-k8s}{\color{accent}github.com/RahulRachhoya/llm-serving-k8s}): served that adapter with vLLM on a GPU Kubernetes cluster (k3d): \textbf{185.5 req/s} at 32 in flight, 78 ms p50 for a single request, 93.2\% served accuracy (93.4\% at training time).
+\item \textbf{agent-memory-lab} (\href{https://github.com/RahulRachhoya/agent-memory-lab}{\color{accent}github.com/RahulRachhoya/agent-memory-lab}): Qdrant hybrid vs pgvector on BEIR \mbox{SciFact} (nDCG@10 \textbf{0.725} vs 0.713 dense); LangGraph agent on Claude with MongoDB memory and telemetry.
+\item \textbf{ai-sdk-research-agent} (\href{https://github.com/RahulRachhoya/ai-sdk-research-agent}{\color{accent}github.com/RahulRachhoya/ai-sdk-research-agent}, live: \href{https://ai-sdk-research-agent.vercel.app}{\color{accent}ai-sdk-research-agent.vercel.app}): TypeScript agent on Next.js and the Vercel AI SDK; matched Python BM25 token IDs on 300/300 queries, found the Qdrant JS client \textbf{20x slower} than node:http; deployed on Vercel and Render.
+\end{itemize}}
+\section*{EDUCATION \& CERTIFICATION}
+\textbf{Master of Computer Applications (MCA)}, University of Hyderabad, India \enspace|\enspace GPA: 8.2/10 \hfill {\small 2019 - 2022}\par
+\textbf{Certification:} Deep Learning Specialization, Coursera - completed.
+\end{document}
